@@ -54,7 +54,7 @@ After taking batch 17, Xinyi copies every matching row (total 17 tests) from **b
 For **each `Test_id` row** in your personal sheet, complete the four steps below.
 
 ### Step 1  Baseline Mutation & Unit Tests  
-Run mutation tests and unit tests **before** any changes (see [File 1]()).  
+Run mutation tests and unit tests **before**.  
 Upload the mutation report to:
 
 ```
@@ -66,7 +66,7 @@ mutation-results/<Your Name>/before/<MCI_id>_<ClassName>.csv
 ```
 
 ### Step 2  Apply the Refactoring  
-Follow the refactoring guide ([read the guidline.md]()):
+Follow the refactoring guide:
 
 1. Insert the reusable method/class exactly as shown.  
 2. Modify the test according to the suggested diff.
