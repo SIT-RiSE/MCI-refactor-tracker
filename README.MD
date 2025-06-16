@@ -47,7 +47,7 @@ In [**MCI Refactoring Assignment & Verification**](https://docs.google.com/sprea
 You will complete your task **MCI by MCI**.  
 Each MCI may affect **one or more test classes**.  
 > 📌 For step-by-step help on refactoring, refer to:  
-[**How to Read the Refactoring Guide**](./How%20to%20Read%20the%20Refactoring%20Guide.md)
+[**How to Read the Refactoring Guide**](https://github.com/SIT-RiSE/MCI-refactor-tracker/blob/main/How%20to%20Read%20the%20Refactoring%20Guide.md)
 
 ---
 
@@ -59,7 +59,7 @@ For **each test class** affected by the MCI:
 - Upload the PIT report to GitHub:
 
 > 📌 For step-by-step help on mutation tests, refer to:  
-[**How to Run Mutation Tests**](../How-to-Run-Mutation-Tests.md)
+[**How to Run Mutation Tests**](https://github.com/SIT-RiSE/MCI-refactor-tracker/blob/main/How%20to%20Run%20Mutation%20Tests.md)
 
 
 ```
