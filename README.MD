@@ -1,129 +1,194 @@
-# Mock Clone Refactoring Task Guide
+# 🧩 Mock Clone Refactoring Task Guide
 
-This guide covers **where to find your tasks, what to upload, and what to log in the spreadsheet**.  
+This guide explains how to:
+- ✅ Claim your task in the shared spreadsheet  
+- ✅ Apply the refactoring using the official guide  
+- ✅ Run and upload mutation test reports  
+- ✅ Record your results in the personal tab
 
-
----
-
-## 1  Get Your Task
-
-All tasks are managed in the Google Sheet **`MCI Refactoring Assignment & Verification`**, where you can find your assigned tasks and log your progress:  
-<https://docs.google.com/spreadsheets/d/1hkJn9Bx_ZC6QTH_zWtqiKJSOCH4_wKoQ>  
-
-The refactoring guidelines and clone-related reports are available in the GitHub repository:  
-<https://github.com/SIT-RiSE/MCI-refactor-tracker>  
-
-### What You Need to Do:
-1. **Find Your Task**: Locate your assigned tasks in the shared Google Sheet.  
-2. **Follow the Refactoring Guide**: Use the provided refactoring solutions in the repository to complete your tasks.  
-3. **Update Your Records**: Log your progress in the Google Sheet and upload mutation test results (TXT or CSV) to the GitHub repository using the specified folder structure.
+By the end, you’ll know what to do for each test case and how to report your results properly.
 
 ---
 
-Below is an explanation of the main components of the Google Sheet:
+## 1️⃣ Claim Your Task
 
+### 🔍 Where to Find It
 
-| Sheet | Purpose |
-|-------|---------|
-| **Progress Overview** | Total MCIs and test cases across all projects |
-| **batch assignment & hunting** | Daily batch assignments; self-assign (`hunt`) by writing your name |
-| **batch_test_mapping** | Maps each `batch_id` to its list of `MCI_id` + `Test_id` |
-| **`<your name>`** | Your personal sheet—paste here all rows you will work on |
+All assignments are managed in this shared spreadsheet:  
+📄 [**MCI Refactoring Assignment & Verification**](https://docs.google.com/spreadsheets/d/1hkJn9Bx_ZC6QTH_zWtqiKJSOCH4_wKoQ):
 
-**Example**
+<https://docs.google.com/spreadsheets/d/1hkJn9Bx_ZC6QTH_zWtqiKJSOCH4_wKoQ>
 
-Here’s an example table showing a batch assigned to Xinyi (just an example):
+The refactoring guides and clone-related reports are available here:  
+📁 [**GitHub Repository – MCI Refactor Tracker**](https://github.com/SIT-RiSE/MCI-refactor-tracker):
 
-| Batch ID | Project     | MCI Count | Test Count | Assigned To |
-|----------|-------------|-----------|------------|-------------|
-| 17       | CloudStack  | 4         | 17         | Xinyi Li    |
-
-After taking batch 17, Xinyi copies every matching row (total 17 tests) from **batch_test_mapping** into her personal sheet:
-
-| batch_id | project | MCI_id | Test_id | Assigned_To |
-|----------|---------|--------|---------|-------------|
-| 17 | cloudstack | cloudstack_MCI_1 | cloudstack_Test_1_1 | Xinyi Li |
-| 17 | cloudstack | cloudstack_MCI_1 | cloudstack_Test_1_2 | Xinyi Li |
-| 17 | cloudstack | cloudstack_MCI_2 | cloudstack_Test_2_1 | Xinyi Li |
-| … | … | … | … | … |
+<https://github.com/SIT-RiSE/MCI-refactor-tracker>
 
 ---
 
-## 2  Work on Each Mock Clone Instance and Test Case
+### 📝 What to Do
+In [**MCI Refactoring Assignment & Verification**](https://docs.google.com/spreadsheets/d/1hkJn9Bx_ZC6QTH_zWtqiKJSOCH4_wKoQ)
+1. **Open the `batch assignment & hunting` sheet**  
+   - Find a batch with an empty `Assigned To` column  
+   - **Write your name** to claim it
 
-For **each `Test_id` row** in your personal sheet, complete the four steps below.
+2. **Go to the `batch_test_mapping` sheet**  
+   - Use `Ctrl+F` to find your `batch_id`
+   - Copy **all rows** with the same `batch_id`
 
-### Step 1  Baseline Mutation & Unit Tests  
-Run mutation tests and unit tests **before**.  
-Upload the mutation report to:
+3. **Paste the rows into your personal tab**  
+   - Go to the sheet named after you
+   - Paste all copied rows there — these are your tasks
 
-```
-mutation-results/<Your Name>/before/<MCI_id>_<ClassName>.txt
-```
-Or, depending on your chosen output format, you can also upload a CSV document.
-```
-mutation-results/<Your Name>/before/<MCI_id>_<ClassName>.csv
-```
+---
 
-### Step 2  Apply the Refactoring  
-Follow the refactoring guide:
+## 2️⃣ Work on Each Mock Clone Instance (MCI)
 
-1. Insert the reusable method/class exactly as shown.  
-2. Modify the test according to the suggested diff.
+You will complete your task **MCI by MCI**.  
+Each MCI may affect **one or more test classes**.  
+> 📌 For step-by-step help on refactoring, refer to:  
+> [**How to Read the Refactoring Guide**](LINK_TO_DOC)
 
-Then update your personal sheet:
+---
 
-| Column | Value |
-|--------|-------|
-| **compile_will** | `Y` if the code compiles without errors; otherwise `N` |
-| **Test_pass** | `Y` if all unit tests pass; otherwise `N` |
-| **Easy_to_Debug (if Failed)** | `Y` if failures can be fixed by minor tweaks (order, small syntax); else `N` |
-| **Note** | Record any special findings or issues |
+### 🧪 Step 1: Run Mutation Tests — *Before Refactoring*
 
-### Step 3  Post-Refactor Mutation & Unit Tests  
-After the refactoring of each test case in the Mock Clone Instance is completed. Run the mutation tests and unit tests again.  
-Upload the new mutation report to:
+For **each test class** affected by the MCI:
+
+- Run **unit tests** and **mutation tests**
+- Upload the PIT report to GitHub:
 
 ```
-mutation-results/<Your Name>/after/<MCI_id>_<ClassName>.txt
-```
-Or, depending on your chosen output format, you can also upload a CSV document.
-```
-mutation-results/<Your Name>/after/<MCI_id>_<ClassName>.csv
+
+mutation-results/<Your Name>/before/\<MCI\_id>\_<TestClassName>.txt
+
 ```
 
-### Step 4  Clean Up  
-Revert all refactoring changes **in the test** (also need to remove added methods/classes and test edits).  
+Or use CSV:
 
-### Example Output  
+```
 
-The following example corresponds to Xinyi's `MCI ID = cloudstack_MCI_1` and its associated test class, `AddVpnUserCmdTest`:
+mutation-results/<Your Name>/before/\<MCI\_id>\_<TestClassName>.csv
 
-| batch_id | project     | MCI_id              | Test_id               | Assigned_To | compile_will | Test_pass | Easy_to_Debug (if Failed) | Note |
-|----------|-------------|---------------------|-----------------------|-------------|--------------|-----------|---------------------------|------|
-| 17       | cloudstack  | cloudstack_MCI_1    | cloudstack_Test_1_1   | Xinyi Li    | Y            | Y         |                           |      |
-| 17       | cloudstack  | cloudstack_MCI_1    | cloudstack_Test_1_2   | Xinyi Li    | Y            | Y         |                           |      |
-|...|
+```
 
+---
 
-Mutation reports uploaded:
+### 🛠 Step 2: Apply the Refactoring
 
-- **Before Refactoring**:  
-    `mutation-results/Xinyi Li/before/cloudstack_MCI_1_AddVpnUserCmdTest.txt`
+Follow the guide:
 
-- **After Refactoring**:  
-    `mutation-results/Xinyi Li/after/cloudstack_MCI_1_AddVpnUserCmdTest.txt`
+- Insert the reusable method or class
+- Apply the suggested diff to each test class
 
+---
 
+### 📥 Update Your Personal Sheet
 
-**Note**: If a mock clone instance is at the class level and has multiple mutation tests, you need to execute mutation tests for each test class **before** refactoring. After completing the refactoring, execute mutation tests for each test class again and upload every report. For example:
+In your personal sheet:
 
-`cloudstack_MCI_3` is at the class level, so you need to upload mutation test reports for two test classes.
+1. **Paste the first 5 columns** (`batch_id`, `project`, `MCI_id`, `Test_id`, `Assigned_To`) from the `batch_test_mapping` sheet  
+   *(Do this when you first take your task.)*
 
-- **Before Refactoring**:  
-    `mutation-results/Xinyi Li/before/cloudstack_MCI_3_LinkDomainToLdapCmdTest.txt`  
-    `mutation-results/Xinyi Li/before/cloudstack_MCI_3_LinkAccountToLdapCmdTest.txt`
+2. As you finish each test case, **fill in the following result columns manually**:
 
-- **After Refactoring**:  
-    `mutation-results/Xinyi Li/after/cloudstack_MCI_3_LinkDomainToLdapCmdTest.txt`  
-    `mutation-results/Xinyi Li/after/cloudstack_MCI_3_LinkAccountToLdapCmdTest.txt`
+| Column | What to Enter |
+|--------|----------------|
+| `compile_will` | `Y` if code compiles after refactoring, `N` otherwise |
+| `Test_pass` | `Y` if unit tests pass |
+| `Easy_to_Debug (if Failed)` | `Y` for small fixable issues, `N` for hard-to-debug failures |
+| `Note` | Optional: notes about problems or special cases |
+| `before` | Paste PIT stats **before refactoring** |
+| `after` | Paste PIT stats **after refactoring** |
+
+💡 The PIT summary should start from:
+
+```
+
+> > Line Coverage: ...
+> > Generated ... mutations ...
+> > Mutations with no coverage ...
+> > Test strength ...
+
+```
+
+---
+
+### 🧪 Step 3: Run Mutation Tests — *After Refactoring*
+
+- Run mutation tests again for **each test class**
+- Upload to:
+
+```
+
+mutation-results/<Your Name>/after/\<MCI\_id>\_<TestClassName>.txt
+
+```
+
+Or:
+
+```
+
+mutation-results/<Your Name>/after/\<MCI\_id>\_<TestClassName>.csv
+
+```
+
+Paste the new stats into the `after` column in your sheet.
+
+---
+
+### 🧹 Step 4: Clean Up
+
+Once you're done:
+
+- Revert the refactored code in test files
+- Delete helper methods or classes you added
+- Ensure the codebase is clean and unchanged
+
+---
+
+## 🧾 Example Sheet Entry
+
+If you're assigned `cloudstack_MCI_1` with two test classes:
+
+| batch_id | project   | MCI_id           | Test_id              | Assigned_To | compile_will | Test_pass | Easy_to_Debug | Note | before | after |
+|----------|-----------|------------------|----------------------|-------------|--------------|-----------|---------------|------|--------|-------|
+| 17       | cloudstack| cloudstack_MCI_1 | cloudstack_Test_1_1  | Xinyi Li    | Y            | Y         |               |      | `>> Line Coverage: 9/512...` | `>> Line Coverage: 9/512...` |
+| 17       | cloudstack| cloudstack_MCI_1 | cloudstack_Test_1_2  | Xinyi Li    | Y            | Y         |               |      | `>> Line Coverage: 9/512...` | `>> Line Coverage: 9/512...` |
+
+---
+
+## ⚠️ Special Case: Class-Level MCI
+
+If the refactoring `Scope` is `class level`:
+
+- You must run and upload reports for **each test class in the MCI**
+- Upload `before/` and `after/` PIT results separately for each test class
+- Log each test case row individually in your sheet
+
+Example:
+
+```
+
+mutation-results/Xinyi Li/before/cloudstack\_MCI\_3\_LinkDomainToLdapCmdTest.txt
+mutation-results/Xinyi Li/before/cloudstack\_MCI\_3\_LinkAccountToLdapCmdTest.txt
+mutation-results/Xinyi Li/after/cloudstack\_MCI\_3\_LinkDomainToLdapCmdTest.txt
+mutation-results/Xinyi Li/after/cloudstack\_MCI\_3\_LinkAccountToLdapCmdTest.txt
+
+```
+
+---
+
+## ✅ Final Checklist
+
+| Task | Complete? |
+|------|-----------|
+| Claimed batch in `batch assignment & hunting` | ✅ |
+| Pasted tasks from `batch_test_mapping` to personal tab | ✅ |
+| Followed refactoring guide | ✅ |
+| Uploaded mutation test reports (before & after) | ✅ |
+| Completed result columns in personal sheet | ✅ |
+| Cleaned up refactoring changes in code | ✅ |
+
+---
+

@@ -1,87 +1,157 @@
-# How to Read the Refactoring Guideline
+# 📘 How to Use the Refactoring Guide (Step-by-Step for Students)
 
-This document explains **where to find a refactoring guide, how to read each section, and how to apply the changes** to your test code. We illustrate everything with the example `cloudstack_MCI_1` / `cloudstack_Test_1_1`.
+This guide explains how to use the **Mock Clone Refactoring Guide** for your assigned task.
+You'll learn how to:
 
----
-
-## 1  Locate the Guide
-
-Guides are stored in two parallel folders:
-
-```
-HTML version Refactoring guidelines/
-cloudstack-Refactoring-guide.html
-```
-or
-```
-Refactoring guidelines/
-cloudstack-Refactoring-guide.md
-```
-
-
-Choose either format and open the file that matches your project (`cloudstack-Refactoring-guide.*` in this case).
+* Locate your mock clone instance
+* Understand each section of the guide
+* Apply the refactoring correctly based on its **scope**
+* Avoid common mistakes
 
 ---
 
-## 2  Search by `MCI_id`
+## 🔍 Step 1: Open the Refactoring Guide File
 
-Search for **`cloudstack_MCI_1`** inside the guide.  
-You will see a **Mock Clone Instance** block like this:
+Refactoring guides are saved as either:
 
+```
+HTML version → Refactoring guidelines/<project>-Refactoring-guide.html  
+Markdown version → Refactoring guidelines/<project>-Refactoring-guide.md
+```
 
-| Field | Meaning |
-|-------|---------|
-| **Scope** | `class level` → clone spans multiple test classes; create a helper **class** in the same package. <br>`method level` → clone local to one test class; insert a helper **method**. |
-| **Mocked Class** | The class being mocked. |
-| **Test Case Count** | Number of test cases that share this clone. |
-| **MO Count** | Number of mock objects to refactor. |
-| **Reusable Method / Class** | Code you must copy into the project. |
+For example, if your project is `kiota-java`, open:
 
+```
+Refactoring guidelines/kiota-java-Refactoring-guide.md
+```
 
-
----
-
-## 3  Search by `Test_id`
-
-Search for **`cloudstack_Test_1_1`** in the same guide.  
-The section shows three parts:
-
-| Section              | Description                                                                 |
-|----------------------|-----------------------------------------------------------------------------|
-| **Suggested Diff**   | The exact code changes to apply.                                           |
-| **Original Test Code** | Full context before refactoring. *(Click to expand)*                     |
-| **Reusable Method**  | Code to reuse in your project. *(Click to expand)*                         |
+Use any text editor or browser to view the file.
 
 ---
 
-### Understanding the Diff
+## 🧠 Step 2: Locate Your Assigned MCI
+
+Every mock clone instance is labeled by its `MCI ID`, like:
+
+```
+kiota-java_MCI_1
+```
+
+Use `Ctrl+F` to search for your assigned `MCI ID` in the guide.
+
+You will see a summary block like this:
+
+```text
+## Mock Clone Instance #kiota-java_MCI_1
+- Scope: method level
+- Mocked Class: com.example.MockedService
+- Test Case Count: 3
+- MO Count: 2
+```
+
+| Field               | Meaning                                                                                                                                                     |
+| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Scope**           | Determines the type of refactoring:<br>🔹 `method level`: only one test class is affected.<br>🔹 `class level`: multiple test classes share the mock logic. |
+| **Mocked Class**    | The class being mocked (e.g., `SerializationWriter`).                                                                                                       |
+| **Test Case Count** | Number of test cases using this clone.                                                                                                                      |
+| **MO Count**        | Number of mock objects being refactored.                                                                                                                    |
+
+---
+
+## 🧩 Step 3: Understand the Scope
+
+### 🧪 `method level` (Local Refactoring)
+
+* Only one test class is involved.
+* You will:
+
+  1. Insert a **reusable method** inside that class (or a shared `@BeforeEach` mock).
+  2. Refactor each target test case inside that class.
+
+✅ You do **not** need to create a new file.
+
+---
+
+### 🧱 `class level` (Cross-Class Refactoring)
+
+* Multiple test classes contain the same mock logic.
+* You must:
+
+  1. Create a **new helper class** (e.g., `MockHelper`) in the **same package**.
+  2. Move the reusable method(s) into this class.
+  3. Let each test class **call that shared method**.
+
+✅ Each affected test class will use this helper class to reduce duplication.
+
+---
+
+## 📄 Step 4: Read the Suggested Refactoring
+
+Under the MCI, you'll see one or more **Test Case** entries like:
+
+```
+#### Test Case ID: kiota-java_Test_1_1  
+Test Case Name: serializesObject  
+File: path/to/TestClass.java  
+```
+
+Each test case has three parts:
+
+| Section                | Purpose                                                                   |
+| ---------------------- | ------------------------------------------------------------------------- |
+| **Suggested Diff**     | Shows exactly what to change (`-` for deleted lines, `+` for added ones). |
+| **Original Test Code** | The full code before refactoring (for your reference).                    |
+| **Reusable Method**    | The shared logic that should be extracted or reused.                      |
+
+---
+
+### 📘 How to Read the Diff
 
 ```diff
---- original
-+++ refactored
-@@
-- AccountService accountService = Mockito.mock(AccountService.class);
-+ AccountService accountService = createMockAccountService(account);
+- final var mockWriter = mock(Writer.class);
+- when(mockWriter.getData()).thenReturn(...);
++ final var mockWriter = createMockWriter(...);
 ```
 
-| Symbol         | Meaning                                     |
-| -------------- | ------------------------------------------- |
-| `-` (minus)    | **Delete** the line from the original code. |
-| `+` (plus)     | **Add** this new line in its place.         |
-| Unmarked lines | Remain unchanged; shown for context.        |
+| Symbol      | Meaning                                 |
+| ----------- | --------------------------------------- |
+| `-`         | Delete this line                        |
+| `+`         | Add this new line                       |
+| (no symbol) | Leave the line unchanged (context only) |
 
-Apply every change exactly as shown.
+Apply the changes **exactly as shown**. Make sure the variable names and indentation match.
 
 ---
 
-## 4  Apply the Refactoring (Step-by-Step)
+## 🛠 Step 5: Apply the Refactoring
 
-1. **Add** the reusable method or class to the project in the correct package.
-2. **Modify** each affected test according to the diff.
-3. **Compile** the project to ensure no errors.
-4. **Run** unit tests; they should still pass (or be fixed).
-5. **Run** mutation tests to compare scores before vs. after refactoring.
+Follow this process:
 
-You are now ready to proceed with the upload and logging steps described in the main task guide.
+### 🔧 For Method-Level MCI:
 
+1. Add the **reusable method** into the **same test class**.
+2. Refactor the target test case(s) by applying the **suggested diff**.
+3. Make sure the test class compiles and passes all tests.
+
+### 🧱 For Class-Level MCI:
+
+1. Create a **new helper class** (e.g., `MockWriterHelper`) inside the **same package**.
+2. Move the reusable method(s) into that new class.
+3. Modify **each test class** to call the shared helper method.
+4. Make sure all classes compile and pass unit tests.
+
+---
+
+## ✅ Step 6: Verify and Test
+
+After applying the changes:
+
+1. **Build** the project to check for compile errors.
+2. **Run** all affected test cases.
+3. **Run PIT mutation testing** and save:
+
+   * The report **before** refactoring
+   * The report **after** refactoring
+
+📌 Make sure to save the reports using the correct naming and upload structure (see main guide).
 
