@@ -47,7 +47,7 @@ In [**MCI Refactoring Assignment & Verification**](https://docs.google.com/sprea
 You will complete your task **MCI by MCI**.  
 Each MCI may affect **one or more test classes**.  
 > 📌 For step-by-step help on refactoring, refer to:  
-> [**How to Read the Refactoring Guide**](LINK_TO_DOC)
+[**How to Read the Refactoring Guide**](./How%20to%20Read%20the%20Refactoring%20Guide.md)
 
 ---
 
@@ -58,18 +58,12 @@ For **each test class** affected by the MCI:
 - Run **unit tests** and **mutation tests**
 - Upload the PIT report to GitHub:
 
-```
+> 📌 For step-by-step help on mutation tests, refer to:  
+[**How to Run Mutation Tests**](../How-to-Run-Mutation-Tests.md)
 
-mutation-results/<Your Name>/before/\<MCI\_id>\_<TestClassName>.txt
-
-```
-
-Or use CSV:
 
 ```
-
-mutation-results/<Your Name>/before/\<MCI\_id>\_<TestClassName>.csv
-
+mutation-results/<Your Name>/before/\<MCI_id>_<TestClassName>.txt
 ```
 
 ---
@@ -120,17 +114,7 @@ In your personal sheet:
 - Upload to:
 
 ```
-
-mutation-results/<Your Name>/after/\<MCI\_id>\_<TestClassName>.txt
-
-```
-
-Or:
-
-```
-
-mutation-results/<Your Name>/after/\<MCI\_id>\_<TestClassName>.csv
-
+mutation-results/<Your Name>/after/\<MCI_id>_<TestClassName>.txt
 ```
 
 Paste the new stats into the `after` column in your sheet.
@@ -149,12 +133,21 @@ Once you're done:
 
 ## 🧾 Example Sheet Entry
 
-If you're assigned `cloudstack_MCI_1` with two test classes:
+If you're assigned `cloudstack_MCI_1` with two test classes, only the columns requiring manual input are shown below:
 
-| batch_id | project   | MCI_id           | Test_id              | Assigned_To | compile_will | Test_pass | Easy_to_Debug | Note | before | after |
-|----------|-----------|------------------|----------------------|-------------|--------------|-----------|---------------|------|--------|-------|
-| 17       | cloudstack| cloudstack_MCI_1 | cloudstack_Test_1_1  | Xinyi Li    | Y            | Y         |               |      | `>> Line Coverage: 9/512...` | `>> Line Coverage: 9/512...` |
-| 17       | cloudstack| cloudstack_MCI_1 | cloudstack_Test_1_2  | Xinyi Li    | Y            | Y         |               |      | `>> Line Coverage: 9/512...` | `>> Line Coverage: 9/512...` |
+#### Test Case: `cloudstack_Test_1_1`
+- **compile_will**: `Y`
+- **Test_pass**: `Y`
+- **Easy_to_Debug**: *(leave blank if not applicable)*
+- **Note**: *(optional)*
+- **before**:
+    ```
+    >> Line Coverage: 9/512...
+    ```
+- **after**:
+    ```
+    >> Line Coverage: 9/512...
+    ```
 
 ---
 
@@ -169,12 +162,10 @@ If the refactoring `Scope` is `class level`:
 Example:
 
 ```
-
-mutation-results/Xinyi Li/before/cloudstack\_MCI\_3\_LinkDomainToLdapCmdTest.txt
-mutation-results/Xinyi Li/before/cloudstack\_MCI\_3\_LinkAccountToLdapCmdTest.txt
-mutation-results/Xinyi Li/after/cloudstack\_MCI\_3\_LinkDomainToLdapCmdTest.txt
-mutation-results/Xinyi Li/after/cloudstack\_MCI\_3\_LinkAccountToLdapCmdTest.txt
-
+mutation-results/Xinyi Li/before/cloudstack_MCI_3_LinkDomainToLdapCmdTest.txt
+mutation-results/Xinyi Li/before/cloudstack_MCI_3_LinkAccountToLdapCmdTest.txt
+mutation-results/Xinyi Li/after/cloudstack_MCI_3_LinkDomainToLdapCmdTest.txt
+mutation-results/Xinyi Li/after/cloudstack_MCI_3_LinkAccountToLdapCmdTest.txt
 ```
 
 ---
