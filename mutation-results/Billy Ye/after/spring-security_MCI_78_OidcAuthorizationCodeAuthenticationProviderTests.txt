@@ -2,80 +2,62 @@
 - Mutators
 ================================================================================
 > org.pitest.mutationtest.engine.gregor.mutators.ConditionalsBoundaryMutator
->> Generated 356 Killed 0 (0%)
+>> Generated 3 Killed 0 (0%)
 > KILLED 0 SURVIVED 0 TIMED_OUT 0 NON_VIABLE 0 
 > MEMORY_ERROR 0 NOT_STARTED 0 STARTED 0 RUN_ERROR 0 
-> NO_COVERAGE 356 
---------------------------------------------------------------------------------
-> org.pitest.mutationtest.engine.gregor.mutators.returns.PrimitiveReturnsMutator
->> Generated 226 Killed 0 (0%)
-> KILLED 0 SURVIVED 0 TIMED_OUT 0 NON_VIABLE 0 
-> MEMORY_ERROR 0 NOT_STARTED 0 STARTED 0 RUN_ERROR 0 
-> NO_COVERAGE 226 
---------------------------------------------------------------------------------
-> org.pitest.mutationtest.engine.gregor.mutators.IncrementsMutator
->> Generated 82 Killed 0 (0%)
-> KILLED 0 SURVIVED 0 TIMED_OUT 0 NON_VIABLE 0 
-> MEMORY_ERROR 0 NOT_STARTED 0 STARTED 0 RUN_ERROR 0 
-> NO_COVERAGE 82 
+> NO_COVERAGE 3 
 --------------------------------------------------------------------------------
 > org.pitest.mutationtest.engine.gregor.mutators.VoidMethodCallMutator
->> Generated 15938 Killed 19 (0%)
-> KILLED 19 SURVIVED 27 TIMED_OUT 0 NON_VIABLE 0 
+>> Generated 305 Killed 15 (5%)
+> KILLED 15 SURVIVED 4 TIMED_OUT 0 NON_VIABLE 0 
 > MEMORY_ERROR 0 NOT_STARTED 0 STARTED 0 RUN_ERROR 0 
-> NO_COVERAGE 15892 
+> NO_COVERAGE 286 
 --------------------------------------------------------------------------------
 > org.pitest.mutationtest.engine.gregor.mutators.returns.BooleanTrueReturnValsMutator
->> Generated 1030 Killed 1 (0%)
-> KILLED 1 SURVIVED 0 TIMED_OUT 0 NON_VIABLE 0 
+>> Generated 36 Killed 0 (0%)
+> KILLED 0 SURVIVED 1 TIMED_OUT 0 NON_VIABLE 0 
 > MEMORY_ERROR 0 NOT_STARTED 0 STARTED 0 RUN_ERROR 0 
-> NO_COVERAGE 1029 
+> NO_COVERAGE 35 
 --------------------------------------------------------------------------------
 > org.pitest.mutationtest.engine.gregor.mutators.returns.NullReturnValsMutator
->> Generated 6107 Killed 12 (0%)
-> KILLED 12 SURVIVED 3 TIMED_OUT 0 NON_VIABLE 0 
+>> Generated 131 Killed 8 (6%)
+> KILLED 8 SURVIVED 3 TIMED_OUT 0 NON_VIABLE 0 
 > MEMORY_ERROR 0 NOT_STARTED 0 STARTED 0 RUN_ERROR 0 
-> NO_COVERAGE 6092 
---------------------------------------------------------------------------------
-> org.pitest.mutationtest.engine.gregor.mutators.MathMutator
->> Generated 687 Killed 0 (0%)
-> KILLED 0 SURVIVED 0 TIMED_OUT 0 NON_VIABLE 0 
-> MEMORY_ERROR 0 NOT_STARTED 0 STARTED 0 RUN_ERROR 0 
-> NO_COVERAGE 687 
+> NO_COVERAGE 120 
 --------------------------------------------------------------------------------
 > org.pitest.mutationtest.engine.gregor.mutators.returns.BooleanFalseReturnValsMutator
->> Generated 694 Killed 1 (0%)
+>> Generated 24 Killed 1 (4%)
 > KILLED 1 SURVIVED 0 TIMED_OUT 0 NON_VIABLE 0 
 > MEMORY_ERROR 0 NOT_STARTED 0 STARTED 0 RUN_ERROR 0 
-> NO_COVERAGE 693 
+> NO_COVERAGE 23 
 --------------------------------------------------------------------------------
 > org.pitest.mutationtest.engine.gregor.mutators.returns.EmptyObjectReturnValsMutator
->> Generated 2307 Killed 1 (0%)
-> KILLED 1 SURVIVED 0 TIMED_OUT 0 NON_VIABLE 0 
+>> Generated 42 Killed 4 (10%)
+> KILLED 4 SURVIVED 4 TIMED_OUT 0 NON_VIABLE 0 
 > MEMORY_ERROR 0 NOT_STARTED 0 STARTED 0 RUN_ERROR 0 
-> NO_COVERAGE 2306 
+> NO_COVERAGE 34 
 --------------------------------------------------------------------------------
 > org.pitest.mutationtest.engine.gregor.mutators.NegateConditionalsMutator
->> Generated 6066 Killed 19 (0%)
-> KILLED 19 SURVIVED 3 TIMED_OUT 0 NON_VIABLE 0 
+>> Generated 120 Killed 8 (7%)
+> KILLED 8 SURVIVED 2 TIMED_OUT 0 NON_VIABLE 0 
 > MEMORY_ERROR 0 NOT_STARTED 0 STARTED 0 RUN_ERROR 0 
-> NO_COVERAGE 6044 
+> NO_COVERAGE 110 
 --------------------------------------------------------------------------------
 ================================================================================
 - Timings
 ================================================================================
-> pre-scan for mutations : 2 seconds
+> pre-scan for mutations : < 1 second
 > scan classpath : < 1 second
 > coverage and dependency analysis : 6 seconds
-> build mutation tests : 3 seconds
-> run mutation analysis : 1 minutes and 24 seconds
+> build mutation tests : < 1 second
+> run mutation analysis : 35 seconds
 --------------------------------------------------------------------------------
-> Total  : 1 minutes and 35 seconds
+> Total  : 42 seconds
 --------------------------------------------------------------------------------
 ================================================================================
 - Statistics
 ================================================================================
->> Line Coverage (for mutated classes only): 317/110494 (0%)
->> Generated 33493 mutations Killed 53 (0%)
->> Mutations with no coverage 33407. Test strength 62%
->> Ran 267 tests (0.01 tests per mutation)
+>> Line Coverage (for mutated classes only): 301/2687 (11%)
+>> Generated 661 mutations Killed 36 (5%)
+>> Mutations with no coverage 611. Test strength 72%
+>> Ran 83 tests (0.13 tests per mutation)
