@@ -8109,6 +8109,19 @@ code {
 </div></code></pre>
 <details><summary>Original Test Code (click to expand)</summary>
 <pre class="hljs"><code><div>
+<span class="hljs-meta">@Test</span>
+
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">matchesWhenBCryptThenDelegatesToBCrypt</span><span class="hljs-params">()</span> </span>{
+
+    given(<span class="hljs-keyword">this</span>.bcrypt.matches(<span class="hljs-keyword">this</span>.rawPassword, <span class="hljs-keyword">this</span>.encodedPassword)).willReturn(<span class="hljs-keyword">true</span>);
+
+    assertThat(<span class="hljs-keyword">this</span>.passwordEncoder.matches(<span class="hljs-keyword">this</span>.rawPassword, <span class="hljs-keyword">this</span>.bcryptEncodedPassword)).isTrue();
+
+    verify(<span class="hljs-keyword">this</span>.bcrypt).matches(<span class="hljs-keyword">this</span>.rawPassword, <span class="hljs-keyword">this</span>.encodedPassword);
+
+    verifyNoMoreInteractions(<span class="hljs-keyword">this</span>.noop);
+
+}
 <span class="hljs-meta">@BeforeEach</span>
 
 <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setup</span><span class="hljs-params">()</span> </span>{
@@ -8122,19 +8135,6 @@ code {
     <span class="hljs-keyword">this</span>.passwordEncoder = <span class="hljs-keyword">new</span> DelegatingPasswordEncoder(<span class="hljs-keyword">this</span>.bcryptId, <span class="hljs-keyword">this</span>.delegates);
 
     <span class="hljs-keyword">this</span>.onlySuffixPasswordEncoder = <span class="hljs-keyword">new</span> DelegatingPasswordEncoder(<span class="hljs-keyword">this</span>.bcryptId, <span class="hljs-keyword">this</span>.delegates, <span class="hljs-string">""</span>, <span class="hljs-string">"$"</span>);
-
-}
-<span class="hljs-meta">@Test</span>
-
-<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">matchesWhenBCryptThenDelegatesToBCrypt</span><span class="hljs-params">()</span> </span>{
-
-    given(<span class="hljs-keyword">this</span>.bcrypt.matches(<span class="hljs-keyword">this</span>.rawPassword, <span class="hljs-keyword">this</span>.encodedPassword)).willReturn(<span class="hljs-keyword">true</span>);
-
-    assertThat(<span class="hljs-keyword">this</span>.passwordEncoder.matches(<span class="hljs-keyword">this</span>.rawPassword, <span class="hljs-keyword">this</span>.bcryptEncodedPassword)).isTrue();
-
-    verify(<span class="hljs-keyword">this</span>.bcrypt).matches(<span class="hljs-keyword">this</span>.rawPassword, <span class="hljs-keyword">this</span>.encodedPassword);
-
-    verifyNoMoreInteractions(<span class="hljs-keyword">this</span>.noop);
 
 }
 </div></code></pre>
