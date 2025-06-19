@@ -1,0 +1,2813 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>spring-integration-Ablation 2-guide.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="ablation-2-a-guide-to-refactoring-mock-clones-in-spring-integration">Ablation 2: A guide to Refactoring mock clones in spring-integration</h1>
+<h2 id="mock-clone-instance-spring-integrationmci3">Mock Clone Instance #spring-integration_MCI_3</h2>
+<ul>
+<li><strong>Scope</strong>: method level</li>
+<li><strong>Mocked Class</strong>: <code>org.springframework.integration.file.remote.session.SessionFactory</code></li>
+<li><strong>Test Case Count</strong>: 3</li>
+<li><strong>MO Count</strong>: 3</li>
+</ul>
+<h3 id="reusable-method">Reusable Method</h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> SessionFactory&lt;?&gt; createMockSessionFactory(Session&lt;?&gt; session) {
+    SessionFactory&lt;?&gt; sessionFactory = mock(SessionFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+    when(sessionFactory.getSession()).thenReturn(session);
+    <span class="hljs-keyword">return</span> sessionFactory;
+}
+</div></code></pre>
+<h3 id="the-refactoring-details-in-each-test-cases">The refactoring details in each test cases</h3>
+<hr>
+<h4 id="test-case-id-spring-integrationtest31">Test Case ID #spring-integration_Test_3_1</h4>
+<h4 id="test-case-name-testmovefile-cjavaprojectsspringspring-integrationspring-integration-filesrctestjavaorgspringframeworkintegrationfileremotegatewayremotefileoutboundgatewaytestsjava">Test Case Name: <code>testMove</code>(File: <code>C:\Java_projects\Spring\spring-integration\spring-integration-file\src\test\java\org\springframework\integration\file\remote\gateway\RemoteFileOutboundGatewayTests.java</code>)</h4>
+<h4 id="mock-object-variable-name-sessionfactory">Mock Object Variable Name: <code>sessionFactory</code></h4>
+<summary>Suggested Diff</summary>
+<pre class="hljs"><code><div>
+@@
+ @Test
+ public void testMove() throws Exception {
+<span class="hljs-deletion">-    SessionFactory sessionFactory = mock(SessionFactory.class);</span>
+<span class="hljs-addition">+    Session&lt;?&gt; session = mock(Session.class);</span>
+<span class="hljs-addition">+    SessionFactory sessionFactory = createMockSessionFactory(session);</span>
+     TestRemoteFileOutboundGateway gw = new TestRemoteFileOutboundGateway(sessionFactory, "mv", "payload");
+     gw.afterPropertiesSet();
+<span class="hljs-deletion">-    Session&lt;?&gt; session = mock(Session.class);</span>
+     final AtomicReference&lt;String&gt; args = new AtomicReference&lt;&gt;();
+     doAnswer(invocation -&gt; {
+         Object[] arguments = invocation.getArguments();
+         args.set((String) arguments[0] + arguments[1]);
+         return null;
+     }).when(session).rename(anyString(), anyString());
+<span class="hljs-deletion">-    when(sessionFactory.getSession()).thenReturn(session);</span>
+     Message&lt;String&gt; requestMessage = MessageBuilder.withPayload("foo").setHeader(FileHeaders.RENAME_TO, "bar").build();
+     MessageBuilder&lt;?&gt; out = (MessageBuilder&lt;?&gt;) gw.handleRequestMessage(requestMessage);
+     assertThat(out.getHeaders().get(FileHeaders.REMOTE_FILE)).isEqualTo("foo");
+     assertThat(args.get()).isEqualTo("foobar");
+     assertThat(out.getPayload()).isEqualTo(Boolean.TRUE);
+ }
+</div></code></pre>
+<details><summary>Original Test Code (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-meta">@Test</span>
+
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testMove</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>{
+
+    SessionFactory sessionFactory = mock(SessionFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    TestRemoteFileOutboundGateway gw = <span class="hljs-keyword">new</span> TestRemoteFileOutboundGateway(sessionFactory, <span class="hljs-string">"mv"</span>, <span class="hljs-string">"payload"</span>);
+
+    gw.afterPropertiesSet();
+
+    Session&lt;?&gt; session = mock(Session<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    <span class="hljs-keyword">final</span> AtomicReference&lt;String&gt; args = <span class="hljs-keyword">new</span> AtomicReference&lt;&gt;();
+
+    doAnswer(invocation -&gt; {
+
+        Object[] arguments = invocation.getArguments();
+
+        args.set((String) arguments[<span class="hljs-number">0</span>] + arguments[<span class="hljs-number">1</span>]);
+
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+
+    }).when(session).rename(anyString(), anyString());
+
+    when(sessionFactory.getSession()).thenReturn(session);
+
+    Message&lt;String&gt; requestMessage = MessageBuilder.withPayload(<span class="hljs-string">"foo"</span>).setHeader(FileHeaders.RENAME_TO, <span class="hljs-string">"bar"</span>).build();
+
+    MessageBuilder&lt;?&gt; out = (MessageBuilder&lt;?&gt;) gw.handleRequestMessage(requestMessage);
+
+    assertThat(out.getHeaders().get(FileHeaders.REMOTE_FILE)).isEqualTo(<span class="hljs-string">"foo"</span>);
+
+    assertThat(args.get()).isEqualTo(<span class="hljs-string">"foobar"</span>);
+
+    assertThat(out.getPayload()).isEqualTo(Boolean.TRUE);
+
+}
+</div></code></pre>
+</details>
+<details><summary>Reusable Method for MCI (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> SessionFactory&lt;?&gt; createMockSessionFactory(Session&lt;?&gt; session) {
+    SessionFactory&lt;?&gt; sessionFactory = mock(SessionFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+    when(sessionFactory.getSession()).thenReturn(session);
+    <span class="hljs-keyword">return</span> sessionFactory;
+}
+</div></code></pre>
+</details>
+<hr>
+<h4 id="test-case-id-spring-integrationtest32">Test Case ID #spring-integration_Test_3_2</h4>
+<h4 id="test-case-name-testmovewithexpressionfile-cjavaprojectsspringspring-integrationspring-integration-filesrctestjavaorgspringframeworkintegrationfileremotegatewayremotefileoutboundgatewaytestsjava">Test Case Name: <code>testMoveWithExpression</code>(File: <code>C:\Java_projects\Spring\spring-integration\spring-integration-file\src\test\java\org\springframework\integration\file\remote\gateway\RemoteFileOutboundGatewayTests.java</code>)</h4>
+<h4 id="mock-object-variable-name-sessionfactory">Mock Object Variable Name: <code>sessionFactory</code></h4>
+<summary>Suggested Diff</summary>
+<pre class="hljs"><code><div>
+@@
+ @Test
+ public void testMoveWithExpression() throws Exception {
+<span class="hljs-deletion">-    SessionFactory sessionFactory = mock(SessionFactory.class);</span>
+<span class="hljs-addition">+    Session&lt;?&gt; session = mock(Session.class);</span>
+<span class="hljs-addition">+    SessionFactory sessionFactory = createMockSessionFactory(session);</span>
+     TestRemoteFileOutboundGateway gw = new TestRemoteFileOutboundGateway(sessionFactory, "mv", "payload");
+     gw.setRenameExpression(PARSER.parseExpression("payload.substring(1)"));
+     gw.afterPropertiesSet();
+<span class="hljs-deletion">-    Session&lt;?&gt; session = mock(Session.class);</span>
+     final AtomicReference&lt;String&gt; args = new AtomicReference&lt;&gt;();
+     doAnswer(invocation -&gt; {
+         Object[] arguments = invocation.getArguments();
+         args.set((String) arguments[0] + arguments[1]);
+         return null;
+     }).when(session).rename(anyString(), anyString());
+<span class="hljs-deletion">-    when(sessionFactory.getSession()).thenReturn(session);</span>
+     MessageBuilder&lt;?&gt; out = (MessageBuilder&lt;?&gt;) gw.handleRequestMessage(new GenericMessage&lt;&gt;("foo"));
+     assertThat(out.getHeaders().get(FileHeaders.RENAME_TO)).isEqualTo("oo");
+     assertThat(out.getHeaders().get(FileHeaders.REMOTE_FILE)).isEqualTo("foo");
+     assertThat(args.get()).isEqualTo("foooo");
+     assertThat(out.getPayload()).isEqualTo(Boolean.TRUE);
+ }
+</div></code></pre>
+<details><summary>Original Test Code (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-meta">@Test</span>
+
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testMoveWithExpression</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>{
+
+    SessionFactory sessionFactory = mock(SessionFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    TestRemoteFileOutboundGateway gw = <span class="hljs-keyword">new</span> TestRemoteFileOutboundGateway(sessionFactory, <span class="hljs-string">"mv"</span>, <span class="hljs-string">"payload"</span>);
+
+    gw.setRenameExpression(PARSER.parseExpression(<span class="hljs-string">"payload.substring(1)"</span>));
+
+    gw.afterPropertiesSet();
+
+    Session&lt;?&gt; session = mock(Session<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    <span class="hljs-keyword">final</span> AtomicReference&lt;String&gt; args = <span class="hljs-keyword">new</span> AtomicReference&lt;&gt;();
+
+    doAnswer(invocation -&gt; {
+
+        Object[] arguments = invocation.getArguments();
+
+        args.set((String) arguments[<span class="hljs-number">0</span>] + arguments[<span class="hljs-number">1</span>]);
+
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+
+    }).when(session).rename(anyString(), anyString());
+
+    when(sessionFactory.getSession()).thenReturn(session);
+
+    MessageBuilder&lt;?&gt; out = (MessageBuilder&lt;?&gt;) gw.handleRequestMessage(<span class="hljs-keyword">new</span> GenericMessage&lt;&gt;(<span class="hljs-string">"foo"</span>));
+
+    assertThat(out.getHeaders().get(FileHeaders.RENAME_TO)).isEqualTo(<span class="hljs-string">"oo"</span>);
+
+    assertThat(out.getHeaders().get(FileHeaders.REMOTE_FILE)).isEqualTo(<span class="hljs-string">"foo"</span>);
+
+    assertThat(args.get()).isEqualTo(<span class="hljs-string">"foooo"</span>);
+
+    assertThat(out.getPayload()).isEqualTo(Boolean.TRUE);
+
+}
+</div></code></pre>
+</details>
+<details><summary>Reusable Method for MCI (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> SessionFactory&lt;?&gt; createMockSessionFactory(Session&lt;?&gt; session) {
+    SessionFactory&lt;?&gt; sessionFactory = mock(SessionFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+    when(sessionFactory.getSession()).thenReturn(session);
+    <span class="hljs-keyword">return</span> sessionFactory;
+}
+</div></code></pre>
+</details>
+<hr>
+<h4 id="test-case-id-spring-integrationtest33">Test Case ID #spring-integration_Test_3_3</h4>
+<h4 id="test-case-name-testmovewithmkdirsfile-cjavaprojectsspringspring-integrationspring-integration-filesrctestjavaorgspringframeworkintegrationfileremotegatewayremotefileoutboundgatewaytestsjava">Test Case Name: <code>testMoveWithMkDirs</code>(File: <code>C:\Java_projects\Spring\spring-integration\spring-integration-file\src\test\java\org\springframework\integration\file\remote\gateway\RemoteFileOutboundGatewayTests.java</code>)</h4>
+<h4 id="mock-object-variable-name-sessionfactory">Mock Object Variable Name: <code>sessionFactory</code></h4>
+<summary>Suggested Diff</summary>
+<pre class="hljs"><code><div>
+@@
+ @Test
+ public void testMoveWithMkDirs() throws Exception {
+<span class="hljs-deletion">-    SessionFactory sessionFactory = mock(SessionFactory.class);</span>
+<span class="hljs-addition">+    Session&lt;?&gt; session = mock(Session.class);</span>
+<span class="hljs-addition">+    SessionFactory sessionFactory = createMockSessionFactory(session);</span>
+     TestRemoteFileOutboundGateway gw = new TestRemoteFileOutboundGateway(sessionFactory, "mv", "payload");
+     gw.setRenameExpression(PARSER.parseExpression("'foo/bar/baz'"));
+     gw.afterPropertiesSet();
+<span class="hljs-deletion">-    Session&lt;?&gt; session = mock(Session.class);</span>
+     final AtomicReference&lt;String&gt; args = new AtomicReference&lt;&gt;();
+     doAnswer(invocation -&gt; {
+         Object[] arguments = invocation.getArguments();
+         args.set((String) arguments[0] + arguments[1]);
+         return null;
+     }).when(session).rename(anyString(), anyString());
+     final List&lt;String&gt; madeDirs = new ArrayList&lt;&gt;();
+     doAnswer(invocation -&gt; {
+         madeDirs.add(invocation.getArgument(0));
+         return true;
+     }).when(session).mkdir(anyString());
+<span class="hljs-deletion">-    when(sessionFactory.getSession()).thenReturn(session);</span>
+     Message&lt;String&gt; requestMessage = MessageBuilder.withPayload("foo").setHeader(FileHeaders.RENAME_TO, "bar").build();
+     MessageBuilder&lt;?&gt; out = (MessageBuilder&lt;?&gt;) gw.handleRequestMessage(requestMessage);
+     assertThat(out.getHeaders().get(FileHeaders.REMOTE_FILE)).isEqualTo("foo");
+     assertThat(args.get()).isEqualTo("foofoo/bar/baz");
+     assertThat(out.getPayload()).isEqualTo(Boolean.TRUE);
+     assertThat(madeDirs.size()).isEqualTo(2);
+     assertThat(madeDirs.get(0)).isEqualTo("foo");
+     assertThat(madeDirs.get(1)).isEqualTo("foo/bar");
+ }
+</div></code></pre>
+<details><summary>Original Test Code (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-meta">@Test</span>
+
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testMoveWithMkDirs</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>{
+
+    SessionFactory sessionFactory = mock(SessionFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    TestRemoteFileOutboundGateway gw = <span class="hljs-keyword">new</span> TestRemoteFileOutboundGateway(sessionFactory, <span class="hljs-string">"mv"</span>, <span class="hljs-string">"payload"</span>);
+
+    gw.setRenameExpression(PARSER.parseExpression(<span class="hljs-string">"'foo/bar/baz'"</span>));
+
+    gw.afterPropertiesSet();
+
+    Session&lt;?&gt; session = mock(Session<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    <span class="hljs-keyword">final</span> AtomicReference&lt;String&gt; args = <span class="hljs-keyword">new</span> AtomicReference&lt;&gt;();
+
+    doAnswer(invocation -&gt; {
+
+        Object[] arguments = invocation.getArguments();
+
+        args.set((String) arguments[<span class="hljs-number">0</span>] + arguments[<span class="hljs-number">1</span>]);
+
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+
+    }).when(session).rename(anyString(), anyString());
+
+    <span class="hljs-keyword">final</span> List&lt;String&gt; madeDirs = <span class="hljs-keyword">new</span> ArrayList&lt;&gt;();
+
+    doAnswer(invocation -&gt; {
+
+        madeDirs.add(invocation.getArgument(<span class="hljs-number">0</span>));
+
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">true</span>;
+
+    }).when(session).mkdir(anyString());
+
+    when(sessionFactory.getSession()).thenReturn(session);
+
+    Message&lt;String&gt; requestMessage = MessageBuilder.withPayload(<span class="hljs-string">"foo"</span>).setHeader(FileHeaders.RENAME_TO, <span class="hljs-string">"bar"</span>).build();
+
+    MessageBuilder&lt;?&gt; out = (MessageBuilder&lt;?&gt;) gw.handleRequestMessage(requestMessage);
+
+    assertThat(out.getHeaders().get(FileHeaders.REMOTE_FILE)).isEqualTo(<span class="hljs-string">"foo"</span>);
+
+    assertThat(args.get()).isEqualTo(<span class="hljs-string">"foofoo/bar/baz"</span>);
+
+    assertThat(out.getPayload()).isEqualTo(Boolean.TRUE);
+
+    assertThat(madeDirs.size()).isEqualTo(<span class="hljs-number">2</span>);
+
+    assertThat(madeDirs.get(<span class="hljs-number">0</span>)).isEqualTo(<span class="hljs-string">"foo"</span>);
+
+    assertThat(madeDirs.get(<span class="hljs-number">1</span>)).isEqualTo(<span class="hljs-string">"foo/bar"</span>);
+
+}
+</div></code></pre>
+</details>
+<details><summary>Reusable Method for MCI (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> SessionFactory&lt;?&gt; createMockSessionFactory(Session&lt;?&gt; session) {
+    SessionFactory&lt;?&gt; sessionFactory = mock(SessionFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+    when(sessionFactory.getSession()).thenReturn(session);
+    <span class="hljs-keyword">return</span> sessionFactory;
+}
+</div></code></pre>
+</details>
+<hr>
+<h2 id="mock-clone-instance-spring-integrationmci4">Mock Clone Instance #spring-integration_MCI_4</h2>
+<ul>
+<li><strong>Scope</strong>: method level</li>
+<li><strong>Mocked Class</strong>: <code>org.springframework.integration.file.remote.session.SessionFactory</code></li>
+<li><strong>Test Case Count</strong>: 3</li>
+<li><strong>MO Count</strong>: 3</li>
+</ul>
+<h3 id="reusable-method">Reusable Method</h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">private</span> SessionFactory sessionFactory;
+
+<span class="hljs-meta">@BeforeEach</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">setUp</span><span class="hljs-params">()</span> </span>{
+    sessionFactory = mock(SessionFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+}
+</div></code></pre>
+<h3 id="the-refactoring-details-in-each-test-cases">The refactoring details in each test cases</h3>
+<hr>
+<h4 id="test-case-id-spring-integrationtest41">Test Case ID #spring-integration_Test_4_1</h4>
+<h4 id="test-case-name-testbadfile-cjavaprojectsspringspring-integrationspring-integration-filesrctestjavaorgspringframeworkintegrationfileremotegatewayremotefileoutboundgatewaytestsjava">Test Case Name: <code>testBad</code>(File: <code>C:\Java_projects\Spring\spring-integration\spring-integration-file\src\test\java\org\springframework\integration\file\remote\gateway\RemoteFileOutboundGatewayTests.java</code>)</h4>
+<h4 id="mock-object-variable-name-sessionfactory">Mock Object Variable Name: <code>sessionFactory</code></h4>
+<summary>Suggested Diff</summary>
+<pre class="hljs"><code><div>
+@@
+ @Test
+<span class="hljs-deletion">-public void testBad() {</span>
+<span class="hljs-deletion">-    SessionFactory sessionFactory = mock(SessionFactory.class);</span>
+<span class="hljs-deletion">-    assertThatIllegalArgumentException().isThrownBy(() -&gt; new TestRemoteFileOutboundGateway(sessionFactory, "bad", "payload"));</span>
+<span class="hljs-addition">+public void testBad() {</span>
+<span class="hljs-addition">+    // removed local mock; replaced with global field `sessionFactory`</span>
+<span class="hljs-addition">+    assertThatIllegalArgumentException().isThrownBy(() -&gt; new TestRemoteFileOutboundGateway(sessionFactory, "bad", "payload"));</span>
+ }
+</div></code></pre>
+<details><summary>Original Test Code (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-meta">@Test</span>
+
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testBad</span><span class="hljs-params">()</span> </span>{
+
+    SessionFactory sessionFactory = mock(SessionFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    assertThatIllegalArgumentException().isThrownBy(() -&gt; <span class="hljs-keyword">new</span> TestRemoteFileOutboundGateway(sessionFactory, <span class="hljs-string">"bad"</span>, <span class="hljs-string">"payload"</span>));
+
+}
+</div></code></pre>
+</details>
+<details><summary>Reusable Method for MCI (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-keyword">private</span> SessionFactory sessionFactory;
+
+<span class="hljs-meta">@BeforeEach</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">setUp</span><span class="hljs-params">()</span> </span>{
+    sessionFactory = mock(SessionFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+}
+</div></code></pre>
+</details>
+<hr>
+<h4 id="test-case-id-spring-integrationtest42">Test Case ID #spring-integration_Test_4_2</h4>
+<h4 id="test-case-name-testbadfiltergetfile-cjavaprojectsspringspring-integrationspring-integration-filesrctestjavaorgspringframeworkintegrationfileremotegatewayremotefileoutboundgatewaytestsjava">Test Case Name: <code>testBadFilterGet</code>(File: <code>C:\Java_projects\Spring\spring-integration\spring-integration-file\src\test\java\org\springframework\integration\file\remote\gateway\RemoteFileOutboundGatewayTests.java</code>)</h4>
+<h4 id="mock-object-variable-name-sessionfactory">Mock Object Variable Name: <code>sessionFactory</code></h4>
+<summary>Suggested Diff</summary>
+<pre class="hljs"><code><div>
+@@
+ @Test
+<span class="hljs-deletion">-public void testBadFilterGet() {</span>
+<span class="hljs-deletion">-    SessionFactory sessionFactory = mock(SessionFactory.class);</span>
+<span class="hljs-deletion">-    TestRemoteFileOutboundGateway gw = new TestRemoteFileOutboundGateway(sessionFactory, "get", "payload");</span>
+<span class="hljs-deletion">-    gw.setFilter(new TestPatternFilter(""));</span>
+<span class="hljs-deletion">-    assertThatIllegalArgumentException().isThrownBy(gw::afterPropertiesSet).withMessageStartingWith("Filters are not supported");</span>
+<span class="hljs-addition">+public void testBadFilterGet() {</span>
+<span class="hljs-addition">+    // removed local mock; replaced with global field `sessionFactory`</span>
+<span class="hljs-addition">+    TestRemoteFileOutboundGateway gw = new TestRemoteFileOutboundGateway(sessionFactory, "get", "payload");</span>
+<span class="hljs-addition">+    gw.setFilter(new TestPatternFilter(""));</span>
+<span class="hljs-addition">+    assertThatIllegalArgumentException().isThrownBy(gw::afterPropertiesSet).withMessageStartingWith("Filters are not supported");</span>
+ }
+</div></code></pre>
+<details><summary>Original Test Code (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-meta">@Test</span>
+
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testBadFilterGet</span><span class="hljs-params">()</span> </span>{
+
+    SessionFactory sessionFactory = mock(SessionFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    TestRemoteFileOutboundGateway gw = <span class="hljs-keyword">new</span> TestRemoteFileOutboundGateway(sessionFactory, <span class="hljs-string">"get"</span>, <span class="hljs-string">"payload"</span>);
+
+    gw.setFilter(<span class="hljs-keyword">new</span> TestPatternFilter(<span class="hljs-string">""</span>));
+
+    assertThatIllegalArgumentException().isThrownBy(gw::afterPropertiesSet).withMessageStartingWith(<span class="hljs-string">"Filters are not supported"</span>);
+
+}
+</div></code></pre>
+</details>
+<details><summary>Reusable Method for MCI (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-keyword">private</span> SessionFactory sessionFactory;
+
+<span class="hljs-meta">@BeforeEach</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">setUp</span><span class="hljs-params">()</span> </span>{
+    sessionFactory = mock(SessionFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+}
+</div></code></pre>
+</details>
+<hr>
+<h4 id="test-case-id-spring-integrationtest43">Test Case ID #spring-integration_Test_4_3</h4>
+<h4 id="test-case-name-testbadfilterrmfile-cjavaprojectsspringspring-integrationspring-integration-filesrctestjavaorgspringframeworkintegrationfileremotegatewayremotefileoutboundgatewaytestsjava">Test Case Name: <code>testBadFilterRm</code>(File: <code>C:\Java_projects\Spring\spring-integration\spring-integration-file\src\test\java\org\springframework\integration\file\remote\gateway\RemoteFileOutboundGatewayTests.java</code>)</h4>
+<h4 id="mock-object-variable-name-sessionfactory">Mock Object Variable Name: <code>sessionFactory</code></h4>
+<summary>Suggested Diff</summary>
+<pre class="hljs"><code><div>
+@@
+ @Test
+<span class="hljs-deletion">-public void testBadFilterRm() {</span>
+<span class="hljs-deletion">-    SessionFactory sessionFactory = mock(SessionFactory.class);</span>
+<span class="hljs-deletion">-    TestRemoteFileOutboundGateway gw = new TestRemoteFileOutboundGateway(sessionFactory, "rm", "payload");</span>
+<span class="hljs-deletion">-    gw.setFilter(new TestPatternFilter(""));</span>
+<span class="hljs-deletion">-    assertThatIllegalArgumentException().isThrownBy(gw::afterPropertiesSet).withMessageStartingWith("Filters are not supported");</span>
+<span class="hljs-addition">+public void testBadFilterRm() {</span>
+<span class="hljs-addition">+    // removed local mock; replaced with global field `sessionFactory`</span>
+<span class="hljs-addition">+    TestRemoteFileOutboundGateway gw = new TestRemoteFileOutboundGateway(sessionFactory, "rm", "payload");</span>
+<span class="hljs-addition">+    gw.setFilter(new TestPatternFilter(""));</span>
+<span class="hljs-addition">+    assertThatIllegalArgumentException().isThrownBy(gw::afterPropertiesSet).withMessageStartingWith("Filters are not supported");</span>
+ }
+</div></code></pre>
+<details><summary>Original Test Code (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-meta">@Test</span>
+
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testBadFilterRm</span><span class="hljs-params">()</span> </span>{
+
+    SessionFactory sessionFactory = mock(SessionFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    TestRemoteFileOutboundGateway gw = <span class="hljs-keyword">new</span> TestRemoteFileOutboundGateway(sessionFactory, <span class="hljs-string">"rm"</span>, <span class="hljs-string">"payload"</span>);
+
+    gw.setFilter(<span class="hljs-keyword">new</span> TestPatternFilter(<span class="hljs-string">""</span>));
+
+    assertThatIllegalArgumentException().isThrownBy(gw::afterPropertiesSet).withMessageStartingWith(<span class="hljs-string">"Filters are not supported"</span>);
+
+}
+</div></code></pre>
+</details>
+<details><summary>Reusable Method for MCI (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-keyword">private</span> SessionFactory sessionFactory;
+
+<span class="hljs-meta">@BeforeEach</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">setUp</span><span class="hljs-params">()</span> </span>{
+    sessionFactory = mock(SessionFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+}
+</div></code></pre>
+</details>
+<hr>
+<h2 id="mock-clone-instance-spring-integrationmci5">Mock Clone Instance #spring-integration_MCI_5</h2>
+<ul>
+<li><strong>Scope</strong>: method level</li>
+<li><strong>Mocked Class</strong>: <code>org.springframework.integration.mqtt.core.Mqttv3ClientManager</code></li>
+<li><strong>Test Case Count</strong>: 2</li>
+<li><strong>MO Count</strong>: 2</li>
+</ul>
+<h3 id="reusable-method">Reusable Method</h3>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> Mqttv3ClientManager <span class="hljs-title">createMockClientManager</span><span class="hljs-params">(MqttAsyncClient client)</span> </span>{
+    Mqttv3ClientManager clientManager = mock(Mqttv3ClientManager<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+    when(clientManager.getConnectionInfo()).thenReturn(<span class="hljs-keyword">new</span> MqttConnectOptions());
+    when(clientManager.getClient()).thenReturn(client);
+    <span class="hljs-keyword">return</span> clientManager;
+}
+</div></code></pre>
+<h3 id="the-refactoring-details-in-each-test-cases">The refactoring details in each test cases</h3>
+<hr>
+<h4 id="test-case-id-spring-integrationtest51">Test Case ID #spring-integration_Test_5_1</h4>
+<h4 id="test-case-name-testclientmanagerisnotconnectedandclosedinhandlerfile-cjavaprojectsspringspring-integrationspring-integration-mqttsrctestjavaorgspringframeworkintegrationmqttmqttadaptertestsjava">Test Case Name: <code>testClientManagerIsNotConnectedAndClosedInHandler</code>(File: <code>C:\Java_projects\Spring\spring-integration\spring-integration-mqtt\src\test\java\org\springframework\integration\mqtt\MqttAdapterTests.java</code>)</h4>
+<h4 id="mock-object-variable-name-clientmanager">Mock Object Variable Name: <code>clientManager</code></h4>
+<summary>Suggested Diff</summary>
+<pre class="hljs"><code><div>
+@@
+ @Test
+ void testClientManagerIsNotConnectedAndClosedInHandler() throws Exception {
+     // given
+<span class="hljs-deletion">-    var clientManager = mock(Mqttv3ClientManager.class);</span>
+<span class="hljs-deletion">-    when(clientManager.getConnectionInfo()).thenReturn(new MqttConnectOptions());</span>
+     var client = mock(MqttAsyncClient.class);
+<span class="hljs-deletion">-    given(clientManager.getClient()).willReturn(client);</span>
+<span class="hljs-addition">+    var clientManager = createMockClientManager(client);</span>
+     var deliveryToken = mock(MqttDeliveryToken.class);
+     given(client.publish(anyString(), any(), any(), any())).willReturn(deliveryToken);
+     var handler = new MqttPahoMessageHandler(clientManager);
+     handler.setDefaultTopic("mqtt-foo");
+     handler.setBeanFactory(mock(BeanFactory.class));
+     handler.afterPropertiesSet();
+     handler.start();
+     // when
+     handler.handleMessage(new GenericMessage&lt;&gt;("Hello, world!"));
+     handler.stop();
+     // then
+     verify(client, never()).connect(any(MqttConnectOptions.class));
+     verify(client).publish(anyString(), any(), any(), any());
+     verify(client, never()).disconnect();
+     verify(client, never()).disconnect(anyLong());
+     verify(client, never()).close();
+ }
+</div></code></pre>
+<details><summary>Original Test Code (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-meta">@Test</span>
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">testClientManagerIsNotConnectedAndClosedInHandler</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>{
+
+    <span class="hljs-comment">// given</span>
+
+    <span class="hljs-keyword">var</span> clientManager = mock(Mqttv3ClientManager<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    when(clientManager.getConnectionInfo()).thenReturn(<span class="hljs-keyword">new</span> MqttConnectOptions());
+
+    <span class="hljs-keyword">var</span> client = mock(MqttAsyncClient<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    given(clientManager.getClient()).willReturn(client);
+
+    <span class="hljs-keyword">var</span> deliveryToken = mock(MqttDeliveryToken<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    given(client.publish(anyString(), any(), any(), any())).willReturn(deliveryToken);
+
+    <span class="hljs-keyword">var</span> handler = <span class="hljs-keyword">new</span> MqttPahoMessageHandler(clientManager);
+
+    handler.setDefaultTopic(<span class="hljs-string">"mqtt-foo"</span>);
+
+    handler.setBeanFactory(mock(BeanFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>))</span>;
+
+    handler.afterPropertiesSet();
+
+    handler.start();
+
+    <span class="hljs-comment">// when</span>
+
+    handler.handleMessage(<span class="hljs-keyword">new</span> GenericMessage&lt;&gt;(<span class="hljs-string">"Hello, world!"</span>));
+
+    handler.stop();
+
+    <span class="hljs-comment">// then</span>
+
+    verify(client, never()).connect(any(MqttConnectOptions<span class="hljs-class">.<span class="hljs-keyword">class</span>))</span>;
+
+    verify(client).publish(anyString(), any(), any(), any());
+
+    verify(client, never()).disconnect();
+
+    verify(client, never()).disconnect(anyLong());
+
+    verify(client, never()).close();
+
+}
+</div></code></pre>
+</details>
+<details><summary>Reusable Method for MCI (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> Mqttv3ClientManager <span class="hljs-title">createMockClientManager</span><span class="hljs-params">(MqttAsyncClient client)</span> </span>{
+    Mqttv3ClientManager clientManager = mock(Mqttv3ClientManager<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+    when(clientManager.getConnectionInfo()).thenReturn(<span class="hljs-keyword">new</span> MqttConnectOptions());
+    when(clientManager.getClient()).thenReturn(client);
+    <span class="hljs-keyword">return</span> clientManager;
+}
+</div></code></pre>
+</details>
+<hr>
+<h4 id="test-case-id-spring-integrationtest52">Test Case ID #spring-integration_Test_5_2</h4>
+<h4 id="test-case-name-testclientmanagerisnotconnectedandclosedinadapterfile-cjavaprojectsspringspring-integrationspring-integration-mqttsrctestjavaorgspringframeworkintegrationmqttmqttadaptertestsjava">Test Case Name: <code>testClientManagerIsNotConnectedAndClosedInAdapter</code>(File: <code>C:\Java_projects\Spring\spring-integration\spring-integration-mqtt\src\test\java\org\springframework\integration\mqtt\MqttAdapterTests.java</code>)</h4>
+<h4 id="mock-object-variable-name-clientmanager">Mock Object Variable Name: <code>clientManager</code></h4>
+<summary>Suggested Diff</summary>
+<pre class="hljs"><code><div>
+@@
+ @Test
+ void testClientManagerIsNotConnectedAndClosedInAdapter() throws Exception {
+     // given
+<span class="hljs-deletion">-    var clientManager = mock(Mqttv3ClientManager.class);</span>
+<span class="hljs-deletion">-    when(clientManager.getConnectionInfo()).thenReturn(new MqttConnectOptions());</span>
+     var client = mock(MqttAsyncClient.class);
+<span class="hljs-deletion">-    given(clientManager.getClient()).willReturn(client);</span>
+<span class="hljs-addition">+    var clientManager = createMockClientManager(client);</span>
+     var subscribeToken = mock(MqttToken.class);
+     given(subscribeToken.getGrantedQos()).willReturn(new int[] { 2 });
+     given(client.subscribe(any(String[].class), any(int[].class), any())).willReturn(subscribeToken);
+     var adapter = new MqttPahoMessageDrivenChannelAdapter(clientManager, "mqtt-foo");
+     adapter.setBeanFactory(mock(BeanFactory.class));
+     adapter.afterPropertiesSet();
+     // when
+     adapter.start();
+     adapter.connectComplete(false, null);
+     adapter.stop();
+     // then
+     verify(client, never()).connect(any(MqttConnectOptions.class));
+     verify(client).subscribe(eq(new String[] { "mqtt-foo" }), any(int[].class), any());
+     verify(client).unsubscribe(new String[] { "mqtt-foo" });
+     verify(client, never()).disconnect();
+     verify(client, never()).disconnect(anyLong());
+     verify(client, never()).close();
+ }
+</div></code></pre>
+<details><summary>Original Test Code (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-meta">@Test</span>
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">testClientManagerIsNotConnectedAndClosedInAdapter</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>{
+
+    <span class="hljs-comment">// given</span>
+
+    <span class="hljs-keyword">var</span> clientManager = mock(Mqttv3ClientManager<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    when(clientManager.getConnectionInfo()).thenReturn(<span class="hljs-keyword">new</span> MqttConnectOptions());
+
+    <span class="hljs-keyword">var</span> client = mock(MqttAsyncClient<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    given(clientManager.getClient()).willReturn(client);
+
+    <span class="hljs-keyword">var</span> subscribeToken = mock(MqttToken<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    given(subscribeToken.getGrantedQos()).willReturn(<span class="hljs-keyword">new</span> <span class="hljs-keyword">int</span>[] { <span class="hljs-number">2</span> });
+
+    given(client.subscribe(any(String[]<span class="hljs-class">.<span class="hljs-keyword">class</span>), <span class="hljs-title">any</span>(<span class="hljs-title">int</span>[].<span class="hljs-title">class</span>), <span class="hljs-title">any</span>())).<span class="hljs-title">willReturn</span>(<span class="hljs-title">subscribeToken</span>)</span>;
+
+    <span class="hljs-keyword">var</span> adapter = <span class="hljs-keyword">new</span> MqttPahoMessageDrivenChannelAdapter(clientManager, <span class="hljs-string">"mqtt-foo"</span>);
+
+    adapter.setBeanFactory(mock(BeanFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>))</span>;
+
+    adapter.afterPropertiesSet();
+
+    <span class="hljs-comment">// when</span>
+
+    adapter.start();
+
+    adapter.connectComplete(<span class="hljs-keyword">false</span>, <span class="hljs-keyword">null</span>);
+
+    adapter.stop();
+
+    <span class="hljs-comment">// then</span>
+
+    verify(client, never()).connect(any(MqttConnectOptions<span class="hljs-class">.<span class="hljs-keyword">class</span>))</span>;
+
+    verify(client).subscribe(eq(<span class="hljs-keyword">new</span> String[] { <span class="hljs-string">"mqtt-foo"</span> }), any(<span class="hljs-keyword">int</span>[]<span class="hljs-class">.<span class="hljs-keyword">class</span>), <span class="hljs-title">any</span>())</span>;
+
+    verify(client).unsubscribe(<span class="hljs-keyword">new</span> String[] { <span class="hljs-string">"mqtt-foo"</span> });
+
+    verify(client, never()).disconnect();
+
+    verify(client, never()).disconnect(anyLong());
+
+    verify(client, never()).close();
+
+}
+</div></code></pre>
+</details>
+<details><summary>Reusable Method for MCI (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> Mqttv3ClientManager <span class="hljs-title">createMockClientManager</span><span class="hljs-params">(MqttAsyncClient client)</span> </span>{
+    Mqttv3ClientManager clientManager = mock(Mqttv3ClientManager<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+    when(clientManager.getConnectionInfo()).thenReturn(<span class="hljs-keyword">new</span> MqttConnectOptions());
+    when(clientManager.getClient()).thenReturn(client);
+    <span class="hljs-keyword">return</span> clientManager;
+}
+</div></code></pre>
+</details>
+<hr>
+<h2 id="mock-clone-instance-spring-integrationmci6">Mock Clone Instance #spring-integration_MCI_6</h2>
+<ul>
+<li><strong>Scope</strong>: method level</li>
+<li><strong>Mocked Class</strong>: <code>com.rabbitmq.client.Connection</code></li>
+<li><strong>Test Case Count</strong>: 3</li>
+<li><strong>MO Count</strong>: 3</li>
+</ul>
+<h3 id="reusable-method">Reusable Method</h3>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> Connection <span class="hljs-title">createMockConnection</span><span class="hljs-params">(Channel channel)</span> </span>{
+    Connection connection = mock(Connection<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+    willReturn(<span class="hljs-keyword">true</span>).given(connection).isOpen();
+    willReturn(channel).given(connection).createChannel();
+    <span class="hljs-keyword">return</span> connection;
+}
+</div></code></pre>
+<h3 id="the-refactoring-details-in-each-test-cases">The refactoring details in each test cases</h3>
+<hr>
+<h4 id="test-case-id-spring-integrationtest61">Test Case ID #spring-integration_Test_6_1</h4>
+<h4 id="test-case-name-testackfile-cjavaprojectsspringspring-integrationspring-integration-amqpsrctestjavaorgspringframeworkintegrationamqpinboundamqpmessagesourcetestsjava">Test Case Name: <code>testAck</code>(File: <code>C:\Java_projects\Spring\spring-integration\spring-integration-amqp\src\test\java\org\springframework\integration\amqp\inbound\AmqpMessageSourceTests.java</code>)</h4>
+<h4 id="mock-object-variable-name-connection">Mock Object Variable Name: <code>connection</code></h4>
+<summary>Suggested Diff</summary>
+<pre class="hljs"><code><div>
+@@
+     willReturn(getResponse).given(channel).basicGet("foo", false);
+<span class="hljs-deletion">-    Connection connection = mock(Connection.class);</span>
+<span class="hljs-deletion">-    willReturn(true).given(connection).isOpen();</span>
+<span class="hljs-deletion">-    willReturn(channel).given(connection).createChannel();</span>
+<span class="hljs-addition">+    Connection connection = createMockConnection(channel);</span>
+     ConnectionFactory connectionFactory = mock(ConnectionFactory.class);
+     willReturn(connection).given(connectionFactory).newConnection((ExecutorService) isNull(), anyString());
+     CachingConnectionFactory ccf = new CachingConnectionFactory(connectionFactory);
+     AmqpMessageSource source = new AmqpMessageSource(ccf, "foo");
+     source.setRawMessageHeader(true);
+     Message&lt;?&gt; received = source.receive();
+     assertThat(received.getHeaders().get(AmqpMessageHeaderErrorMessageStrategy.AMQP_RAW_MESSAGE)).isInstanceOf(org.springframework.amqp.core.Message.class);
+     assertThat(received.getHeaders().get(IntegrationMessageHeaderAccessor.SOURCE_DATA)).isSameAs(received.getHeaders().get(AmqpMessageHeaderErrorMessageStrategy.AMQP_RAW_MESSAGE));
+     assertThat(received.getHeaders().get(AmqpHeaders.CONSUMER_QUEUE)).isEqualTo("foo");
+     // make sure channel is not cached
+     org.springframework.amqp.rabbit.connection.Connection conn = ccf.createConnection();
+     // should not have been "closed"
+     Channel notCached = conn.createChannel(false);
+     verify(connection, times(2)).createChannel();
+     StaticMessageHeaderAccessor.getAcknowledgmentCallback(received).acknowledge(Status.ACCEPT);
+     verify(channel).basicAck(123L, false);
+     // should have been "closed"
+     Channel cached = conn.createChannel(false);
+     verify(connection, times(2)).createChannel();
+     notCached.close();
+     cached.close();
+     ccf.destroy();
+     verify(channel, times(2)).close();
+     verify(connection).close(30000);
+</div></code></pre>
+<details><summary>Original Test Code (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-meta">@Test</span>
+
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testAck</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>{
+
+    Channel channel = mock(Channel<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    willReturn(<span class="hljs-keyword">true</span>).given(channel).isOpen();
+
+    Envelope envelope = <span class="hljs-keyword">new</span> Envelope(<span class="hljs-number">123L</span>, <span class="hljs-keyword">false</span>, <span class="hljs-string">"ex"</span>, <span class="hljs-string">"rk"</span>);
+
+    BasicProperties props = <span class="hljs-keyword">new</span> BasicProperties.Builder().contentType(MessageProperties.DEFAULT_CONTENT_TYPE).build();
+
+    GetResponse getResponse = <span class="hljs-keyword">new</span> GetResponse(envelope, props, <span class="hljs-string">"bar"</span>.getBytes(), <span class="hljs-number">0</span>);
+
+    willReturn(getResponse).given(channel).basicGet(<span class="hljs-string">"foo"</span>, <span class="hljs-keyword">false</span>);
+
+    Connection connection = mock(Connection<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    willReturn(<span class="hljs-keyword">true</span>).given(connection).isOpen();
+
+    willReturn(channel).given(connection).createChannel();
+
+    ConnectionFactory connectionFactory = mock(ConnectionFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    willReturn(connection).given(connectionFactory).newConnection((ExecutorService) isNull(), anyString());
+
+    CachingConnectionFactory ccf = <span class="hljs-keyword">new</span> CachingConnectionFactory(connectionFactory);
+
+    AmqpMessageSource source = <span class="hljs-keyword">new</span> AmqpMessageSource(ccf, <span class="hljs-string">"foo"</span>);
+
+    source.setRawMessageHeader(<span class="hljs-keyword">true</span>);
+
+    Message&lt;?&gt; received = source.receive();
+
+    assertThat(received.getHeaders().get(AmqpMessageHeaderErrorMessageStrategy.AMQP_RAW_MESSAGE)).isInstanceOf(org.springframework.amqp.core.Message<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    assertThat(received.getHeaders().get(IntegrationMessageHeaderAccessor.SOURCE_DATA)).isSameAs(received.getHeaders().get(AmqpMessageHeaderErrorMessageStrategy.AMQP_RAW_MESSAGE));
+
+    assertThat(received.getHeaders().get(AmqpHeaders.CONSUMER_QUEUE)).isEqualTo(<span class="hljs-string">"foo"</span>);
+
+    <span class="hljs-comment">// make sure channel is not cached</span>
+
+    org.springframework.amqp.rabbit.connection.Connection conn = ccf.createConnection();
+
+    <span class="hljs-comment">// should not have been "closed"</span>
+
+    Channel notCached = conn.createChannel(<span class="hljs-keyword">false</span>);
+
+    verify(connection, times(<span class="hljs-number">2</span>)).createChannel();
+
+    StaticMessageHeaderAccessor.getAcknowledgmentCallback(received).acknowledge(Status.ACCEPT);
+
+    verify(channel).basicAck(<span class="hljs-number">123L</span>, <span class="hljs-keyword">false</span>);
+
+    <span class="hljs-comment">// should have been "closed"</span>
+
+    Channel cached = conn.createChannel(<span class="hljs-keyword">false</span>);
+
+    verify(connection, times(<span class="hljs-number">2</span>)).createChannel();
+
+    notCached.close();
+
+    cached.close();
+
+    ccf.destroy();
+
+    verify(channel, times(<span class="hljs-number">2</span>)).close();
+
+    verify(connection).close(<span class="hljs-number">30000</span>);
+
+}
+</div></code></pre>
+</details>
+<details><summary>Reusable Method for MCI (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> Connection <span class="hljs-title">createMockConnection</span><span class="hljs-params">(Channel channel)</span> </span>{
+    Connection connection = mock(Connection<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+    willReturn(<span class="hljs-keyword">true</span>).given(connection).isOpen();
+    willReturn(channel).given(connection).createChannel();
+    <span class="hljs-keyword">return</span> connection;
+}
+</div></code></pre>
+</details>
+<hr>
+<h4 id="test-case-id-spring-integrationtest62">Test Case ID #spring-integration_Test_6_2</h4>
+<h4 id="test-case-name-testnackorrequeuefile-cjavaprojectsspringspring-integrationspring-integration-amqpsrctestjavaorgspringframeworkintegrationamqpinboundamqpmessagesourcetestsjava">Test Case Name: <code>testNackOrRequeue</code>(File: <code>C:\Java_projects\Spring\spring-integration\spring-integration-amqp\src\test\java\org\springframework\integration\amqp\inbound\AmqpMessageSourceTests.java</code>)</h4>
+<h4 id="mock-object-variable-name-connection">Mock Object Variable Name: <code>connection</code></h4>
+<summary>Suggested Diff</summary>
+<pre class="hljs"><code><div>
+@@
+     willReturn(getResponse).given(channel).basicGet("foo", false);
+<span class="hljs-deletion">-    Connection connection = mock(Connection.class);</span>
+<span class="hljs-deletion">-    willReturn(true).given(connection).isOpen();</span>
+<span class="hljs-deletion">-    willReturn(channel).given(connection).createChannel();</span>
+<span class="hljs-addition">+    Connection connection = createMockConnection(channel);</span>
+     ConnectionFactory connectionFactory = mock(ConnectionFactory.class);
+     willReturn(connection).given(connectionFactory).newConnection((ExecutorService) isNull(), anyString());
+     CachingConnectionFactory ccf = new CachingConnectionFactory(connectionFactory);
+     AmqpMessageSource source = new AmqpMessageSource(ccf, "foo");
+     Message&lt;?&gt; received = source.receive();
+     verify(connection).createChannel();
+     StaticMessageHeaderAccessor.getAcknowledgmentCallback(received).acknowledge(requeue ? Status.REQUEUE : Status.REJECT);
+     verify(channel).basicReject(123L, requeue);
+     verify(connection).createChannel();
+     ccf.destroy();
+     verify(channel).close();
+     verify(connection).close(30000);
+</div></code></pre>
+<details><summary>Original Test Code (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testNackOrRequeue</span><span class="hljs-params">(<span class="hljs-keyword">boolean</span> requeue)</span> <span class="hljs-keyword">throws</span> Exception </span>{
+
+    Channel channel = mock(Channel<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    willReturn(<span class="hljs-keyword">true</span>).given(channel).isOpen();
+
+    Envelope envelope = <span class="hljs-keyword">new</span> Envelope(<span class="hljs-number">123L</span>, <span class="hljs-keyword">false</span>, <span class="hljs-string">"ex"</span>, <span class="hljs-string">"rk"</span>);
+
+    BasicProperties props = <span class="hljs-keyword">new</span> BasicProperties.Builder().contentType(MessageProperties.DEFAULT_CONTENT_TYPE).build();
+
+    GetResponse getResponse = <span class="hljs-keyword">new</span> GetResponse(envelope, props, <span class="hljs-string">"bar"</span>.getBytes(), <span class="hljs-number">0</span>);
+
+    willReturn(getResponse).given(channel).basicGet(<span class="hljs-string">"foo"</span>, <span class="hljs-keyword">false</span>);
+
+    Connection connection = mock(Connection<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    willReturn(<span class="hljs-keyword">true</span>).given(connection).isOpen();
+
+    willReturn(channel).given(connection).createChannel();
+
+    ConnectionFactory connectionFactory = mock(ConnectionFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    willReturn(connection).given(connectionFactory).newConnection((ExecutorService) isNull(), anyString());
+
+    CachingConnectionFactory ccf = <span class="hljs-keyword">new</span> CachingConnectionFactory(connectionFactory);
+
+    AmqpMessageSource source = <span class="hljs-keyword">new</span> AmqpMessageSource(ccf, <span class="hljs-string">"foo"</span>);
+
+    Message&lt;?&gt; received = source.receive();
+
+    verify(connection).createChannel();
+
+    StaticMessageHeaderAccessor.getAcknowledgmentCallback(received).acknowledge(requeue ? Status.REQUEUE : Status.REJECT);
+
+    verify(channel).basicReject(<span class="hljs-number">123L</span>, requeue);
+
+    verify(connection).createChannel();
+
+    ccf.destroy();
+
+    verify(channel).close();
+
+    verify(connection).close(<span class="hljs-number">30000</span>);
+
+}
+</div></code></pre>
+</details>
+<details><summary>Reusable Method for MCI (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> Connection <span class="hljs-title">createMockConnection</span><span class="hljs-params">(Channel channel)</span> </span>{
+    Connection connection = mock(Connection<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+    willReturn(<span class="hljs-keyword">true</span>).given(connection).isOpen();
+    willReturn(channel).given(connection).createChannel();
+    <span class="hljs-keyword">return</span> connection;
+}
+</div></code></pre>
+</details>
+<hr>
+<h4 id="test-case-id-spring-integrationtest63">Test Case ID #spring-integration_Test_6_3</h4>
+<h4 id="test-case-name-testbatchfile-cjavaprojectsspringspring-integrationspring-integration-amqpsrctestjavaorgspringframeworkintegrationamqpinboundamqpmessagesourcetestsjava">Test Case Name: <code>testBatch</code>(File: <code>C:\Java_projects\Spring\spring-integration\spring-integration-amqp\src\test\java\org\springframework\integration\amqp\inbound\AmqpMessageSourceTests.java</code>)</h4>
+<h4 id="mock-object-variable-name-connection">Mock Object Variable Name: <code>connection</code></h4>
+<summary>Suggested Diff</summary>
+<pre class="hljs"><code><div>
+@@
+     willReturn(getResponse).given(channel).basicGet("foo", false);
+<span class="hljs-deletion">-    Connection connection = mock(Connection.class);</span>
+<span class="hljs-deletion">-    willReturn(true).given(connection).isOpen();</span>
+<span class="hljs-deletion">-    willReturn(channel).given(connection).createChannel();</span>
+<span class="hljs-addition">+    Connection connection = createMockConnection(channel);</span>
+     ConnectionFactory connectionFactory = mock(ConnectionFactory.class);
+     willReturn(connection).given(connectionFactory).newConnection((ExecutorService) isNull(), anyString());
+     CachingConnectionFactory ccf = new CachingConnectionFactory(connectionFactory);
+     AmqpMessageSource source = new AmqpMessageSource(ccf, "foo");
+     Message&lt;?&gt; received = source.receive();
+     assertThat(received).isNotNull();
+     assertThat(((List&lt;String&gt;) received.getPayload())).contains("test1", "test2");
+</div></code></pre>
+<details><summary>Original Test Code (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-meta">@SuppressWarnings</span>({ <span class="hljs-string">"unchecked"</span> })
+
+<span class="hljs-meta">@Test</span>
+
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testBatch</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>{
+
+    SimpleBatchingStrategy bs = <span class="hljs-keyword">new</span> SimpleBatchingStrategy(<span class="hljs-number">2</span>, <span class="hljs-number">10_000</span>, <span class="hljs-number">10_000L</span>);
+
+    MessageProperties messageProperties = <span class="hljs-keyword">new</span> MessageProperties();
+
+    messageProperties.setContentType(<span class="hljs-string">"text/plain"</span>);
+
+    org.springframework.amqp.core.Message message = <span class="hljs-keyword">new</span> org.springframework.amqp.core.Message(<span class="hljs-string">"test1"</span>.getBytes(), messageProperties);
+
+    bs.addToBatch(<span class="hljs-string">"foo"</span>, <span class="hljs-string">"bar"</span>, message);
+
+    message = <span class="hljs-keyword">new</span> org.springframework.amqp.core.Message(<span class="hljs-string">"test2"</span>.getBytes(), messageProperties);
+
+    MessageBatch batched = bs.addToBatch(<span class="hljs-string">"foo"</span>, <span class="hljs-string">"bar"</span>, message);
+
+    Channel channel = mock(Channel<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    willReturn(<span class="hljs-keyword">true</span>).given(channel).isOpen();
+
+    Envelope envelope = <span class="hljs-keyword">new</span> Envelope(<span class="hljs-number">123L</span>, <span class="hljs-keyword">false</span>, <span class="hljs-string">"ex"</span>, <span class="hljs-string">"rk"</span>);
+
+    BasicProperties props = <span class="hljs-keyword">new</span> BasicProperties.Builder().headers(batched.message().getMessageProperties().getHeaders()).contentType(<span class="hljs-string">"text/plain"</span>).build();
+
+    GetResponse getResponse = <span class="hljs-keyword">new</span> GetResponse(envelope, props, batched.message().getBody(), <span class="hljs-number">0</span>);
+
+    willReturn(getResponse).given(channel).basicGet(<span class="hljs-string">"foo"</span>, <span class="hljs-keyword">false</span>);
+
+    Connection connection = mock(Connection<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    willReturn(<span class="hljs-keyword">true</span>).given(connection).isOpen();
+
+    willReturn(channel).given(connection).createChannel();
+
+    ConnectionFactory connectionFactory = mock(ConnectionFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    willReturn(connection).given(connectionFactory).newConnection((ExecutorService) isNull(), anyString());
+
+    CachingConnectionFactory ccf = <span class="hljs-keyword">new</span> CachingConnectionFactory(connectionFactory);
+
+    AmqpMessageSource source = <span class="hljs-keyword">new</span> AmqpMessageSource(ccf, <span class="hljs-string">"foo"</span>);
+
+    Message&lt;?&gt; received = source.receive();
+
+    assertThat(received).isNotNull();
+
+    assertThat(((List&lt;String&gt;) received.getPayload())).contains(<span class="hljs-string">"test1"</span>, <span class="hljs-string">"test2"</span>);
+
+}
+</div></code></pre>
+</details>
+<details><summary>Reusable Method for MCI (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> Connection <span class="hljs-title">createMockConnection</span><span class="hljs-params">(Channel channel)</span> </span>{
+    Connection connection = mock(Connection<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+    willReturn(<span class="hljs-keyword">true</span>).given(connection).isOpen();
+    willReturn(channel).given(connection).createChannel();
+    <span class="hljs-keyword">return</span> connection;
+}
+</div></code></pre>
+</details>
+<hr>
+<h2 id="mock-clone-instance-spring-integrationmci7">Mock Clone Instance #spring-integration_MCI_7</h2>
+<ul>
+<li><strong>Scope</strong>: method level</li>
+<li><strong>Mocked Class</strong>: <code>org.springframework.integration.file.remote.RemoteFileTemplate&lt;java.lang.String&gt;</code></li>
+<li><strong>Test Case Count</strong>: 2</li>
+<li><strong>MO Count</strong>: 2</li>
+</ul>
+<h3 id="reusable-method">Reusable Method</h3>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> RemoteFileTemplate&lt;String&gt; <span class="hljs-title">createMockRemoteFileTemplate</span><span class="hljs-params">(Session&lt;String&gt; session, String[] listReturn)</span> </span>{
+    RemoteFileTemplate&lt;String&gt; remoteFileTemplate = mock();
+    when(remoteFileTemplate.getSession()).thenReturn(session);
+    when(remoteFileTemplate.list(<span class="hljs-string">"remoteDirectory"</span>)).thenReturn(listReturn);
+    <span class="hljs-keyword">return</span> remoteFileTemplate;
+}
+</div></code></pre>
+<h3 id="the-refactoring-details-in-each-test-cases">The refactoring details in each test cases</h3>
+<hr>
+<h4 id="test-case-id-spring-integrationtest71">Test Case ID #spring-integration_Test_7_1</h4>
+<h4 id="test-case-name-fetchfilesfromremoteafterclearingfetchedcachefile-cjavaprojectsspringspring-integrationspring-integration-filesrctestjavaorgspringframeworkintegrationfileremoteremotefilestreamingmessagesourcetestsjava">Test Case Name: <code>fetchFilesFromRemoteAfterClearingFetchedCache</code>(File: <code>C:\Java_projects\Spring\spring-integration\spring-integration-file\src\test\java\org\springframework\integration\file\remote\RemoteFileStreamingMessageSourceTests.java</code>)</h4>
+<h4 id="mock-object-variable-name-remotefiletemplate">Mock Object Variable Name: <code>remoteFileTemplate</code></h4>
+<summary>Suggested Diff</summary>
+<pre class="hljs"><code><div>
+@@
+ @Test
+ public void fetchFilesFromRemoteAfterClearingFetchedCache() throws IOException {
+<span class="hljs-deletion">-    RemoteFileTemplate&lt;String&gt; remoteFileTemplate = mock();</span>
+<span class="hljs-deletion">-    when(remoteFileTemplate.list("remoteDirectory")).thenReturn(new String[] { "file1", "file2" });</span>
+     Session&lt;String&gt; session = mock();
+     when(session.readRaw(anyString())).thenReturn(mock());
+<span class="hljs-deletion">-    when(remoteFileTemplate.getSession()).thenReturn(session);</span>
+<span class="hljs-addition">+    RemoteFileTemplate&lt;String&gt; remoteFileTemplate = createMockRemoteFileTemplate(session, new String[] { "file1", "file2" });</span>
+     Comparator&lt;String&gt; comparator = mock();
+     TestRemoteFileStreamingMessageSource testRemoteFileStreamingMessageSource = new TestRemoteFileStreamingMessageSource(remoteFileTemplate, comparator);
+     testRemoteFileStreamingMessageSource.setRemoteDirectory("remoteDirectory");
+     testRemoteFileStreamingMessageSource.setBeanFactory(mock());
+     testRemoteFileStreamingMessageSource.start();
+     assertThat(testRemoteFileStreamingMessageSource.doReceive(2)).isNotNull();
+     testRemoteFileStreamingMessageSource.clearFetchedCache();
+     assertThat(testRemoteFileStreamingMessageSource.doReceive(2)).isNotNull();
+     verify(remoteFileTemplate, times(2)).list("remoteDirectory");
+ }
+</div></code></pre>
+<details><summary>Original Test Code (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-meta">@Test</span>
+
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">fetchFilesFromRemoteAfterClearingFetchedCache</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> IOException </span>{
+
+    RemoteFileTemplate&lt;String&gt; remoteFileTemplate = mock();
+
+    when(remoteFileTemplate.list(<span class="hljs-string">"remoteDirectory"</span>)).thenReturn(<span class="hljs-keyword">new</span> String[] { <span class="hljs-string">"file1"</span>, <span class="hljs-string">"file2"</span> });
+
+    Session&lt;String&gt; session = mock();
+
+    when(session.readRaw(anyString())).thenReturn(mock());
+
+    when(remoteFileTemplate.getSession()).thenReturn(session);
+
+    Comparator&lt;String&gt; comparator = mock();
+
+    TestRemoteFileStreamingMessageSource testRemoteFileStreamingMessageSource = <span class="hljs-keyword">new</span> TestRemoteFileStreamingMessageSource(remoteFileTemplate, comparator);
+
+    testRemoteFileStreamingMessageSource.setRemoteDirectory(<span class="hljs-string">"remoteDirectory"</span>);
+
+    testRemoteFileStreamingMessageSource.setBeanFactory(mock());
+
+    testRemoteFileStreamingMessageSource.start();
+
+    assertThat(testRemoteFileStreamingMessageSource.doReceive(<span class="hljs-number">2</span>)).isNotNull();
+
+    testRemoteFileStreamingMessageSource.clearFetchedCache();
+
+    assertThat(testRemoteFileStreamingMessageSource.doReceive(<span class="hljs-number">2</span>)).isNotNull();
+
+    verify(remoteFileTemplate, times(<span class="hljs-number">2</span>)).list(<span class="hljs-string">"remoteDirectory"</span>);
+
+}
+</div></code></pre>
+</details>
+<details><summary>Reusable Method for MCI (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> RemoteFileTemplate&lt;String&gt; <span class="hljs-title">createMockRemoteFileTemplate</span><span class="hljs-params">(Session&lt;String&gt; session, String[] listReturn)</span> </span>{
+    RemoteFileTemplate&lt;String&gt; remoteFileTemplate = mock();
+    when(remoteFileTemplate.getSession()).thenReturn(session);
+    when(remoteFileTemplate.list(<span class="hljs-string">"remoteDirectory"</span>)).thenReturn(listReturn);
+    <span class="hljs-keyword">return</span> remoteFileTemplate;
+}
+</div></code></pre>
+</details>
+<hr>
+<h4 id="test-case-id-spring-integrationtest72">Test Case ID #spring-integration_Test_7_2</h4>
+<h4 id="test-case-name-filteroutfilesnotacceptedbyfilterfile-cjavaprojectsspringspring-integrationspring-integration-filesrctestjavaorgspringframeworkintegrationfileremoteremotefilestreamingmessagesourcetestsjava">Test Case Name: <code>filterOutFilesNotAcceptedByFilter</code>(File: <code>C:\Java_projects\Spring\spring-integration\spring-integration-file\src\test\java\org\springframework\integration\file\remote\RemoteFileStreamingMessageSourceTests.java</code>)</h4>
+<h4 id="mock-object-variable-name-remotefiletemplate">Mock Object Variable Name: <code>remoteFileTemplate</code></h4>
+<summary>Suggested Diff</summary>
+<pre class="hljs"><code><div>
+@@
+ @Test
+ public void filterOutFilesNotAcceptedByFilter() throws IOException {
+<span class="hljs-deletion">-    RemoteFileTemplate&lt;String&gt; remoteFileTemplate = mock();</span>
+<span class="hljs-deletion">-    when(remoteFileTemplate.list("remoteDirectory")).thenReturn(new String[] { "file1", "file2" });</span>
+     Session&lt;String&gt; session = mock();
+     when(session.readRaw(anyString())).thenReturn(mock());
+<span class="hljs-deletion">-    when(remoteFileTemplate.getSession()).thenReturn(session);</span>
+<span class="hljs-addition">+    RemoteFileTemplate&lt;String&gt; remoteFileTemplate = createMockRemoteFileTemplate(session, new String[] { "file1", "file2" });</span>
+     FileListFilter&lt;String&gt; fileListFilter = mock();
+     when(fileListFilter.supportsSingleFileFiltering()).thenReturn(true);
+     when(fileListFilter.accept("file1")).thenReturn(false);
+     when(fileListFilter.accept("file2")).thenReturn(false);
+     Comparator&lt;String&gt; comparator = mock();
+     TestRemoteFileStreamingMessageSource testRemoteFileStreamingMessageSource = new TestRemoteFileStreamingMessageSource(remoteFileTemplate, comparator);
+     testRemoteFileStreamingMessageSource.setFilter(fileListFilter);
+     testRemoteFileStreamingMessageSource.setRemoteDirectory("remoteDirectory");
+     testRemoteFileStreamingMessageSource.setBeanFactory(mock());
+     testRemoteFileStreamingMessageSource.start();
+     assertThat(testRemoteFileStreamingMessageSource.doReceive(-1)).isNull();
+ }
+</div></code></pre>
+<details><summary>Original Test Code (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-meta">@Test</span>
+
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">filterOutFilesNotAcceptedByFilter</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> IOException </span>{
+
+    RemoteFileTemplate&lt;String&gt; remoteFileTemplate = mock();
+
+    when(remoteFileTemplate.list(<span class="hljs-string">"remoteDirectory"</span>)).thenReturn(<span class="hljs-keyword">new</span> String[] { <span class="hljs-string">"file1"</span>, <span class="hljs-string">"file2"</span> });
+
+    Session&lt;String&gt; session = mock();
+
+    when(session.readRaw(anyString())).thenReturn(mock());
+
+    when(remoteFileTemplate.getSession()).thenReturn(session);
+
+    FileListFilter&lt;String&gt; fileListFilter = mock();
+
+    when(fileListFilter.supportsSingleFileFiltering()).thenReturn(<span class="hljs-keyword">true</span>);
+
+    when(fileListFilter.accept(<span class="hljs-string">"file1"</span>)).thenReturn(<span class="hljs-keyword">false</span>);
+
+    when(fileListFilter.accept(<span class="hljs-string">"file2"</span>)).thenReturn(<span class="hljs-keyword">false</span>);
+
+    Comparator&lt;String&gt; comparator = mock();
+
+    TestRemoteFileStreamingMessageSource testRemoteFileStreamingMessageSource = <span class="hljs-keyword">new</span> TestRemoteFileStreamingMessageSource(remoteFileTemplate, comparator);
+
+    testRemoteFileStreamingMessageSource.setFilter(fileListFilter);
+
+    testRemoteFileStreamingMessageSource.setRemoteDirectory(<span class="hljs-string">"remoteDirectory"</span>);
+
+    testRemoteFileStreamingMessageSource.setBeanFactory(mock());
+
+    testRemoteFileStreamingMessageSource.start();
+
+    assertThat(testRemoteFileStreamingMessageSource.doReceive(-<span class="hljs-number">1</span>)).isNull();
+
+}
+</div></code></pre>
+</details>
+<details><summary>Reusable Method for MCI (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> RemoteFileTemplate&lt;String&gt; <span class="hljs-title">createMockRemoteFileTemplate</span><span class="hljs-params">(Session&lt;String&gt; session, String[] listReturn)</span> </span>{
+    RemoteFileTemplate&lt;String&gt; remoteFileTemplate = mock();
+    when(remoteFileTemplate.getSession()).thenReturn(session);
+    when(remoteFileTemplate.list(<span class="hljs-string">"remoteDirectory"</span>)).thenReturn(listReturn);
+    <span class="hljs-keyword">return</span> remoteFileTemplate;
+}
+</div></code></pre>
+</details>
+<hr>
+<h2 id="mock-clone-instance-spring-integrationmci36">Mock Clone Instance #spring-integration_MCI_36</h2>
+<ul>
+<li><strong>Scope</strong>: method level</li>
+<li><strong>Mocked Class</strong>: <code>org.springframework.kafka.core.ProducerFactory</code></li>
+<li><strong>Test Case Count</strong>: 4</li>
+<li><strong>MO Count</strong>: 4</li>
+</ul>
+<h3 id="reusable-method">Reusable Method</h3>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> ProducerFactory <span class="hljs-title">createMockProducerFactory</span><span class="hljs-params">(Producer producer)</span> </span>{
+    ProducerFactory pf = mock(ProducerFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+    given(pf.createProducer()).willReturn(producer);
+    <span class="hljs-keyword">return</span> pf;
+}
+</div></code></pre>
+<h3 id="the-refactoring-details-in-each-test-cases">The refactoring details in each test cases</h3>
+<hr>
+<h4 id="test-case-id-spring-integrationtest361">Test Case ID #spring-integration_Test_36_1</h4>
+<h4 id="test-case-name-immediatefailurefile-cjavaprojectsspringspring-integrationspring-integration-kafkasrctestjavaorgspringframeworkintegrationkafkaoutboundkafkaproducermessagehandlertestsjava">Test Case Name: <code>immediateFailure</code>(File: <code>C:\Java_projects\Spring\spring-integration\spring-integration-kafka\src\test\java\org\springframework\integration\kafka\outbound\KafkaProducerMessageHandlerTests.java</code>)</h4>
+<h4 id="mock-object-variable-name-pf">Mock Object Variable Name: <code>pf</code></h4>
+<summary>Suggested Diff</summary>
+<pre class="hljs"><code><div>
+@@
+ @SuppressWarnings({ "rawtypes", "unchecked" })
+ @Test
+ void immediateFailure() {
+     Producer producer = mock(Producer.class);
+     CompletableFuture cf = new CompletableFuture();
+     RuntimeException rte = new RuntimeException("test.immediate");
+     cf.completeExceptionally(rte);
+     given(producer.send(any(), any())).willReturn(cf);
+<span class="hljs-deletion">-    ProducerFactory pf = mock(ProducerFactory.class);</span>
+<span class="hljs-deletion">-    given(pf.createProducer()).willReturn(producer);</span>
+<span class="hljs-addition">+    ProducerFactory pf = createMockProducerFactory(producer);</span>
+     KafkaTemplate template = new KafkaTemplate(pf);
+     template.setDefaultTopic("foo");
+     KafkaProducerMessageHandler handler = new KafkaProducerMessageHandler&lt;&gt;(template);
+     QueueChannel fails = new QueueChannel();
+     handler.setSendFailureChannel(fails);
+     assertThatExceptionOfType(MessageHandlingException.class).isThrownBy(() -&gt; handler.handleMessage(new GenericMessage&lt;&gt;(""))).withCauseExactlyInstanceOf(KafkaException.class).withStackTraceContaining("test.immediate");
+     Message&lt;?&gt; fail = fails.receive(0);
+     assertThat(fail).isNotNull();
+     assertThat(fail.getPayload()).asInstanceOf(throwable(KafkaSendFailureException.class)).cause().isInstanceOf(KafkaException.class).cause().isEqualTo(rte);
+ }
+</div></code></pre>
+<details><summary>Original Test Code (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-meta">@SuppressWarnings</span>({ <span class="hljs-string">"rawtypes"</span>, <span class="hljs-string">"unchecked"</span> })
+
+<span class="hljs-meta">@Test</span>
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">immediateFailure</span><span class="hljs-params">()</span> </span>{
+
+    Producer producer = mock(Producer<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    CompletableFuture cf = <span class="hljs-keyword">new</span> CompletableFuture();
+
+    RuntimeException rte = <span class="hljs-keyword">new</span> RuntimeException(<span class="hljs-string">"test.immediate"</span>);
+
+    cf.completeExceptionally(rte);
+
+    given(producer.send(any(), any())).willReturn(cf);
+
+    ProducerFactory pf = mock(ProducerFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    given(pf.createProducer()).willReturn(producer);
+
+    KafkaTemplate template = <span class="hljs-keyword">new</span> KafkaTemplate(pf);
+
+    template.setDefaultTopic(<span class="hljs-string">"foo"</span>);
+
+    KafkaProducerMessageHandler handler = <span class="hljs-keyword">new</span> KafkaProducerMessageHandler&lt;&gt;(template);
+
+    QueueChannel fails = <span class="hljs-keyword">new</span> QueueChannel();
+
+    handler.setSendFailureChannel(fails);
+
+    assertThatExceptionOfType(MessageHandlingException<span class="hljs-class">.<span class="hljs-keyword">class</span>).<span class="hljs-title">isThrownBy</span>(() -&gt; <span class="hljs-title">handler</span>.<span class="hljs-title">handleMessage</span>(<span class="hljs-title">new</span> <span class="hljs-title">GenericMessage</span>&lt;&gt;(""))).<span class="hljs-title">withCauseExactlyInstanceOf</span>(<span class="hljs-title">KafkaException</span>.<span class="hljs-title">class</span>).<span class="hljs-title">withStackTraceContaining</span>("<span class="hljs-title">test</span>.<span class="hljs-title">immediate</span>")</span>;
+
+    Message&lt;?&gt; fail = fails.receive(<span class="hljs-number">0</span>);
+
+    assertThat(fail).isNotNull();
+
+    assertThat(fail.getPayload()).asInstanceOf(throwable(KafkaSendFailureException<span class="hljs-class">.<span class="hljs-keyword">class</span>)).<span class="hljs-title">cause</span>().<span class="hljs-title">isInstanceOf</span>(<span class="hljs-title">KafkaException</span>.<span class="hljs-title">class</span>).<span class="hljs-title">cause</span>().<span class="hljs-title">isEqualTo</span>(<span class="hljs-title">rte</span>)</span>;
+
+}
+</div></code></pre>
+</details>
+<details><summary>Reusable Method for MCI (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> ProducerFactory <span class="hljs-title">createMockProducerFactory</span><span class="hljs-params">(Producer producer)</span> </span>{
+    ProducerFactory pf = mock(ProducerFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+    given(pf.createProducer()).willReturn(producer);
+    <span class="hljs-keyword">return</span> pf;
+}
+</div></code></pre>
+</details>
+<hr>
+<h4 id="test-case-id-spring-integrationtest362">Test Case ID #spring-integration_Test_36_2</h4>
+<h4 id="test-case-name-testflushfile-cjavaprojectsspringspring-integrationspring-integration-kafkasrctestjavaorgspringframeworkintegrationkafkaoutboundkafkaproducermessagehandlertestsjava">Test Case Name: <code>testFlush</code>(File: <code>C:\Java_projects\Spring\spring-integration\spring-integration-kafka\src\test\java\org\springframework\integration\kafka\outbound\KafkaProducerMessageHandlerTests.java</code>)</h4>
+<h4 id="mock-object-variable-name-pf">Mock Object Variable Name: <code>pf</code></h4>
+<summary>Suggested Diff</summary>
+<pre class="hljs"><code><div>
+@@
+ @SuppressWarnings({ "rawtypes", "unchecked" })
+ @Test
+ void testFlush() {
+<span class="hljs-deletion">-    ProducerFactory pf = mock(ProducerFactory.class);</span>
+     Producer producer = mock(Producer.class);
+<span class="hljs-deletion">-    given(pf.createProducer()).willReturn(producer);</span>
+<span class="hljs-addition">+    ProducerFactory pf = createMockProducerFactory(producer);</span>
+     willReturn(mock(Future.class)).given(producer).send(any(ProducerRecord.class), any(Callback.class));
+     KafkaTemplate template = new KafkaTemplate(pf);
+     KafkaProducerMessageHandler handler = new KafkaProducerMessageHandler(template);
+     handler.setTopicExpression(new LiteralExpression("bar"));
+     handler.setBeanFactory(mock(BeanFactory.class));
+     handler.afterPropertiesSet();
+     handler.start();
+     handler.handleMessage(new GenericMessage&lt;&gt;("foo", Collections.singletonMap(KafkaIntegrationHeaders.FLUSH, Boolean.TRUE)));
+     InOrder inOrder = inOrder(producer);
+     ArgumentCaptor&lt;ProducerRecord&gt; captor = ArgumentCaptor.forClass(ProducerRecord.class);
+     inOrder.verify(producer).send(captor.capture(), any(Callback.class));
+     inOrder.verify(producer).flush();
+     handler.stop();
+     assertThat(captor.getValue().headers().lastHeader(KafkaIntegrationHeaders.FLUSH)).isNull();
+ }
+</div></code></pre>
+<details><summary>Original Test Code (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-meta">@SuppressWarnings</span>({ <span class="hljs-string">"rawtypes"</span>, <span class="hljs-string">"unchecked"</span> })
+
+<span class="hljs-meta">@Test</span>
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">testFlush</span><span class="hljs-params">()</span> </span>{
+
+    ProducerFactory pf = mock(ProducerFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    Producer producer = mock(Producer<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    given(pf.createProducer()).willReturn(producer);
+
+    willReturn(mock(Future<span class="hljs-class">.<span class="hljs-keyword">class</span>)).<span class="hljs-title">given</span>(<span class="hljs-title">producer</span>).<span class="hljs-title">send</span>(<span class="hljs-title">any</span>(<span class="hljs-title">ProducerRecord</span>.<span class="hljs-title">class</span>), <span class="hljs-title">any</span>(<span class="hljs-title">Callback</span>.<span class="hljs-title">class</span>))</span>;
+
+    KafkaTemplate template = <span class="hljs-keyword">new</span> KafkaTemplate(pf);
+
+    KafkaProducerMessageHandler handler = <span class="hljs-keyword">new</span> KafkaProducerMessageHandler(template);
+
+    handler.setTopicExpression(<span class="hljs-keyword">new</span> LiteralExpression(<span class="hljs-string">"bar"</span>));
+
+    handler.setBeanFactory(mock(BeanFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>))</span>;
+
+    handler.afterPropertiesSet();
+
+    handler.start();
+
+    handler.handleMessage(<span class="hljs-keyword">new</span> GenericMessage&lt;&gt;(<span class="hljs-string">"foo"</span>, Collections.singletonMap(KafkaIntegrationHeaders.FLUSH, Boolean.TRUE)));
+
+    InOrder inOrder = inOrder(producer);
+
+    ArgumentCaptor&lt;ProducerRecord&gt; captor = ArgumentCaptor.forClass(ProducerRecord<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    inOrder.verify(producer).send(captor.capture(), any(Callback<span class="hljs-class">.<span class="hljs-keyword">class</span>))</span>;
+
+    inOrder.verify(producer).flush();
+
+    handler.stop();
+
+    assertThat(captor.getValue().headers().lastHeader(KafkaIntegrationHeaders.FLUSH)).isNull();
+
+}
+</div></code></pre>
+</details>
+<details><summary>Reusable Method for MCI (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> ProducerFactory <span class="hljs-title">createMockProducerFactory</span><span class="hljs-params">(Producer producer)</span> </span>{
+    ProducerFactory pf = mock(ProducerFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+    given(pf.createProducer()).willReturn(producer);
+    <span class="hljs-keyword">return</span> pf;
+}
+</div></code></pre>
+</details>
+<hr>
+<h4 id="test-case-id-spring-integrationtest363">Test Case ID #spring-integration_Test_36_3</h4>
+<h4 id="test-case-name-testnoflushfile-cjavaprojectsspringspring-integrationspring-integration-kafkasrctestjavaorgspringframeworkintegrationkafkaoutboundkafkaproducermessagehandlertestsjava">Test Case Name: <code>testNoFlush</code>(File: <code>C:\Java_projects\Spring\spring-integration\spring-integration-kafka\src\test\java\org\springframework\integration\kafka\outbound\KafkaProducerMessageHandlerTests.java</code>)</h4>
+<h4 id="mock-object-variable-name-pf">Mock Object Variable Name: <code>pf</code></h4>
+<summary>Suggested Diff</summary>
+<pre class="hljs"><code><div>
+@@
+ @SuppressWarnings({ "rawtypes", "unchecked" })
+ @Test
+ void testNoFlush() {
+<span class="hljs-deletion">-    ProducerFactory pf = mock(ProducerFactory.class);</span>
+     Producer producer = mock(Producer.class);
+<span class="hljs-deletion">-    given(pf.createProducer()).willReturn(producer);</span>
+<span class="hljs-addition">+    ProducerFactory pf = createMockProducerFactory(producer);</span>
+     willReturn(mock(Future.class)).given(producer).send(any(ProducerRecord.class), any(Callback.class));
+     KafkaTemplate template = new KafkaTemplate(pf);
+     KafkaProducerMessageHandler handler = new KafkaProducerMessageHandler(template);
+     handler.setTopicExpression(new LiteralExpression("bar"));
+     handler.setBeanFactory(mock(BeanFactory.class));
+     handler.afterPropertiesSet();
+     handler.start();
+     handler.handleMessage(new GenericMessage&lt;&gt;("foo"));
+     InOrder inOrder = inOrder(producer);
+     inOrder.verify(producer).send(any(ProducerRecord.class), any(Callback.class));
+     inOrder.verify(producer, never()).flush();
+     handler.stop();
+ }
+</div></code></pre>
+<details><summary>Original Test Code (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-meta">@SuppressWarnings</span>({ <span class="hljs-string">"rawtypes"</span>, <span class="hljs-string">"unchecked"</span> })
+
+<span class="hljs-meta">@Test</span>
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">testNoFlush</span><span class="hljs-params">()</span> </span>{
+
+    ProducerFactory pf = mock(ProducerFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    Producer producer = mock(Producer<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    given(pf.createProducer()).willReturn(producer);
+
+    willReturn(mock(Future<span class="hljs-class">.<span class="hljs-keyword">class</span>)).<span class="hljs-title">given</span>(<span class="hljs-title">producer</span>).<span class="hljs-title">send</span>(<span class="hljs-title">any</span>(<span class="hljs-title">ProducerRecord</span>.<span class="hljs-title">class</span>), <span class="hljs-title">any</span>(<span class="hljs-title">Callback</span>.<span class="hljs-title">class</span>))</span>;
+
+    KafkaTemplate template = <span class="hljs-keyword">new</span> KafkaTemplate(pf);
+
+    KafkaProducerMessageHandler handler = <span class="hljs-keyword">new</span> KafkaProducerMessageHandler(template);
+
+    handler.setTopicExpression(<span class="hljs-keyword">new</span> LiteralExpression(<span class="hljs-string">"bar"</span>));
+
+    handler.setBeanFactory(mock(BeanFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>))</span>;
+
+    handler.afterPropertiesSet();
+
+    handler.start();
+
+    handler.handleMessage(<span class="hljs-keyword">new</span> GenericMessage&lt;&gt;(<span class="hljs-string">"foo"</span>));
+
+    InOrder inOrder = inOrder(producer);
+
+    inOrder.verify(producer).send(any(ProducerRecord<span class="hljs-class">.<span class="hljs-keyword">class</span>), <span class="hljs-title">any</span>(<span class="hljs-title">Callback</span>.<span class="hljs-title">class</span>))</span>;
+
+    inOrder.verify(producer, never()).flush();
+
+    handler.stop();
+
+}
+</div></code></pre>
+</details>
+<details><summary>Reusable Method for MCI (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> ProducerFactory <span class="hljs-title">createMockProducerFactory</span><span class="hljs-params">(Producer producer)</span> </span>{
+    ProducerFactory pf = mock(ProducerFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+    given(pf.createProducer()).willReturn(producer);
+    <span class="hljs-keyword">return</span> pf;
+}
+</div></code></pre>
+</details>
+<hr>
+<h4 id="test-case-id-spring-integrationtest364">Test Case ID #spring-integration_Test_36_4</h4>
+<h4 id="test-case-name-conversionfile-cjavaprojectsspringspring-integrationspring-integration-kafkasrctestjavaorgspringframeworkintegrationkafkaoutboundkafkaproducermessagehandlertestsjava">Test Case Name: <code>conversion</code>(File: <code>C:\Java_projects\Spring\spring-integration\spring-integration-kafka\src\test\java\org\springframework\integration\kafka\outbound\KafkaProducerMessageHandlerTests.java</code>)</h4>
+<h4 id="mock-object-variable-name-pf">Mock Object Variable Name: <code>pf</code></h4>
+<summary>Suggested Diff</summary>
+<pre class="hljs"><code><div>
+@@
+ @SuppressWarnings({ "rawtypes", "unchecked" })
+ @Test
+ void conversion() {
+<span class="hljs-deletion">-    ProducerFactory pf = mock(ProducerFactory.class);</span>
+     Producer producer = mock(Producer.class);
+<span class="hljs-deletion">-    given(pf.createProducer()).willReturn(producer);</span>
+<span class="hljs-addition">+    ProducerFactory pf = createMockProducerFactory(producer);</span>
+     willReturn(mock(Future.class)).given(producer).send(any(ProducerRecord.class), any(Callback.class));
+     KafkaTemplate template = new KafkaTemplate(pf);
+     RecordMessageConverter converter = mock(RecordMessageConverter.class);
+     ProducerRecord recordFromConverter = mock(ProducerRecord.class);
+     given(converter.fromMessage(any(), any())).willReturn(recordFromConverter);
+     template.setMessageConverter(converter);
+     KafkaProducerMessageHandler handler = new KafkaProducerMessageHandler(template);
+     handler.setTopicExpression(new LiteralExpression("bar"));
+     handler.setBeanFactory(mock(BeanFactory.class));
+     ProducerRecordCreator creator = mock(ProducerRecordCreator.class);
+     ProducerRecord recordFromCreator = mock(ProducerRecord.class);
+     given(creator.create(any(), any(), any(), any(), any(), any(), any())).willReturn(recordFromCreator);
+     handler.setProducerRecordCreator(creator);
+     handler.afterPropertiesSet();
+     handler.start();
+     handler.handleMessage(new GenericMessage&lt;&gt;("foo"));
+     ArgumentCaptor&lt;ProducerRecord&gt; captor = ArgumentCaptor.forClass(ProducerRecord.class);
+     verify(producer).send(captor.capture(), any(Callback.class));
+     assertThat(captor.getValue()).isSameAs(recordFromCreator);
+     handler.setUseTemplateConverter(true);
+     handler.handleMessage(new GenericMessage&lt;&gt;("foo"));
+     verify(producer, times(2)).send(captor.capture(), any(Callback.class));
+     assertThat(captor.getValue()).isSameAs(recordFromConverter);
+     handler.stop();
+ }
+</div></code></pre>
+<details><summary>Original Test Code (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-meta">@SuppressWarnings</span>({ <span class="hljs-string">"rawtypes"</span>, <span class="hljs-string">"unchecked"</span> })
+
+<span class="hljs-meta">@Test</span>
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">conversion</span><span class="hljs-params">()</span> </span>{
+
+    ProducerFactory pf = mock(ProducerFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    Producer producer = mock(Producer<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    given(pf.createProducer()).willReturn(producer);
+
+    willReturn(mock(Future<span class="hljs-class">.<span class="hljs-keyword">class</span>)).<span class="hljs-title">given</span>(<span class="hljs-title">producer</span>).<span class="hljs-title">send</span>(<span class="hljs-title">any</span>(<span class="hljs-title">ProducerRecord</span>.<span class="hljs-title">class</span>), <span class="hljs-title">any</span>(<span class="hljs-title">Callback</span>.<span class="hljs-title">class</span>))</span>;
+
+    KafkaTemplate template = <span class="hljs-keyword">new</span> KafkaTemplate(pf);
+
+    RecordMessageConverter converter = mock(RecordMessageConverter<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    ProducerRecord recordFromConverter = mock(ProducerRecord<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    given(converter.fromMessage(any(), any())).willReturn(recordFromConverter);
+
+    template.setMessageConverter(converter);
+
+    KafkaProducerMessageHandler handler = <span class="hljs-keyword">new</span> KafkaProducerMessageHandler(template);
+
+    handler.setTopicExpression(<span class="hljs-keyword">new</span> LiteralExpression(<span class="hljs-string">"bar"</span>));
+
+    handler.setBeanFactory(mock(BeanFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>))</span>;
+
+    ProducerRecordCreator creator = mock(ProducerRecordCreator<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    ProducerRecord recordFromCreator = mock(ProducerRecord<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    given(creator.create(any(), any(), any(), any(), any(), any(), any())).willReturn(recordFromCreator);
+
+    handler.setProducerRecordCreator(creator);
+
+    handler.afterPropertiesSet();
+
+    handler.start();
+
+    handler.handleMessage(<span class="hljs-keyword">new</span> GenericMessage&lt;&gt;(<span class="hljs-string">"foo"</span>));
+
+    ArgumentCaptor&lt;ProducerRecord&gt; captor = ArgumentCaptor.forClass(ProducerRecord<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    verify(producer).send(captor.capture(), any(Callback<span class="hljs-class">.<span class="hljs-keyword">class</span>))</span>;
+
+    assertThat(captor.getValue()).isSameAs(recordFromCreator);
+
+    handler.setUseTemplateConverter(<span class="hljs-keyword">true</span>);
+
+    handler.handleMessage(<span class="hljs-keyword">new</span> GenericMessage&lt;&gt;(<span class="hljs-string">"foo"</span>));
+
+    verify(producer, times(<span class="hljs-number">2</span>)).send(captor.capture(), any(Callback<span class="hljs-class">.<span class="hljs-keyword">class</span>))</span>;
+
+    assertThat(captor.getValue()).isSameAs(recordFromConverter);
+
+    handler.stop();
+
+}
+</div></code></pre>
+</details>
+<details><summary>Reusable Method for MCI (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> ProducerFactory <span class="hljs-title">createMockProducerFactory</span><span class="hljs-params">(Producer producer)</span> </span>{
+    ProducerFactory pf = mock(ProducerFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+    given(pf.createProducer()).willReturn(producer);
+    <span class="hljs-keyword">return</span> pf;
+}
+</div></code></pre>
+</details>
+<hr>
+<h2 id="mock-clone-instance-spring-integrationmci37">Mock Clone Instance #spring-integration_MCI_37</h2>
+<ul>
+<li><strong>Scope</strong>: method level</li>
+<li><strong>Mocked Class</strong>: <code>org.springframework.kafka.core.ProducerFactory</code></li>
+<li><strong>Test Case Count</strong>: 3</li>
+<li><strong>MO Count</strong>: 3</li>
+</ul>
+<h3 id="reusable-method">Reusable Method</h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> ProducerFactory&lt;?&gt; createMockProducerFactory_transactionCapableTrue() {
+    ProducerFactory&lt;?&gt; pf = mock(ProducerFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+    given(pf.transactionCapable()).willReturn(<span class="hljs-keyword">true</span>);
+    <span class="hljs-keyword">return</span> pf;
+}
+</div></code></pre>
+<h3 id="the-refactoring-details-in-each-test-cases">The refactoring details in each test cases</h3>
+<hr>
+<h4 id="test-case-id-spring-integrationtest371">Test Case ID #spring-integration_Test_37_1</h4>
+<h4 id="test-case-name-testtransactionfile-cjavaprojectsspringspring-integrationspring-integration-kafkasrctestjavaorgspringframeworkintegrationkafkaoutboundkafkaproducermessagehandlertestsjava">Test Case Name: <code>testTransaction</code>(File: <code>C:\Java_projects\Spring\spring-integration\spring-integration-kafka\src\test\java\org\springframework\integration\kafka\outbound\KafkaProducerMessageHandlerTests.java</code>)</h4>
+<h4 id="mock-object-variable-name-pf">Mock Object Variable Name: <code>pf</code></h4>
+<summary>Suggested Diff</summary>
+<pre class="hljs"><code><div>
+@@
+ @SuppressWarnings({ "rawtypes", "unchecked" })
+ @Test
+ void testTransaction() {
+<span class="hljs-deletion">-    ProducerFactory pf = mock(ProducerFactory.class);</span>
+<span class="hljs-deletion">-    given(pf.transactionCapable()).willReturn(true);</span>
+<span class="hljs-addition">+    ProducerFactory pf = createMockProducerFactory_transactionCapableTrue();</span>
+     Producer producer = mock(Producer.class);
+     given(pf.createProducer(isNull())).willReturn(producer);
+     willReturn(mock(Future.class)).given(producer).send(any(ProducerRecord.class), any(Callback.class));
+     KafkaTemplate template = new KafkaTemplate(pf);
+     KafkaProducerMessageHandler handler = new KafkaProducerMessageHandler(template);
+     handler.setTopicExpression(new LiteralExpression("bar"));
+     handler.setBeanFactory(mock(BeanFactory.class));
+     handler.afterPropertiesSet();
+     handler.start();
+     handler.handleMessage(new GenericMessage&lt;&gt;("foo"));
+     handler.stop();
+     InOrder inOrder = inOrder(producer);
+     inOrder.verify(producer).beginTransaction();
+     inOrder.verify(producer).send(any(ProducerRecord.class), any(Callback.class));
+     inOrder.verify(producer).commitTransaction();
+ }
+</div></code></pre>
+<details><summary>Original Test Code (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-meta">@SuppressWarnings</span>({ <span class="hljs-string">"rawtypes"</span>, <span class="hljs-string">"unchecked"</span> })
+
+<span class="hljs-meta">@Test</span>
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">testTransaction</span><span class="hljs-params">()</span> </span>{
+
+    ProducerFactory pf = mock(ProducerFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    given(pf.transactionCapable()).willReturn(<span class="hljs-keyword">true</span>);
+
+    Producer producer = mock(Producer<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    given(pf.createProducer(isNull())).willReturn(producer);
+
+    willReturn(mock(Future<span class="hljs-class">.<span class="hljs-keyword">class</span>)).<span class="hljs-title">given</span>(<span class="hljs-title">producer</span>).<span class="hljs-title">send</span>(<span class="hljs-title">any</span>(<span class="hljs-title">ProducerRecord</span>.<span class="hljs-title">class</span>), <span class="hljs-title">any</span>(<span class="hljs-title">Callback</span>.<span class="hljs-title">class</span>))</span>;
+
+    KafkaTemplate template = <span class="hljs-keyword">new</span> KafkaTemplate(pf);
+
+    KafkaProducerMessageHandler handler = <span class="hljs-keyword">new</span> KafkaProducerMessageHandler(template);
+
+    handler.setTopicExpression(<span class="hljs-keyword">new</span> LiteralExpression(<span class="hljs-string">"bar"</span>));
+
+    handler.setBeanFactory(mock(BeanFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>))</span>;
+
+    handler.afterPropertiesSet();
+
+    handler.start();
+
+    handler.handleMessage(<span class="hljs-keyword">new</span> GenericMessage&lt;&gt;(<span class="hljs-string">"foo"</span>));
+
+    handler.stop();
+
+    InOrder inOrder = inOrder(producer);
+
+    inOrder.verify(producer).beginTransaction();
+
+    inOrder.verify(producer).send(any(ProducerRecord<span class="hljs-class">.<span class="hljs-keyword">class</span>), <span class="hljs-title">any</span>(<span class="hljs-title">Callback</span>.<span class="hljs-title">class</span>))</span>;
+
+    inOrder.verify(producer).commitTransaction();
+
+}
+</div></code></pre>
+</details>
+<details><summary>Reusable Method for MCI (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> ProducerFactory&lt;?&gt; createMockProducerFactory_transactionCapableTrue() {
+    ProducerFactory&lt;?&gt; pf = mock(ProducerFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+    given(pf.transactionCapable()).willReturn(<span class="hljs-keyword">true</span>);
+    <span class="hljs-keyword">return</span> pf;
+}
+</div></code></pre>
+</details>
+<hr>
+<h4 id="test-case-id-spring-integrationtest372">Test Case ID #spring-integration_Test_37_2</h4>
+<h4 id="test-case-name-testconsumeandproducetransactionfile-cjavaprojectsspringspring-integrationspring-integration-kafkasrctestjavaorgspringframeworkintegrationkafkaoutboundkafkaproducermessagehandlertestsjava">Test Case Name: <code>testConsumeAndProduceTransaction</code>(File: <code>C:\Java_projects\Spring\spring-integration\spring-integration-kafka\src\test\java\org\springframework\integration\kafka\outbound\KafkaProducerMessageHandlerTests.java</code>)</h4>
+<h4 id="mock-object-variable-name-pf">Mock Object Variable Name: <code>pf</code></h4>
+<summary>Suggested Diff</summary>
+<pre class="hljs"><code><div>
+@@
+     willAnswer(i -&gt; {
+         closeLatch.countDown();
+         return null;
+     }).given(producer).close(any());
+<span class="hljs-deletion">-    ProducerFactory pf = mock(ProducerFactory.class);</span>
+<span class="hljs-deletion">-    given(pf.transactionCapable()).willReturn(true);</span>
+<span class="hljs-addition">+    ProducerFactory pf = createMockProducerFactory_transactionCapableTrue();</span>
+     willReturn(producer).given(pf).createProducer(isNull());
+     KafkaTransactionManager ptm = new KafkaTransactionManager(pf);
+     ContainerProperties props = new ContainerProperties("foo");
+     props.setGroupId("group");
+     props.setKafkaAwareTransactionManager(ptm);
+     props.setAssignmentCommitOption(AssignmentCommitOption.ALWAYS);
+     final KafkaTemplate template = new KafkaTemplate(pf);
+     KafkaMessageListenerContainer container = new KafkaMessageListenerContainer&lt;&gt;(cf, props);
+     container.setBeanName("commit");
+     KafkaMessageDrivenChannelAdapter inbound = new KafkaMessageDrivenChannelAdapter&lt;&gt;(container);
+     DirectChannel channel = new DirectChannel();
+     inbound.setOutputChannel(channel);
+     KafkaProducerMessageHandler handler = new KafkaProducerMessageHandler(template);
+     handler.setMessageKeyExpression(new LiteralExpression("bar"));
+     handler.setTopicExpression(new LiteralExpression("topic"));
+     channel.subscribe(handler);
+     inbound.afterPropertiesSet();
+     inbound.start();
+     assertThat(closeLatch.await(10, TimeUnit.SECONDS)).isTrue();
+     InOrder inOrder = inOrder(producer);
+     inOrder.verify(producer).beginTransaction();
+     inOrder.verify(producer).sendOffsetsToTransaction(Collections.singletonMap(topicPartition, new OffsetAndMetadata(0)), meta);
+     inOrder.verify(producer).commitTransaction();
+     inOrder.verify(producer).close(any());
+     inOrder.verify(producer).beginTransaction();
+     ArgumentCaptor&lt;ProducerRecord&gt; captor = ArgumentCaptor.forClass(ProducerRecord.class);
+     inOrder.verify(producer).send(captor.capture(), any(Callback.class));
+     assertThat(captor.getValue()).isEqualTo(new ProducerRecord("topic", null, "bar", "value"));
+     inOrder.verify(producer).sendOffsetsToTransaction(Collections.singletonMap(topicPartition, new OffsetAndMetadata(1)), meta);
+     inOrder.verify(producer).commitTransaction();
+     inOrder.verify(producer).close(any());
+     container.stop();
+     verify(pf, times(2)).createProducer(isNull());
+     verifyNoMoreInteractions(producer);
+ }
+</div></code></pre>
+<details><summary>Original Test Code (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-meta">@SuppressWarnings</span>({ <span class="hljs-string">"unchecked"</span>, <span class="hljs-string">"rawtypes"</span> })
+
+<span class="hljs-meta">@Test</span>
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">testConsumeAndProduceTransaction</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>{
+
+    Consumer mockConsumer = mock(Consumer<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    <span class="hljs-keyword">final</span> TopicPartition topicPartition = <span class="hljs-keyword">new</span> TopicPartition(<span class="hljs-string">"foo"</span>, <span class="hljs-number">0</span>);
+
+    willAnswer(i -&gt; {
+
+        ((ConsumerRebalanceListener) i.getArgument(<span class="hljs-number">1</span>)).onPartitionsAssigned(Collections.singletonList(topicPartition));
+
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+
+    }).given(mockConsumer).subscribe(any(Collection<span class="hljs-class">.<span class="hljs-keyword">class</span>), <span class="hljs-title">any</span>(<span class="hljs-title">ConsumerRebalanceListener</span>.<span class="hljs-title">class</span>))</span>;
+
+    ConsumerRecords records = <span class="hljs-keyword">new</span> ConsumerRecords(Collections.singletonMap(topicPartition, Collections.singletonList(<span class="hljs-keyword">new</span> ConsumerRecord&lt;&gt;(<span class="hljs-string">"foo"</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-string">"key"</span>, <span class="hljs-string">"value"</span>))));
+
+    <span class="hljs-keyword">final</span> AtomicBoolean done = <span class="hljs-keyword">new</span> AtomicBoolean();
+
+    willAnswer(i -&gt; {
+
+        <span class="hljs-keyword">if</span> (done.compareAndSet(<span class="hljs-keyword">false</span>, <span class="hljs-keyword">true</span>)) {
+
+            <span class="hljs-keyword">return</span> records;
+
+        } <span class="hljs-keyword">else</span> {
+
+            Thread.sleep(<span class="hljs-number">500</span>);
+
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+
+        }
+
+    }).given(mockConsumer).poll(any(Duration<span class="hljs-class">.<span class="hljs-keyword">class</span>))</span>;
+
+    ConsumerGroupMetadata meta = <span class="hljs-keyword">new</span> ConsumerGroupMetadata(<span class="hljs-string">"group"</span>);
+
+    given(mockConsumer.groupMetadata()).willReturn(meta);
+
+    ConsumerFactory cf = mock(ConsumerFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    willReturn(mockConsumer).given(cf).createConsumer(<span class="hljs-string">"group"</span>, <span class="hljs-string">""</span>, <span class="hljs-keyword">null</span>, KafkaTestUtils.defaultPropertyOverrides());
+
+    Producer producer = mock(Producer<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    given(producer.send(any(), any())).willReturn(mock(Future<span class="hljs-class">.<span class="hljs-keyword">class</span>))</span>;
+
+    <span class="hljs-keyword">final</span> CountDownLatch closeLatch = <span class="hljs-keyword">new</span> CountDownLatch(<span class="hljs-number">2</span>);
+
+    willAnswer(i -&gt; {
+
+        closeLatch.countDown();
+
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+
+    }).given(producer).close(any());
+
+    ProducerFactory pf = mock(ProducerFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    given(pf.transactionCapable()).willReturn(<span class="hljs-keyword">true</span>);
+
+    willReturn(producer).given(pf).createProducer(isNull());
+
+    KafkaTransactionManager ptm = <span class="hljs-keyword">new</span> KafkaTransactionManager(pf);
+
+    ContainerProperties props = <span class="hljs-keyword">new</span> ContainerProperties(<span class="hljs-string">"foo"</span>);
+
+    props.setGroupId(<span class="hljs-string">"group"</span>);
+
+    props.setKafkaAwareTransactionManager(ptm);
+
+    props.setAssignmentCommitOption(AssignmentCommitOption.ALWAYS);
+
+    <span class="hljs-keyword">final</span> KafkaTemplate template = <span class="hljs-keyword">new</span> KafkaTemplate(pf);
+
+    KafkaMessageListenerContainer container = <span class="hljs-keyword">new</span> KafkaMessageListenerContainer&lt;&gt;(cf, props);
+
+    container.setBeanName(<span class="hljs-string">"commit"</span>);
+
+    KafkaMessageDrivenChannelAdapter inbound = <span class="hljs-keyword">new</span> KafkaMessageDrivenChannelAdapter&lt;&gt;(container);
+
+    DirectChannel channel = <span class="hljs-keyword">new</span> DirectChannel();
+
+    inbound.setOutputChannel(channel);
+
+    KafkaProducerMessageHandler handler = <span class="hljs-keyword">new</span> KafkaProducerMessageHandler(template);
+
+    handler.setMessageKeyExpression(<span class="hljs-keyword">new</span> LiteralExpression(<span class="hljs-string">"bar"</span>));
+
+    handler.setTopicExpression(<span class="hljs-keyword">new</span> LiteralExpression(<span class="hljs-string">"topic"</span>));
+
+    channel.subscribe(handler);
+
+    inbound.afterPropertiesSet();
+
+    inbound.start();
+
+    assertThat(closeLatch.await(<span class="hljs-number">10</span>, TimeUnit.SECONDS)).isTrue();
+
+    InOrder inOrder = inOrder(producer);
+
+    inOrder.verify(producer).beginTransaction();
+
+    inOrder.verify(producer).sendOffsetsToTransaction(Collections.singletonMap(topicPartition, <span class="hljs-keyword">new</span> OffsetAndMetadata(<span class="hljs-number">0</span>)), meta);
+
+    inOrder.verify(producer).commitTransaction();
+
+    inOrder.verify(producer).close(any());
+
+    inOrder.verify(producer).beginTransaction();
+
+    ArgumentCaptor&lt;ProducerRecord&gt; captor = ArgumentCaptor.forClass(ProducerRecord<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    inOrder.verify(producer).send(captor.capture(), any(Callback<span class="hljs-class">.<span class="hljs-keyword">class</span>))</span>;
+
+    assertThat(captor.getValue()).isEqualTo(<span class="hljs-keyword">new</span> ProducerRecord(<span class="hljs-string">"topic"</span>, <span class="hljs-keyword">null</span>, <span class="hljs-string">"bar"</span>, <span class="hljs-string">"value"</span>));
+
+    inOrder.verify(producer).sendOffsetsToTransaction(Collections.singletonMap(topicPartition, <span class="hljs-keyword">new</span> OffsetAndMetadata(<span class="hljs-number">1</span>)), meta);
+
+    inOrder.verify(producer).commitTransaction();
+
+    inOrder.verify(producer).close(any());
+
+    container.stop();
+
+    verify(pf, times(<span class="hljs-number">2</span>)).createProducer(isNull());
+
+    verifyNoMoreInteractions(producer);
+
+}
+</div></code></pre>
+</details>
+<details><summary>Reusable Method for MCI (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> ProducerFactory&lt;?&gt; createMockProducerFactory_transactionCapableTrue() {
+    ProducerFactory&lt;?&gt; pf = mock(ProducerFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+    given(pf.transactionCapable()).willReturn(<span class="hljs-keyword">true</span>);
+    <span class="hljs-keyword">return</span> pf;
+}
+</div></code></pre>
+</details>
+<hr>
+<h4 id="test-case-id-spring-integrationtest373">Test Case ID #spring-integration_Test_37_3</h4>
+<h4 id="test-case-name-testtransactionsynchfile-cjavaprojectsspringspring-integrationspring-integration-kafkasrctestjavaorgspringframeworkintegrationkafkaoutboundkafkaproducermessagehandlertestsjava">Test Case Name: <code>testTransactionSynch</code>(File: <code>C:\Java_projects\Spring\spring-integration\spring-integration-kafka\src\test\java\org\springframework\integration\kafka\outbound\KafkaProducerMessageHandlerTests.java</code>)</h4>
+<h4 id="mock-object-variable-name-pf">Mock Object Variable Name: <code>pf</code></h4>
+<summary>Suggested Diff</summary>
+<pre class="hljs"><code><div>
+@@
+ @SuppressWarnings({ "rawtypes", "unchecked" })
+ @Test
+ void testTransactionSynch() {
+     Producer producer = mock(Producer.class);
+<span class="hljs-deletion">-    ProducerFactory pf = mock(ProducerFactory.class);</span>
+<span class="hljs-deletion">-    given(pf.transactionCapable()).willReturn(true);</span>
+<span class="hljs-addition">+    ProducerFactory pf = createMockProducerFactory_transactionCapableTrue();</span>
+     given(pf.createProducer(isNull())).willReturn(producer);
+     willReturn(mock(Future.class)).given(producer).send(any(ProducerRecord.class), any(Callback.class));
+     KafkaTemplate template = new KafkaTemplate(pf);
+     KafkaProducerMessageHandler handler = new KafkaProducerMessageHandler(template);
+     handler.setTopicExpression(new LiteralExpression("bar"));
+     handler.setBeanFactory(mock(BeanFactory.class));
+     handler.afterPropertiesSet();
+     handler.start();
+     try {
+         new TransactionTemplate(new SomeOtherTransactionManager()).executeWithoutResult(status -&gt; {
+             handler.handleMessage(new GenericMessage&lt;&gt;("foo"));
+             throw new IllegalStateException("test");
+         });
+     } catch (IllegalStateException ex) {
+     }
+     handler.stop();
+     verify(producer).beginTransaction();
+     verify(producer).send(any(ProducerRecord.class), any(Callback.class));
+     verify(producer).abortTransaction();
+     verify(producer).close(any());
+     verifyNoMoreInteractions(producer);
+ }
+</div></code></pre>
+<details><summary>Original Test Code (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-meta">@SuppressWarnings</span>({ <span class="hljs-string">"rawtypes"</span>, <span class="hljs-string">"unchecked"</span> })
+
+<span class="hljs-meta">@Test</span>
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">testTransactionSynch</span><span class="hljs-params">()</span> </span>{
+
+    Producer producer = mock(Producer<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    ProducerFactory pf = mock(ProducerFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    given(pf.transactionCapable()).willReturn(<span class="hljs-keyword">true</span>);
+
+    given(pf.createProducer(isNull())).willReturn(producer);
+
+    willReturn(mock(Future<span class="hljs-class">.<span class="hljs-keyword">class</span>)).<span class="hljs-title">given</span>(<span class="hljs-title">producer</span>).<span class="hljs-title">send</span>(<span class="hljs-title">any</span>(<span class="hljs-title">ProducerRecord</span>.<span class="hljs-title">class</span>), <span class="hljs-title">any</span>(<span class="hljs-title">Callback</span>.<span class="hljs-title">class</span>))</span>;
+
+    KafkaTemplate template = <span class="hljs-keyword">new</span> KafkaTemplate(pf);
+
+    KafkaProducerMessageHandler handler = <span class="hljs-keyword">new</span> KafkaProducerMessageHandler(template);
+
+    handler.setTopicExpression(<span class="hljs-keyword">new</span> LiteralExpression(<span class="hljs-string">"bar"</span>));
+
+    handler.setBeanFactory(mock(BeanFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>))</span>;
+
+    handler.afterPropertiesSet();
+
+    handler.start();
+
+    <span class="hljs-keyword">try</span> {
+
+        <span class="hljs-keyword">new</span> TransactionTemplate(<span class="hljs-keyword">new</span> SomeOtherTransactionManager()).executeWithoutResult(status -&gt; {
+
+            handler.handleMessage(<span class="hljs-keyword">new</span> GenericMessage&lt;&gt;(<span class="hljs-string">"foo"</span>));
+
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalStateException(<span class="hljs-string">"test"</span>);
+
+        });
+
+    } <span class="hljs-keyword">catch</span> (IllegalStateException ex) {
+
+    }
+
+    handler.stop();
+
+    verify(producer).beginTransaction();
+
+    verify(producer).send(any(ProducerRecord<span class="hljs-class">.<span class="hljs-keyword">class</span>), <span class="hljs-title">any</span>(<span class="hljs-title">Callback</span>.<span class="hljs-title">class</span>))</span>;
+
+    verify(producer).abortTransaction();
+
+    verify(producer).close(any());
+
+    verifyNoMoreInteractions(producer);
+
+}
+</div></code></pre>
+</details>
+<details><summary>Reusable Method for MCI (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> ProducerFactory&lt;?&gt; createMockProducerFactory_transactionCapableTrue() {
+    ProducerFactory&lt;?&gt; pf = mock(ProducerFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+    given(pf.transactionCapable()).willReturn(<span class="hljs-keyword">true</span>);
+    <span class="hljs-keyword">return</span> pf;
+}
+</div></code></pre>
+</details>
+<hr>
+<h2 id="mock-clone-instance-spring-integrationmci38">Mock Clone Instance #spring-integration_MCI_38</h2>
+<ul>
+<li><strong>Scope</strong>: method level</li>
+<li><strong>Mocked Class</strong>: <code>org.springframework.amqp.rabbit.connection.ConnectionFactory</code></li>
+<li><strong>Test Case Count</strong>: 2</li>
+<li><strong>MO Count</strong>: 2</li>
+</ul>
+<h3 id="reusable-method">Reusable Method</h3>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> ConnectionFactory <span class="hljs-title">createMockConnectionFactory</span><span class="hljs-params">(Connection connection)</span> </span>{
+    ConnectionFactory connectionFactory = mock(ConnectionFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+    when(connectionFactory.createConnection()).thenReturn(connection);
+    <span class="hljs-keyword">return</span> connectionFactory;
+}
+</div></code></pre>
+<h3 id="the-refactoring-details-in-each-test-cases">The refactoring details in each test cases</h3>
+<hr>
+<h4 id="test-case-id-spring-integrationtest381">Test Case ID #spring-integration_Test_38_1</h4>
+<h4 id="test-case-name-testptpfile-cjavaprojectsspringspring-integrationspring-integration-amqpsrctestjavaorgspringframeworkintegrationamqpchanneldispatcherhasnosubscriberstestsjava">Test Case Name: <code>testPtP</code>(File: <code>C:\Java_projects\Spring\spring-integration\spring-integration-amqp\src\test\java\org\springframework\integration\amqp\channel\DispatcherHasNoSubscribersTests.java</code>)</h4>
+<h4 id="mock-object-variable-name-connectionfactory">Mock Object Variable Name: <code>connectionFactory</code></h4>
+<summary>Suggested Diff</summary>
+<pre class="hljs"><code><div>
+@@
+ @Test
+ public void testPtP() throws Exception {
+     final Channel channel = mock(Channel.class);
+     DeclareOk declareOk = mock(DeclareOk.class);
+     when(declareOk.getQueue()).thenReturn("noSubscribersChannel");
+     when(channel.queueDeclare(anyString(), anyBoolean(), anyBoolean(), anyBoolean(), isNull())).thenReturn(declareOk);
+     Connection connection = mock(Connection.class);
+     doAnswer(invocation -&gt; channel).when(connection).createChannel(anyBoolean());
+<span class="hljs-deletion">-    ConnectionFactory connectionFactory = mock(ConnectionFactory.class);</span>
+<span class="hljs-deletion">-    when(connectionFactory.createConnection()).thenReturn(connection);</span>
+<span class="hljs-addition">+    ConnectionFactory connectionFactory = createMockConnectionFactory(connection);</span>
+     SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
+     container.setConnectionFactory(connectionFactory);
+     AmqpTemplate amqpTemplate = mock(AmqpTemplate.class);
+     PointToPointSubscribableAmqpChannel amqpChannel = new PointToPointSubscribableAmqpChannel("noSubscribersChannel", container, amqpTemplate);
+     amqpChannel.setBeanName("noSubscribersChannel");
+     amqpChannel.setBeanFactory(mock(BeanFactory.class));
+     amqpChannel.afterPropertiesSet();
+     MessageListener listener = container.getMessageListener();
+     assertThatExceptionOfType(MessageDeliveryException.class).isThrownBy(() -&gt; listener.onMessage(new Message("Hello world!".getBytes()))).withMessageContaining("Dispatcher has no subscribers for amqp-channel 'noSubscribersChannel'.");
+ }
+</div></code></pre>
+<details><summary>Original Test Code (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-meta">@Test</span>
+
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testPtP</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>{
+
+    <span class="hljs-keyword">final</span> Channel channel = mock(Channel<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    DeclareOk declareOk = mock(DeclareOk<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    when(declareOk.getQueue()).thenReturn(<span class="hljs-string">"noSubscribersChannel"</span>);
+
+    when(channel.queueDeclare(anyString(), anyBoolean(), anyBoolean(), anyBoolean(), isNull())).thenReturn(declareOk);
+
+    Connection connection = mock(Connection<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    doAnswer(invocation -&gt; channel).when(connection).createChannel(anyBoolean());
+
+    ConnectionFactory connectionFactory = mock(ConnectionFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    when(connectionFactory.createConnection()).thenReturn(connection);
+
+    SimpleMessageListenerContainer container = <span class="hljs-keyword">new</span> SimpleMessageListenerContainer();
+
+    container.setConnectionFactory(connectionFactory);
+
+    AmqpTemplate amqpTemplate = mock(AmqpTemplate<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    PointToPointSubscribableAmqpChannel amqpChannel = <span class="hljs-keyword">new</span> PointToPointSubscribableAmqpChannel(<span class="hljs-string">"noSubscribersChannel"</span>, container, amqpTemplate);
+
+    amqpChannel.setBeanName(<span class="hljs-string">"noSubscribersChannel"</span>);
+
+    amqpChannel.setBeanFactory(mock(BeanFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>))</span>;
+
+    amqpChannel.afterPropertiesSet();
+
+    MessageListener listener = container.getMessageListener();
+
+    assertThatExceptionOfType(MessageDeliveryException<span class="hljs-class">.<span class="hljs-keyword">class</span>).<span class="hljs-title">isThrownBy</span>(() -&gt; <span class="hljs-title">listener</span>.<span class="hljs-title">onMessage</span>(<span class="hljs-title">new</span> <span class="hljs-title">Message</span>("<span class="hljs-title">Hello</span> <span class="hljs-title">world</span>!".<span class="hljs-title">getBytes</span>()))).<span class="hljs-title">withMessageContaining</span>("<span class="hljs-title">Dispatcher</span> <span class="hljs-title">has</span> <span class="hljs-title">no</span> <span class="hljs-title">subscribers</span> <span class="hljs-title">for</span> <span class="hljs-title">amqp</span>-<span class="hljs-title">channel</span> '<span class="hljs-title">noSubscribersChannel</span>'.")</span>;
+
+}
+</div></code></pre>
+</details>
+<details><summary>Reusable Method for MCI (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> ConnectionFactory <span class="hljs-title">createMockConnectionFactory</span><span class="hljs-params">(Connection connection)</span> </span>{
+    ConnectionFactory connectionFactory = mock(ConnectionFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+    when(connectionFactory.createConnection()).thenReturn(connection);
+    <span class="hljs-keyword">return</span> connectionFactory;
+}
+</div></code></pre>
+</details>
+<hr>
+<h4 id="test-case-id-spring-integrationtest382">Test Case ID #spring-integration_Test_38_2</h4>
+<h4 id="test-case-name-testpubsubfile-cjavaprojectsspringspring-integrationspring-integration-amqpsrctestjavaorgspringframeworkintegrationamqpchanneldispatcherhasnosubscriberstestsjava">Test Case Name: <code>testPubSub</code>(File: <code>C:\Java_projects\Spring\spring-integration\spring-integration-amqp\src\test\java\org\springframework\integration\amqp\channel\DispatcherHasNoSubscribersTests.java</code>)</h4>
+<h4 id="mock-object-variable-name-connectionfactory">Mock Object Variable Name: <code>connectionFactory</code></h4>
+<summary>Suggested Diff</summary>
+<pre class="hljs"><code><div>
+@@
+ @Test
+ public void testPubSub() {
+     final Channel channel = mock(Channel.class);
+     Connection connection = mock(Connection.class);
+     doAnswer(invocation -&gt; channel).when(connection).createChannel(anyBoolean());
+<span class="hljs-deletion">-    ConnectionFactory connectionFactory = mock(ConnectionFactory.class);</span>
+<span class="hljs-deletion">-    when(connectionFactory.createConnection()).thenReturn(connection);</span>
+<span class="hljs-addition">+    ConnectionFactory connectionFactory = createMockConnectionFactory(connection);</span>
+     SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
+     container.setConnectionFactory(connectionFactory);
+     AmqpTemplate amqpTemplate = mock(AmqpTemplate.class);
+     PublishSubscribeAmqpChannel amqpChannel = new PublishSubscribeAmqpChannel("noSubscribersChannel", container, amqpTemplate);
+     amqpChannel.setBeanName("noSubscribersChannel");
+     amqpChannel.setBeanFactory(mock(BeanFactory.class));
+     amqpChannel.afterPropertiesSet();
+     List&lt;String&gt; logList = insertMockLoggerInListener(amqpChannel);
+     MessageListener listener = container.getMessageListener();
+     listener.onMessage(new Message("Hello world!".getBytes()));
+     verifyLogReceived(logList);
+ }
+</div></code></pre>
+<details><summary>Original Test Code (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-meta">@Test</span>
+
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testPubSub</span><span class="hljs-params">()</span> </span>{
+
+    <span class="hljs-keyword">final</span> Channel channel = mock(Channel<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    Connection connection = mock(Connection<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    doAnswer(invocation -&gt; channel).when(connection).createChannel(anyBoolean());
+
+    ConnectionFactory connectionFactory = mock(ConnectionFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    when(connectionFactory.createConnection()).thenReturn(connection);
+
+    SimpleMessageListenerContainer container = <span class="hljs-keyword">new</span> SimpleMessageListenerContainer();
+
+    container.setConnectionFactory(connectionFactory);
+
+    AmqpTemplate amqpTemplate = mock(AmqpTemplate<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    PublishSubscribeAmqpChannel amqpChannel = <span class="hljs-keyword">new</span> PublishSubscribeAmqpChannel(<span class="hljs-string">"noSubscribersChannel"</span>, container, amqpTemplate);
+
+    amqpChannel.setBeanName(<span class="hljs-string">"noSubscribersChannel"</span>);
+
+    amqpChannel.setBeanFactory(mock(BeanFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>))</span>;
+
+    amqpChannel.afterPropertiesSet();
+
+    List&lt;String&gt; logList = insertMockLoggerInListener(amqpChannel);
+
+    MessageListener listener = container.getMessageListener();
+
+    listener.onMessage(<span class="hljs-keyword">new</span> Message(<span class="hljs-string">"Hello world!"</span>.getBytes()));
+
+    verifyLogReceived(logList);
+
+}
+</div></code></pre>
+</details>
+<details><summary>Reusable Method for MCI (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> ConnectionFactory <span class="hljs-title">createMockConnectionFactory</span><span class="hljs-params">(Connection connection)</span> </span>{
+    ConnectionFactory connectionFactory = mock(ConnectionFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+    when(connectionFactory.createConnection()).thenReturn(connection);
+    <span class="hljs-keyword">return</span> connectionFactory;
+}
+</div></code></pre>
+</details>
+<hr>
+<h2 id="mock-clone-instance-spring-integrationmci39">Mock Clone Instance #spring-integration_MCI_39</h2>
+<ul>
+<li><strong>Scope</strong>: method level</li>
+<li><strong>Mocked Class</strong>: <code>org.springframework.amqp.rabbit.connection.ConnectionFactory</code></li>
+<li><strong>Test Case Count</strong>: 5</li>
+<li><strong>MO Count</strong>: 5</li>
+</ul>
+<h3 id="reusable-method">Reusable Method</h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">private</span> ConnectionFactory connectionFactory;
+
+<span class="hljs-meta">@BeforeEach</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">setUp</span><span class="hljs-params">()</span> </span>{
+    connectionFactory = mock(ConnectionFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+}
+</div></code></pre>
+<h3 id="the-refactoring-details-in-each-test-cases">The refactoring details in each test cases</h3>
+<hr>
+<h4 id="test-case-id-spring-integrationtest391">Test Case ID #spring-integration_Test_39_1</h4>
+<h4 id="test-case-name-testdelayexpressionfile-cjavaprojectsspringspring-integrationspring-integration-amqpsrctestjavaorgspringframeworkintegrationamqpoutboundoutboundendpointtestsjava">Test Case Name: <code>testDelayExpression</code>(File: <code>C:\Java_projects\Spring\spring-integration\spring-integration-amqp\src\test\java\org\springframework\integration\amqp\outbound\OutboundEndpointTests.java</code>)</h4>
+<h4 id="mock-object-variable-name-connectionfactory">Mock Object Variable Name: <code>connectionFactory</code></h4>
+<summary>Suggested Diff</summary>
+<pre class="hljs"><code><div>
+@@
+ @Test
+ public void testDelayExpression() {
+<span class="hljs-deletion">-    ConnectionFactory connectionFactory = mock(ConnectionFactory.class);</span>
+<span class="hljs-addition">+    // removed local mock; replaced with global field `connectionFactory`</span>
+     RabbitTemplate amqpTemplate = spy(new RabbitTemplate(connectionFactory));
+     AmqpOutboundEndpoint endpoint = new AmqpOutboundEndpoint(amqpTemplate);
+     willDoNothing().given(amqpTemplate).send(anyString(), anyString(), any(Message.class), isNull());
+     willAnswer(invocation -&gt; invocation.getArgument(2)).given(amqpTemplate).sendAndReceive(anyString(), anyString(), any(Message.class), isNull());
+     endpoint.setExchangeName("foo");
+     endpoint.setRoutingKey("bar");
+     endpoint.setDelayExpressionString("42");
+     endpoint.setBeanFactory(mock(BeanFactory.class));
+     endpoint.afterPropertiesSet();
+     endpoint.handleMessage(new GenericMessage&lt;&gt;("foo"));
+     ArgumentCaptor&lt;Message&gt; captor = ArgumentCaptor.forClass(Message.class);
+     verify(amqpTemplate).send(eq("foo"), eq("bar"), captor.capture(), isNull());
+     assertThat(captor.getValue().getMessageProperties().getDelayLong()).isEqualTo(42);
+     endpoint.setExpectReply(true);
+     endpoint.setOutputChannel(new NullChannel());
+     endpoint.handleMessage(new GenericMessage&lt;&gt;("foo"));
+     verify(amqpTemplate).sendAndReceive(eq("foo"), eq("bar"), captor.capture(), isNull());
+     assertThat(captor.getValue().getMessageProperties().getDelayLong()).isEqualTo(42);
+     endpoint.setDelay(23);
+     endpoint.setRoutingKey("baz");
+     endpoint.afterPropertiesSet();
+     endpoint.handleMessage(new GenericMessage&lt;&gt;("foo"));
+     verify(amqpTemplate).sendAndReceive(eq("foo"), eq("baz"), captor.capture(), isNull());
+     assertThat(captor.getValue().getMessageProperties().getDelayLong()).isEqualTo(23);
+ }
+</div></code></pre>
+<details><summary>Original Test Code (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-meta">@Test</span>
+
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testDelayExpression</span><span class="hljs-params">()</span> </span>{
+
+    ConnectionFactory connectionFactory = mock(ConnectionFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    RabbitTemplate amqpTemplate = spy(<span class="hljs-keyword">new</span> RabbitTemplate(connectionFactory));
+
+    AmqpOutboundEndpoint endpoint = <span class="hljs-keyword">new</span> AmqpOutboundEndpoint(amqpTemplate);
+
+    willDoNothing().given(amqpTemplate).send(anyString(), anyString(), any(Message<span class="hljs-class">.<span class="hljs-keyword">class</span>), <span class="hljs-title">isNull</span>())</span>;
+
+    willAnswer(invocation -&gt; invocation.getArgument(<span class="hljs-number">2</span>)).given(amqpTemplate).sendAndReceive(anyString(), anyString(), any(Message<span class="hljs-class">.<span class="hljs-keyword">class</span>), <span class="hljs-title">isNull</span>())</span>;
+
+    endpoint.setExchangeName(<span class="hljs-string">"foo"</span>);
+
+    endpoint.setRoutingKey(<span class="hljs-string">"bar"</span>);
+
+    endpoint.setDelayExpressionString(<span class="hljs-string">"42"</span>);
+
+    endpoint.setBeanFactory(mock(BeanFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>))</span>;
+
+    endpoint.afterPropertiesSet();
+
+    endpoint.handleMessage(<span class="hljs-keyword">new</span> GenericMessage&lt;&gt;(<span class="hljs-string">"foo"</span>));
+
+    ArgumentCaptor&lt;Message&gt; captor = ArgumentCaptor.forClass(Message<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    verify(amqpTemplate).send(eq(<span class="hljs-string">"foo"</span>), eq(<span class="hljs-string">"bar"</span>), captor.capture(), isNull());
+
+    assertThat(captor.getValue().getMessageProperties().getDelayLong()).isEqualTo(<span class="hljs-number">42</span>);
+
+    endpoint.setExpectReply(<span class="hljs-keyword">true</span>);
+
+    endpoint.setOutputChannel(<span class="hljs-keyword">new</span> NullChannel());
+
+    endpoint.handleMessage(<span class="hljs-keyword">new</span> GenericMessage&lt;&gt;(<span class="hljs-string">"foo"</span>));
+
+    verify(amqpTemplate).sendAndReceive(eq(<span class="hljs-string">"foo"</span>), eq(<span class="hljs-string">"bar"</span>), captor.capture(), isNull());
+
+    assertThat(captor.getValue().getMessageProperties().getDelayLong()).isEqualTo(<span class="hljs-number">42</span>);
+
+    endpoint.setDelay(<span class="hljs-number">23</span>);
+
+    endpoint.setRoutingKey(<span class="hljs-string">"baz"</span>);
+
+    endpoint.afterPropertiesSet();
+
+    endpoint.handleMessage(<span class="hljs-keyword">new</span> GenericMessage&lt;&gt;(<span class="hljs-string">"foo"</span>));
+
+    verify(amqpTemplate).sendAndReceive(eq(<span class="hljs-string">"foo"</span>), eq(<span class="hljs-string">"baz"</span>), captor.capture(), isNull());
+
+    assertThat(captor.getValue().getMessageProperties().getDelayLong()).isEqualTo(<span class="hljs-number">23</span>);
+
+}
+</div></code></pre>
+</details>
+<details><summary>Reusable Method for MCI (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-keyword">private</span> ConnectionFactory connectionFactory;
+
+<span class="hljs-meta">@BeforeEach</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">setUp</span><span class="hljs-params">()</span> </span>{
+    connectionFactory = mock(ConnectionFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+}
+</div></code></pre>
+</details>
+<hr>
+<h4 id="test-case-id-spring-integrationtest392">Test Case ID #spring-integration_Test_39_2</h4>
+<h4 id="test-case-name-testasyncdelayexpressionfile-cjavaprojectsspringspring-integrationspring-integration-amqpsrctestjavaorgspringframeworkintegrationamqpoutboundoutboundendpointtestsjava">Test Case Name: <code>testAsyncDelayExpression</code>(File: <code>C:\Java_projects\Spring\spring-integration\spring-integration-amqp\src\test\java\org\springframework\integration\amqp\outbound\OutboundEndpointTests.java</code>)</h4>
+<h4 id="mock-object-variable-name-connectionfactory">Mock Object Variable Name: <code>connectionFactory</code></h4>
+<summary>Suggested Diff</summary>
+<pre class="hljs"><code><div>
+@@
+ @Test
+ public void testAsyncDelayExpression() {
+<span class="hljs-deletion">-    ConnectionFactory connectionFactory = mock(ConnectionFactory.class);</span>
+<span class="hljs-addition">+    // removed local mock; replaced with global field `connectionFactory`</span>
+     AsyncRabbitTemplate amqpTemplate = spy(new AsyncRabbitTemplate(new RabbitTemplate(connectionFactory), new SimpleMessageListenerContainer(connectionFactory), "replyTo"));
+     amqpTemplate.setTaskScheduler(mock(TaskScheduler.class));
+     AsyncAmqpOutboundGateway gateway = new AsyncAmqpOutboundGateway(amqpTemplate);
+     willReturn(mock(RabbitMessageFuture.class)).given(amqpTemplate).sendAndReceive(anyString(), anyString(), any(Message.class));
+     gateway.setExchangeName("foo");
+     gateway.setRoutingKey("bar");
+     gateway.setDelayExpressionString("42");
+     gateway.setBeanFactory(mock(BeanFactory.class));
+     gateway.setOutputChannel(new NullChannel());
+     gateway.afterPropertiesSet();
+     gateway.start();
+     ArgumentCaptor&lt;Message&gt; captor = ArgumentCaptor.forClass(Message.class);
+     gateway.handleMessage(new GenericMessage&lt;&gt;("foo"));
+     verify(amqpTemplate).sendAndReceive(eq("foo"), eq("bar"), captor.capture());
+     assertThat(captor.getValue().getMessageProperties().getDelayLong()).isEqualTo(42);
+ }
+</div></code></pre>
+<details><summary>Original Test Code (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-meta">@Test</span>
+
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testAsyncDelayExpression</span><span class="hljs-params">()</span> </span>{
+
+    ConnectionFactory connectionFactory = mock(ConnectionFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    AsyncRabbitTemplate amqpTemplate = spy(<span class="hljs-keyword">new</span> AsyncRabbitTemplate(<span class="hljs-keyword">new</span> RabbitTemplate(connectionFactory), <span class="hljs-keyword">new</span> SimpleMessageListenerContainer(connectionFactory), <span class="hljs-string">"replyTo"</span>));
+
+    amqpTemplate.setTaskScheduler(mock(TaskScheduler<span class="hljs-class">.<span class="hljs-keyword">class</span>))</span>;
+
+    AsyncAmqpOutboundGateway gateway = <span class="hljs-keyword">new</span> AsyncAmqpOutboundGateway(amqpTemplate);
+
+    willReturn(mock(RabbitMessageFuture<span class="hljs-class">.<span class="hljs-keyword">class</span>)).<span class="hljs-title">given</span>(<span class="hljs-title">amqpTemplate</span>).<span class="hljs-title">sendAndReceive</span>(<span class="hljs-title">anyString</span>(), <span class="hljs-title">anyString</span>(), <span class="hljs-title">any</span>(<span class="hljs-title">Message</span>.<span class="hljs-title">class</span>))</span>;
+
+    gateway.setExchangeName(<span class="hljs-string">"foo"</span>);
+
+    gateway.setRoutingKey(<span class="hljs-string">"bar"</span>);
+
+    gateway.setDelayExpressionString(<span class="hljs-string">"42"</span>);
+
+    gateway.setBeanFactory(mock(BeanFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>))</span>;
+
+    gateway.setOutputChannel(<span class="hljs-keyword">new</span> NullChannel());
+
+    gateway.afterPropertiesSet();
+
+    gateway.start();
+
+    ArgumentCaptor&lt;Message&gt; captor = ArgumentCaptor.forClass(Message<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    gateway.handleMessage(<span class="hljs-keyword">new</span> GenericMessage&lt;&gt;(<span class="hljs-string">"foo"</span>));
+
+    verify(amqpTemplate).sendAndReceive(eq(<span class="hljs-string">"foo"</span>), eq(<span class="hljs-string">"bar"</span>), captor.capture());
+
+    assertThat(captor.getValue().getMessageProperties().getDelayLong()).isEqualTo(<span class="hljs-number">42</span>);
+
+}
+</div></code></pre>
+</details>
+<details><summary>Reusable Method for MCI (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-keyword">private</span> ConnectionFactory connectionFactory;
+
+<span class="hljs-meta">@BeforeEach</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">setUp</span><span class="hljs-params">()</span> </span>{
+    connectionFactory = mock(ConnectionFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+}
+</div></code></pre>
+</details>
+<hr>
+<h4 id="test-case-id-spring-integrationtest393">Test Case ID #spring-integration_Test_39_3</h4>
+<h4 id="test-case-name-testheadermapperwinsadapterfile-cjavaprojectsspringspring-integrationspring-integration-amqpsrctestjavaorgspringframeworkintegrationamqpoutboundoutboundendpointtestsjava">Test Case Name: <code>testHeaderMapperWinsAdapter</code>(File: <code>C:\Java_projects\Spring\spring-integration\spring-integration-amqp\src\test\java\org\springframework\integration\amqp\outbound\OutboundEndpointTests.java</code>)</h4>
+<h4 id="mock-object-variable-name-connectionfactory">Mock Object Variable Name: <code>connectionFactory</code></h4>
+<summary>Suggested Diff</summary>
+<pre class="hljs"><code><div>
+@@
+ @Test
+ public void testHeaderMapperWinsAdapter() {
+<span class="hljs-deletion">-    ConnectionFactory connectionFactory = mock(ConnectionFactory.class);</span>
+<span class="hljs-addition">+    // removed local mock; replaced with global field `connectionFactory`</span>
+     RabbitTemplate amqpTemplate = spy(new RabbitTemplate(connectionFactory));
+     AmqpOutboundEndpoint endpoint = new AmqpOutboundEndpoint(amqpTemplate);
+     endpoint.setHeadersMappedLast(true);
+     final AtomicReference&lt;Message&gt; amqpMessage = new AtomicReference&lt;&gt;();
+     willAnswer(invocation -&gt; {
+         amqpMessage.set(invocation.getArgument(2));
+         return null;
+     }).given(amqpTemplate).send(isNull(), isNull(), any(Message.class), isNull());
+     org.springframework.messaging.Message&lt;?&gt; message = MessageBuilder.withPayload("foo").setHeader(MessageHeaders.CONTENT_TYPE, "bar").build();
+     endpoint.handleMessage(message);
+     assertThat(amqpMessage.get()).isNotNull();
+     assertThat(amqpMessage.get().getMessageProperties().getContentType()).isEqualTo("bar");
+ }
+</div></code></pre>
+<details><summary>Original Test Code (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-meta">@Test</span>
+
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testHeaderMapperWinsAdapter</span><span class="hljs-params">()</span> </span>{
+
+    ConnectionFactory connectionFactory = mock(ConnectionFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    RabbitTemplate amqpTemplate = spy(<span class="hljs-keyword">new</span> RabbitTemplate(connectionFactory));
+
+    AmqpOutboundEndpoint endpoint = <span class="hljs-keyword">new</span> AmqpOutboundEndpoint(amqpTemplate);
+
+    endpoint.setHeadersMappedLast(<span class="hljs-keyword">true</span>);
+
+    <span class="hljs-keyword">final</span> AtomicReference&lt;Message&gt; amqpMessage = <span class="hljs-keyword">new</span> AtomicReference&lt;&gt;();
+
+    willAnswer(invocation -&gt; {
+
+        amqpMessage.set(invocation.getArgument(<span class="hljs-number">2</span>));
+
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+
+    }).given(amqpTemplate).send(isNull(), isNull(), any(Message<span class="hljs-class">.<span class="hljs-keyword">class</span>), <span class="hljs-title">isNull</span>())</span>;
+
+    org.springframework.messaging.Message&lt;?&gt; message = MessageBuilder.withPayload(<span class="hljs-string">"foo"</span>).setHeader(MessageHeaders.CONTENT_TYPE, <span class="hljs-string">"bar"</span>).build();
+
+    endpoint.handleMessage(message);
+
+    assertThat(amqpMessage.get()).isNotNull();
+
+    assertThat(amqpMessage.get().getMessageProperties().getContentType()).isEqualTo(<span class="hljs-string">"bar"</span>);
+
+}
+</div></code></pre>
+</details>
+<details><summary>Reusable Method for MCI (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-keyword">private</span> ConnectionFactory connectionFactory;
+
+<span class="hljs-meta">@BeforeEach</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">setUp</span><span class="hljs-params">()</span> </span>{
+    connectionFactory = mock(ConnectionFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+}
+</div></code></pre>
+</details>
+<hr>
+<h4 id="test-case-id-spring-integrationtest394">Test Case ID #spring-integration_Test_39_4</h4>
+<h4 id="test-case-name-testheadermapperwinsgatewayfile-cjavaprojectsspringspring-integrationspring-integration-amqpsrctestjavaorgspringframeworkintegrationamqpoutboundoutboundendpointtestsjava">Test Case Name: <code>testHeaderMapperWinsGateway</code>(File: <code>C:\Java_projects\Spring\spring-integration\spring-integration-amqp\src\test\java\org\springframework\integration\amqp\outbound\OutboundEndpointTests.java</code>)</h4>
+<h4 id="mock-object-variable-name-connectionfactory">Mock Object Variable Name: <code>connectionFactory</code></h4>
+<summary>Suggested Diff</summary>
+<pre class="hljs"><code><div>
+@@
+ @Test
+ public void testHeaderMapperWinsGateway() {
+<span class="hljs-deletion">-    ConnectionFactory connectionFactory = mock(ConnectionFactory.class);</span>
+<span class="hljs-addition">+    // removed local mock; replaced with global field `connectionFactory`</span>
+     TestRabbitTemplate amqpTemplate = spy(new TestRabbitTemplate(connectionFactory));
+     amqpTemplate.setUseTemporaryReplyQueues(true);
+     AmqpOutboundEndpoint endpoint = new AmqpOutboundEndpoint(amqpTemplate);
+     endpoint.setHeadersMappedLast(true);
+     endpoint.setExpectReply(true);
+     DefaultAmqpHeaderMapper mapper = DefaultAmqpHeaderMapper.inboundMapper();
+     mapper.setRequestHeaderNames("*");
+     endpoint.setHeaderMapper(mapper);
+     final AtomicReference&lt;Message&gt; amqpMessage = new AtomicReference&lt;&gt;();
+     willAnswer(invocation -&gt; {
+         amqpMessage.set(invocation.getArgument(2));
+         return null;
+     }).given(amqpTemplate).doSendAndReceiveWithTemporary(isNull(), isNull(), any(Message.class), isNull());
+     org.springframework.messaging.Message&lt;?&gt; message = MessageBuilder.withPayload("foo").setHeader(MessageHeaders.CONTENT_TYPE, "bar").setReplyChannel(new QueueChannel()).build();
+     endpoint.handleMessage(message);
+     assertThat(amqpMessage.get()).isNotNull();
+     assertThat(amqpMessage.get().getMessageProperties().getContentType()).isEqualTo("bar");
+     assertThat(amqpMessage.get().getMessageProperties().getHeaders().get(MessageHeaders.REPLY_CHANNEL)).isNull();
+ }
+</div></code></pre>
+<details><summary>Original Test Code (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-meta">@Test</span>
+
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testHeaderMapperWinsGateway</span><span class="hljs-params">()</span> </span>{
+
+    ConnectionFactory connectionFactory = mock(ConnectionFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    TestRabbitTemplate amqpTemplate = spy(<span class="hljs-keyword">new</span> TestRabbitTemplate(connectionFactory));
+
+    amqpTemplate.setUseTemporaryReplyQueues(<span class="hljs-keyword">true</span>);
+
+    AmqpOutboundEndpoint endpoint = <span class="hljs-keyword">new</span> AmqpOutboundEndpoint(amqpTemplate);
+
+    endpoint.setHeadersMappedLast(<span class="hljs-keyword">true</span>);
+
+    endpoint.setExpectReply(<span class="hljs-keyword">true</span>);
+
+    DefaultAmqpHeaderMapper mapper = DefaultAmqpHeaderMapper.inboundMapper();
+
+    mapper.setRequestHeaderNames(<span class="hljs-string">"*"</span>);
+
+    endpoint.setHeaderMapper(mapper);
+
+    <span class="hljs-keyword">final</span> AtomicReference&lt;Message&gt; amqpMessage = <span class="hljs-keyword">new</span> AtomicReference&lt;&gt;();
+
+    willAnswer(invocation -&gt; {
+
+        amqpMessage.set(invocation.getArgument(<span class="hljs-number">2</span>));
+
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+
+    }).given(amqpTemplate).doSendAndReceiveWithTemporary(isNull(), isNull(), any(Message<span class="hljs-class">.<span class="hljs-keyword">class</span>), <span class="hljs-title">isNull</span>())</span>;
+
+    org.springframework.messaging.Message&lt;?&gt; message = MessageBuilder.withPayload(<span class="hljs-string">"foo"</span>).setHeader(MessageHeaders.CONTENT_TYPE, <span class="hljs-string">"bar"</span>).setReplyChannel(<span class="hljs-keyword">new</span> QueueChannel()).build();
+
+    endpoint.handleMessage(message);
+
+    assertThat(amqpMessage.get()).isNotNull();
+
+    assertThat(amqpMessage.get().getMessageProperties().getContentType()).isEqualTo(<span class="hljs-string">"bar"</span>);
+
+    assertThat(amqpMessage.get().getMessageProperties().getHeaders().get(MessageHeaders.REPLY_CHANNEL)).isNull();
+
+}
+</div></code></pre>
+</details>
+<details><summary>Reusable Method for MCI (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-keyword">private</span> ConnectionFactory connectionFactory;
+
+<span class="hljs-meta">@BeforeEach</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">setUp</span><span class="hljs-params">()</span> </span>{
+    connectionFactory = mock(ConnectionFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+}
+</div></code></pre>
+</details>
+<hr>
+<h4 id="test-case-id-spring-integrationtest395">Test Case ID #spring-integration_Test_39_5</h4>
+<h4 id="test-case-name-testreplyheaderswinfile-cjavaprojectsspringspring-integrationspring-integration-amqpsrctestjavaorgspringframeworkintegrationamqpoutboundoutboundendpointtestsjava">Test Case Name: <code>testReplyHeadersWin</code>(File: <code>C:\Java_projects\Spring\spring-integration\spring-integration-amqp\src\test\java\org\springframework\integration\amqp\outbound\OutboundEndpointTests.java</code>)</h4>
+<h4 id="mock-object-variable-name-connectionfactory">Mock Object Variable Name: <code>connectionFactory</code></h4>
+<summary>Suggested Diff</summary>
+<pre class="hljs"><code><div>
+@@
+ @Test
+ public void testReplyHeadersWin() {
+<span class="hljs-deletion">-    ConnectionFactory connectionFactory = mock(ConnectionFactory.class);</span>
+<span class="hljs-addition">+    // removed local mock; replaced with global field `connectionFactory`</span>
+     TestRabbitTemplate amqpTemplate = spy(new TestRabbitTemplate(connectionFactory));
+     amqpTemplate.setUseTemporaryReplyQueues(true);
+     AmqpOutboundEndpoint endpoint = new AmqpOutboundEndpoint(amqpTemplate);
+     endpoint.setExpectReply(true);
+     willAnswer(invocation -&gt; org.springframework.amqp.core.MessageBuilder.withBody(new byte[0]).setHeader(AbstractJavaTypeMapper.DEFAULT_CLASSID_FIELD_NAME, String.class.getName()).build()).given(amqpTemplate).doSendAndReceiveWithTemporary(isNull(), isNull(), any(Message.class), isNull());
+     QueueChannel replyChannel = new QueueChannel();
+     org.springframework.messaging.Message&lt;?&gt; message = MessageBuilder.withPayload("foo").setHeader(JsonHeaders.RESOLVABLE_TYPE, ResolvableType.forClass(Date.class)).setReplyChannel(replyChannel).build();
+     endpoint.handleMessage(message);
+     org.springframework.messaging.Message&lt;?&gt; receive = replyChannel.receive(10_000);
+     assertThat(receive).isNotNull();
+     assertThat(receive.getHeaders()).containsEntry(AbstractJavaTypeMapper.DEFAULT_CLASSID_FIELD_NAME, String.class.getName()).containsEntry(JsonHeaders.TYPE_ID, String.class.getName()).containsEntry(JsonHeaders.RESOLVABLE_TYPE, ResolvableType.forClass(String.class));
+ }
+</div></code></pre>
+<details><summary>Original Test Code (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-meta">@Test</span>
+
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">testReplyHeadersWin</span><span class="hljs-params">()</span> </span>{
+
+    ConnectionFactory connectionFactory = mock(ConnectionFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    TestRabbitTemplate amqpTemplate = spy(<span class="hljs-keyword">new</span> TestRabbitTemplate(connectionFactory));
+
+    amqpTemplate.setUseTemporaryReplyQueues(<span class="hljs-keyword">true</span>);
+
+    AmqpOutboundEndpoint endpoint = <span class="hljs-keyword">new</span> AmqpOutboundEndpoint(amqpTemplate);
+
+    endpoint.setExpectReply(<span class="hljs-keyword">true</span>);
+
+    willAnswer(invocation -&gt; org.springframework.amqp.core.MessageBuilder.withBody(<span class="hljs-keyword">new</span> <span class="hljs-keyword">byte</span>[<span class="hljs-number">0</span>]).setHeader(AbstractJavaTypeMapper.DEFAULT_CLASSID_FIELD_NAME, String<span class="hljs-class">.<span class="hljs-keyword">class</span>.<span class="hljs-title">getName</span>()).<span class="hljs-title">build</span>()).<span class="hljs-title">given</span>(<span class="hljs-title">amqpTemplate</span>).<span class="hljs-title">doSendAndReceiveWithTemporary</span>(<span class="hljs-title">isNull</span>(), <span class="hljs-title">isNull</span>(), <span class="hljs-title">any</span>(<span class="hljs-title">Message</span>.<span class="hljs-title">class</span>), <span class="hljs-title">isNull</span>())</span>;
+
+    QueueChannel replyChannel = <span class="hljs-keyword">new</span> QueueChannel();
+
+    org.springframework.messaging.Message&lt;?&gt; message = MessageBuilder.withPayload(<span class="hljs-string">"foo"</span>).setHeader(JsonHeaders.RESOLVABLE_TYPE, ResolvableType.forClass(Date<span class="hljs-class">.<span class="hljs-keyword">class</span>)).<span class="hljs-title">setReplyChannel</span>(<span class="hljs-title">replyChannel</span>).<span class="hljs-title">build</span>()</span>;
+
+    endpoint.handleMessage(message);
+
+    org.springframework.messaging.Message&lt;?&gt; receive = replyChannel.receive(<span class="hljs-number">10_000</span>);
+
+    assertThat(receive).isNotNull();
+
+    assertThat(receive.getHeaders()).containsEntry(AbstractJavaTypeMapper.DEFAULT_CLASSID_FIELD_NAME, String<span class="hljs-class">.<span class="hljs-keyword">class</span>.<span class="hljs-title">getName</span>()).<span class="hljs-title">containsEntry</span>(<span class="hljs-title">JsonHeaders</span>.<span class="hljs-title">TYPE_ID</span>, <span class="hljs-title">String</span>.<span class="hljs-title">class</span>.<span class="hljs-title">getName</span>()).<span class="hljs-title">containsEntry</span>(<span class="hljs-title">JsonHeaders</span>.<span class="hljs-title">RESOLVABLE_TYPE</span>, <span class="hljs-title">ResolvableType</span>.<span class="hljs-title">forClass</span>(<span class="hljs-title">String</span>.<span class="hljs-title">class</span>))</span>;
+
+}
+</div></code></pre>
+</details>
+<details><summary>Reusable Method for MCI (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-keyword">private</span> ConnectionFactory connectionFactory;
+
+<span class="hljs-meta">@BeforeEach</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">setUp</span><span class="hljs-params">()</span> </span>{
+    connectionFactory = mock(ConnectionFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+}
+</div></code></pre>
+</details>
+<hr>
+
+</body>
+</html>

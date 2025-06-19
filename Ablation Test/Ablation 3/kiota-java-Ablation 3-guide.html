@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>kiota-java-Ablation 3-guide.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="ablation-3-a-guide-to-refactoring-mock-clones-in-kiota-java">Ablation 3: A guide to Refactoring mock clones in kiota-java</h1>
+<h2 id="mock-clone-instance-kiota-javamci5">Mock Clone Instance #kiota-java_MCI_5</h2>
+<ul>
+<li><strong>Scope</strong>: method level</li>
+<li><strong>Mocked Class</strong>: <code>com.microsoft.kiota.serialization.Parsable</code></li>
+<li><strong>Test Case Count</strong>: 3</li>
+<li><strong>MO Count</strong>: 3</li>
+</ul>
+<h3 id="reusable-method">Reusable Method</h3>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> Parsable <span class="hljs-title">createMockParsableWithEmptyFieldDeserializers</span><span class="hljs-params">()</span> </span>{
+    Parsable mockEntity = mock(Parsable<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+    when(mockEntity.getFieldDeserializers()).thenReturn(<span class="hljs-keyword">new</span> HashMap&lt;&gt;());
+    <span class="hljs-keyword">return</span> mockEntity;
+}
+</div></code></pre>
+<h3 id="the-refactoring-details-in-each-test-cases">The refactoring details in each test cases</h3>
+<hr>
+<h4 id="test-case-id-kiota-javatest51">Test Case ID #kiota-java_Test_5_1</h4>
+<h4 id="test-case-name-sendreturnsnullonnocontentfile-cjavaprojectsmicrosoftkiota-javacomponentshttpokhttpsrctestjavacommicrosoftkiotahttpokhttprequestadaptertestjava">Test Case Name: <code>sendReturnsNullOnNoContent</code>(File: <code>C:\Java_projects\Microsoft\kiota-java\components\http\okHttp\src\test\java\com\microsoft\kiota\http\OkHttpRequestAdapterTest.java</code>)</h4>
+<h4 id="mock-object-variable-name-mockentity">Mock Object Variable Name: <code>mockEntity</code></h4>
+<summary>Suggested Diff</summary>
+<pre class="hljs"><code><div>@@
+ @Test
+ public void testTrashSharedNetwork() {
+<span class="hljs-deletion">-    final Network network = mock(Network.class);</span>
+<span class="hljs-addition">+    final Network network = MockNetwork.createMockNetworkWithGuestType(Network.GuestType.Shared);</span>
+     final NetworkDetailVO networkDetailVO = mock(NetworkDetailVO.class);
+     final TungstenProviderVO tungstenProviderVO = mock(TungstenProviderVO.class);
+     final HostVO hostVO = mock(HostVO.class);
+<span class="hljs-deletion">-    when(network.getGuestType()).thenReturn(Network.GuestType.Shared);</span>
+     when(networkDetailsDao.findDetail(anyLong(), anyString())).thenReturn(networkDetailVO);
+     when(tungstenProviderDao.findByZoneId(anyLong())).thenReturn(tungstenProviderVO);
+     when(hostDao.findByPublicIp(any())).thenReturn(hostVO);
+     guru.trash(network, offering);
+     verify(tungstenFabricUtils, times(1)).sendTungstenCommand(any(DeleteTungstenNetworkPolicyCommand.class), anyLong());
+     verify(tungstenFabricUtils, times(1)).sendTungstenCommand(any(ClearTungstenNetworkGatewayCommand.class), anyLong());
+     verify(tungstenFabricUtils, times(1)).sendTungstenCommand(any(DeleteTungstenNetworkCommand.class), anyLong());
+     verify(tungstenService, times(1)).deallocateDnsIpAddress(any(), any(), anyString());
+     verify(agentMgr, times(1)).easySend(any(), any(SetupTungstenVRouterCommand.class));
+     verify(networkDetailsDao, times(1)).expunge(anyLong());
+ }
+@@
+</div></code></pre>
+<details><summary>Original Test Code (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-meta">@ParameterizedTest</span>
+
+<span class="hljs-meta">@ValueSource</span>(ints = { <span class="hljs-number">200</span>, <span class="hljs-number">201</span>, <span class="hljs-number">202</span>, <span class="hljs-number">203</span>, <span class="hljs-number">204</span>, <span class="hljs-number">205</span> })
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">sendReturnsNullOnNoContent</span><span class="hljs-params">(<span class="hljs-keyword">int</span> statusCode)</span> <span class="hljs-keyword">throws</span> Exception </span>{
+
+    <span class="hljs-keyword">final</span> <span class="hljs-keyword">var</span> authenticationProviderMock = mock(AuthenticationProvider<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    authenticationProviderMock.authenticateRequest(any(RequestInformation<span class="hljs-class">.<span class="hljs-keyword">class</span>), <span class="hljs-title">any</span>(<span class="hljs-title">Map</span>.<span class="hljs-title">class</span>))</span>;
+
+    <span class="hljs-keyword">final</span> <span class="hljs-keyword">var</span> client = getMockClient(<span class="hljs-keyword">new</span> Response.Builder().code(statusCode).message(<span class="hljs-string">"OK"</span>).protocol(Protocol.HTTP_1_1).request(<span class="hljs-keyword">new</span> Request.Builder().url(<span class="hljs-string">"http://localhost"</span>).build()).body(<span class="hljs-keyword">null</span>).build());
+
+    <span class="hljs-keyword">final</span> <span class="hljs-keyword">var</span> requestAdapter = <span class="hljs-keyword">new</span> OkHttpRequestAdapter(authenticationProviderMock, <span class="hljs-keyword">null</span>, <span class="hljs-keyword">null</span>, client);
+
+    <span class="hljs-keyword">final</span> <span class="hljs-keyword">var</span> requestInformation = <span class="hljs-keyword">new</span> RequestInformation() {
+
+
+
+        {
+
+            setUri(<span class="hljs-keyword">new</span> URI(<span class="hljs-string">"https://localhost"</span>));
+
+            httpMethod = HttpMethod.GET;
+
+        }
+
+    };
+
+    <span class="hljs-keyword">final</span> <span class="hljs-keyword">var</span> mockEntity = mock(Parsable<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    when(mockEntity.getFieldDeserializers()).thenReturn(<span class="hljs-keyword">new</span> HashMap&lt;&gt;());
+
+    <span class="hljs-keyword">final</span> <span class="hljs-keyword">var</span> response = requestAdapter.send(requestInformation, <span class="hljs-keyword">null</span>, (node) -&gt; mockEntity);
+
+    assertNull(response);
+
+}
+</div></code></pre>
+</details>
+<details><summary>Reusable Method for MCI (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> Parsable <span class="hljs-title">createMockParsableWithEmptyFieldDeserializers</span><span class="hljs-params">()</span> </span>{
+    Parsable mockEntity = mock(Parsable<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+    when(mockEntity.getFieldDeserializers()).thenReturn(<span class="hljs-keyword">new</span> HashMap&lt;&gt;());
+    <span class="hljs-keyword">return</span> mockEntity;
+}
+</div></code></pre>
+</details>
+<hr>
+<h4 id="test-case-id-kiota-javatest52">Test Case ID #kiota-java_Test_5_2</h4>
+<h4 id="test-case-name-sendreturnsobjectoncontentfile-cjavaprojectsmicrosoftkiota-javacomponentshttpokhttpsrctestjavacommicrosoftkiotahttpokhttprequestadaptertestjava">Test Case Name: <code>sendReturnsObjectOnContent</code>(File: <code>C:\Java_projects\Microsoft\kiota-java\components\http\okHttp\src\test\java\com\microsoft\kiota\http\OkHttpRequestAdapterTest.java</code>)</h4>
+<h4 id="mock-object-variable-name-mockentity">Mock Object Variable Name: <code>mockEntity</code></h4>
+<summary>Suggested Diff</summary>
+<pre class="hljs"><code><div>@@
+ @Test
+ public void testTrashSharedNetwork() {
+<span class="hljs-deletion">-    final Network network = mock(Network.class);</span>
+<span class="hljs-addition">+    final Network network = MockNetwork.createMockNetworkWithGuestType(Network.GuestType.Shared);</span>
+     final NetworkDetailVO networkDetailVO = mock(NetworkDetailVO.class);
+     final TungstenProviderVO tungstenProviderVO = mock(TungstenProviderVO.class);
+     final HostVO hostVO = mock(HostVO.class);
+<span class="hljs-deletion">-    when(network.getGuestType()).thenReturn(Network.GuestType.Shared);</span>
+     when(networkDetailsDao.findDetail(anyLong(), anyString())).thenReturn(networkDetailVO);
+     when(tungstenProviderDao.findByZoneId(anyLong())).thenReturn(tungstenProviderVO);
+     when(hostDao.findByPublicIp(any())).thenReturn(hostVO);
+     guru.trash(network, offering);
+     verify(tungstenFabricUtils, times(1)).sendTungstenCommand(any(DeleteTungstenNetworkPolicyCommand.class), anyLong());
+     verify(tungstenFabricUtils, times(1)).sendTungstenCommand(any(ClearTungstenNetworkGatewayCommand.class), anyLong());
+     verify(tungstenFabricUtils, times(1)).sendTungstenCommand(any(DeleteTungstenNetworkCommand.class), anyLong());
+     verify(tungstenService, times(1)).deallocateDnsIpAddress(any(), any(), anyString());
+     verify(agentMgr, times(1)).easySend(any(), any(SetupTungstenVRouterCommand.class));
+     verify(networkDetailsDao, times(1)).expunge(anyLong());
+ }
+@@
+</div></code></pre>
+<details><summary>Original Test Code (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-meta">@ParameterizedTest</span>
+
+<span class="hljs-meta">@ValueSource</span>(ints = { <span class="hljs-number">200</span>, <span class="hljs-number">201</span>, <span class="hljs-number">202</span>, <span class="hljs-number">203</span> })
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">sendReturnsObjectOnContent</span><span class="hljs-params">(<span class="hljs-keyword">int</span> statusCode)</span> <span class="hljs-keyword">throws</span> Exception </span>{
+
+    <span class="hljs-keyword">final</span> <span class="hljs-keyword">var</span> authenticationProviderMock = mock(AuthenticationProvider<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    authenticationProviderMock.authenticateRequest(any(RequestInformation<span class="hljs-class">.<span class="hljs-keyword">class</span>), <span class="hljs-title">any</span>(<span class="hljs-title">Map</span>.<span class="hljs-title">class</span>))</span>;
+
+    <span class="hljs-keyword">final</span> <span class="hljs-keyword">var</span> client = getMockClient(<span class="hljs-keyword">new</span> Response.Builder().code(statusCode).message(<span class="hljs-string">"OK"</span>).protocol(Protocol.HTTP_1_1).request(<span class="hljs-keyword">new</span> Request.Builder().url(<span class="hljs-string">"http://localhost"</span>).build()).body(ResponseBody.create(<span class="hljs-string">"test"</span>.getBytes(<span class="hljs-string">"UTF-8"</span>), MediaType.parse(<span class="hljs-string">"application/json"</span>))).build());
+
+    <span class="hljs-keyword">final</span> <span class="hljs-keyword">var</span> requestInformation = <span class="hljs-keyword">new</span> RequestInformation() {
+
+
+
+        {
+
+            setUri(<span class="hljs-keyword">new</span> URI(<span class="hljs-string">"https://localhost"</span>));
+
+            httpMethod = HttpMethod.GET;
+
+        }
+
+    };
+
+    <span class="hljs-keyword">final</span> <span class="hljs-keyword">var</span> mockEntity = mock(Parsable<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    when(mockEntity.getFieldDeserializers()).thenReturn(<span class="hljs-keyword">new</span> HashMap&lt;&gt;());
+
+    <span class="hljs-keyword">final</span> <span class="hljs-keyword">var</span> mockParseNode = mock(ParseNode<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    when(mockParseNode.getObjectValue(any(ParsableFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>))).<span class="hljs-title">thenReturn</span>(<span class="hljs-title">mockEntity</span>)</span>;
+
+    <span class="hljs-keyword">final</span> <span class="hljs-keyword">var</span> mockFactory = mock(ParseNodeFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    when(mockFactory.getParseNode(any(String<span class="hljs-class">.<span class="hljs-keyword">class</span>), <span class="hljs-title">any</span>(<span class="hljs-title">InputStream</span>.<span class="hljs-title">class</span>))).<span class="hljs-title">thenReturn</span>(<span class="hljs-title">mockParseNode</span>)</span>;
+
+    when(mockFactory.getValidContentType()).thenReturn(<span class="hljs-string">"application/json"</span>);
+
+    <span class="hljs-keyword">final</span> <span class="hljs-keyword">var</span> requestAdapter = <span class="hljs-keyword">new</span> OkHttpRequestAdapter(authenticationProviderMock, mockFactory, <span class="hljs-keyword">null</span>, client);
+
+    <span class="hljs-keyword">final</span> <span class="hljs-keyword">var</span> response = requestAdapter.send(requestInformation, <span class="hljs-keyword">null</span>, (node) -&gt; mockEntity);
+
+    assertNotNull(response);
+
+}
+</div></code></pre>
+</details>
+<details><summary>Reusable Method for MCI (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> Parsable <span class="hljs-title">createMockParsableWithEmptyFieldDeserializers</span><span class="hljs-params">()</span> </span>{
+    Parsable mockEntity = mock(Parsable<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+    when(mockEntity.getFieldDeserializers()).thenReturn(<span class="hljs-keyword">new</span> HashMap&lt;&gt;());
+    <span class="hljs-keyword">return</span> mockEntity;
+}
+</div></code></pre>
+</details>
+<hr>
+<h4 id="test-case-id-kiota-javatest53">Test Case ID #kiota-java_Test_5_3</h4>
+<h4 id="test-case-name-throwsapiexceptionfile-cjavaprojectsmicrosoftkiota-javacomponentshttpokhttpsrctestjavacommicrosoftkiotahttpokhttprequestadaptertestjava">Test Case Name: <code>throwsAPIException</code>(File: <code>C:\Java_projects\Microsoft\kiota-java\components\http\okHttp\src\test\java\com\microsoft\kiota\http\OkHttpRequestAdapterTest.java</code>)</h4>
+<h4 id="mock-object-variable-name-mockentity">Mock Object Variable Name: <code>mockEntity</code></h4>
+<summary>Suggested Diff</summary>
+<pre class="hljs"><code><div>@@
+ @Test
+ public void testTrashSharedNetwork() {
+<span class="hljs-deletion">-    final Network network = mock(Network.class);</span>
+<span class="hljs-addition">+    final Network network = MockNetwork.createMockNetworkWithGuestType(Network.GuestType.Shared);</span>
+     final NetworkDetailVO networkDetailVO = mock(NetworkDetailVO.class);
+     final TungstenProviderVO tungstenProviderVO = mock(TungstenProviderVO.class);
+     final HostVO hostVO = mock(HostVO.class);
+<span class="hljs-deletion">-    when(network.getGuestType()).thenReturn(Network.GuestType.Shared);</span>
+     when(networkDetailsDao.findDetail(anyLong(), anyString())).thenReturn(networkDetailVO);
+     when(tungstenProviderDao.findByZoneId(anyLong())).thenReturn(tungstenProviderVO);
+     when(hostDao.findByPublicIp(any())).thenReturn(hostVO);
+     guru.trash(network, offering);
+     verify(tungstenFabricUtils, times(1)).sendTungstenCommand(any(DeleteTungstenNetworkPolicyCommand.class), anyLong());
+     verify(tungstenFabricUtils, times(1)).sendTungstenCommand(any(ClearTungstenNetworkGatewayCommand.class), anyLong());
+     verify(tungstenFabricUtils, times(1)).sendTungstenCommand(any(DeleteTungstenNetworkCommand.class), anyLong());
+     verify(tungstenService, times(1)).deallocateDnsIpAddress(any(), any(), anyString());
+     verify(agentMgr, times(1)).easySend(any(), any(SetupTungstenVRouterCommand.class));
+     verify(networkDetailsDao, times(1)).expunge(anyLong());
+ }
+@@
+</div></code></pre>
+<details><summary>Original Test Code (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-meta">@SuppressWarnings</span>(<span class="hljs-string">"unchecked"</span>)
+
+<span class="hljs-meta">@ParameterizedTest</span>
+
+<span class="hljs-meta">@MethodSource</span>(<span class="hljs-string">"providesErrorMappings"</span>)
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">throwsAPIException</span><span class="hljs-params">(<span class="hljs-keyword">int</span> responseStatusCode, List&lt;String&gt; errorMappingCodes, <span class="hljs-keyword">boolean</span> expectDeserializedException)</span> <span class="hljs-keyword">throws</span> Exception </span>{
+
+    <span class="hljs-keyword">final</span> <span class="hljs-keyword">var</span> authenticationProviderMock = mock(AuthenticationProvider<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    authenticationProviderMock.authenticateRequest(any(RequestInformation<span class="hljs-class">.<span class="hljs-keyword">class</span>), <span class="hljs-title">any</span>(<span class="hljs-title">Map</span>.<span class="hljs-title">class</span>))</span>;
+
+    <span class="hljs-keyword">final</span> <span class="hljs-keyword">var</span> client = getMockClient(<span class="hljs-keyword">new</span> Response.Builder().code(responseStatusCode).message(<span class="hljs-string">"Not Found"</span>).protocol(Protocol.HTTP_1_1).request(<span class="hljs-keyword">new</span> Request.Builder().url(<span class="hljs-string">"http://localhost"</span>).build()).body(ResponseBody.create(<span class="hljs-string">"test"</span>.getBytes(<span class="hljs-string">"UTF-8"</span>), MediaType.parse(<span class="hljs-string">"application/json"</span>))).header(<span class="hljs-string">"request-id"</span>, <span class="hljs-string">"request-id-value"</span>).build());
+
+    <span class="hljs-keyword">final</span> <span class="hljs-keyword">var</span> requestInformation = <span class="hljs-keyword">new</span> RequestInformation() {
+
+
+
+        {
+
+            setUri(<span class="hljs-keyword">new</span> URI(<span class="hljs-string">"https://localhost"</span>));
+
+            httpMethod = HttpMethod.GET;
+
+        }
+
+    };
+
+    <span class="hljs-keyword">final</span> <span class="hljs-keyword">var</span> mockEntity = mock(Parsable<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    when(mockEntity.getFieldDeserializers()).thenReturn(<span class="hljs-keyword">new</span> HashMap&lt;&gt;());
+
+    <span class="hljs-keyword">final</span> <span class="hljs-keyword">var</span> mockParsableFactory = mock(ParsableFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    when(mockParsableFactory.create(any(ParseNode<span class="hljs-class">.<span class="hljs-keyword">class</span>))).<span class="hljs-title">thenReturn</span>(<span class="hljs-title">mockEntity</span>)</span>;
+
+    <span class="hljs-keyword">final</span> <span class="hljs-keyword">var</span> mockParseNode = mock(ParseNode<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    when(mockParseNode.getObjectValue(any(ParsableFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>))).<span class="hljs-title">thenReturn</span>(<span class="hljs-title">mockEntity</span>)</span>;
+
+    <span class="hljs-keyword">final</span> <span class="hljs-keyword">var</span> mockFactory = mock(ParseNodeFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    when(mockFactory.getParseNode(any(String<span class="hljs-class">.<span class="hljs-keyword">class</span>), <span class="hljs-title">any</span>(<span class="hljs-title">InputStream</span>.<span class="hljs-title">class</span>))).<span class="hljs-title">thenReturn</span>(<span class="hljs-title">mockParseNode</span>)</span>;
+
+    when(mockFactory.getValidContentType()).thenReturn(<span class="hljs-string">"application/json"</span>);
+
+    <span class="hljs-keyword">final</span> <span class="hljs-keyword">var</span> requestAdapter = <span class="hljs-keyword">new</span> OkHttpRequestAdapter(authenticationProviderMock, mockFactory, <span class="hljs-keyword">null</span>, client);
+
+    <span class="hljs-keyword">final</span> <span class="hljs-keyword">var</span> errorMappings = errorMappingCodes == <span class="hljs-keyword">null</span> ? <span class="hljs-keyword">null</span> : <span class="hljs-keyword">new</span> HashMap&lt;String, ParsableFactory&lt;? extends Parsable&gt;&gt;();
+
+    <span class="hljs-keyword">if</span> (errorMappings != <span class="hljs-keyword">null</span>)
+
+        errorMappingCodes.forEach((mapping) -&gt; errorMappings.put(mapping, mockParsableFactory));
+
+    <span class="hljs-keyword">final</span> <span class="hljs-keyword">var</span> exception = assertThrows(ApiException<span class="hljs-class">.<span class="hljs-keyword">class</span>, () -&gt; <span class="hljs-title">requestAdapter</span>.<span class="hljs-title">send</span>(<span class="hljs-title">requestInformation</span>, <span class="hljs-title">errorMappings</span>, (<span class="hljs-title">node</span>) -&gt; <span class="hljs-title">mockEntity</span>))</span>;
+
+    assertNotNull(exception);
+
+    <span class="hljs-keyword">if</span> (expectDeserializedException)
+
+        verify(mockParseNode, times(<span class="hljs-number">1</span>)).getObjectValue(mockParsableFactory);
+
+    assertEquals(responseStatusCode, exception.getResponseStatusCode());
+
+    assertTrue(exception.getResponseHeaders().containsKey(<span class="hljs-string">"request-id"</span>));
+
+}
+</div></code></pre>
+</details>
+<details><summary>Reusable Method for MCI (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> Parsable <span class="hljs-title">createMockParsableWithEmptyFieldDeserializers</span><span class="hljs-params">()</span> </span>{
+    Parsable mockEntity = mock(Parsable<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+    when(mockEntity.getFieldDeserializers()).thenReturn(<span class="hljs-keyword">new</span> HashMap&lt;&gt;());
+    <span class="hljs-keyword">return</span> mockEntity;
+}
+</div></code></pre>
+</details>
+<hr>
+<h2 id="mock-clone-instance-kiota-javamci6">Mock Clone Instance #kiota-java_MCI_6</h2>
+<ul>
+<li><strong>Scope</strong>: method level</li>
+<li><strong>Mocked Class</strong>: <code>com.microsoft.kiota.serialization.SerializationWriterFactory</code></li>
+<li><strong>Test Case Count</strong>: 5</li>
+<li><strong>MO Count</strong>: 5</li>
+</ul>
+<h3 id="reusable-method">Reusable Method</h3>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> SerializationWriterFactory <span class="hljs-title">createMockSerializationWriterFactory</span><span class="hljs-params">(SerializationWriter writerMock)</span> </span>{
+    SerializationWriterFactory factoryMock = mock(SerializationWriterFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+    when(factoryMock.getSerializationWriter(anyString())).thenReturn(writerMock);
+    <span class="hljs-keyword">return</span> factoryMock;
+}
+</div></code></pre>
+<h3 id="the-refactoring-details-in-each-test-cases">The refactoring details in each test cases</h3>
+<hr>
+<h4 id="test-case-id-kiota-javatest61">Test Case ID #kiota-java_Test_6_1</h4>
+<h4 id="test-case-name-setsparsablecontentfile-cjavaprojectsmicrosoftkiota-javacomponentsabstractionssrctestjavacommicrosoftkiotarequestinformationtestjava">Test Case Name: <code>SetsParsableContent</code>(File: <code>C:\Java_projects\Microsoft\kiota-java\components\abstractions\src\test\java\com\microsoft\kiota\RequestInformationTest.java</code>)</h4>
+<h4 id="mock-object-variable-name-factorymock">Mock Object Variable Name: <code>factoryMock</code></h4>
+<summary>Suggested Diff</summary>
+<pre class="hljs"><code><div>@@
+ @Test
+ public void testTrashSharedNetwork() {
+<span class="hljs-deletion">-    final Network network = mock(Network.class);</span>
+<span class="hljs-addition">+    final Network network = MockNetwork.createMockNetworkWithGuestType(Network.GuestType.Shared);</span>
+     final NetworkDetailVO networkDetailVO = mock(NetworkDetailVO.class);
+     final TungstenProviderVO tungstenProviderVO = mock(TungstenProviderVO.class);
+     final HostVO hostVO = mock(HostVO.class);
+<span class="hljs-deletion">-    when(network.getGuestType()).thenReturn(Network.GuestType.Shared);</span>
+     when(networkDetailsDao.findDetail(anyLong(), anyString())).thenReturn(networkDetailVO);
+     when(tungstenProviderDao.findByZoneId(anyLong())).thenReturn(tungstenProviderVO);
+     when(hostDao.findByPublicIp(any())).thenReturn(hostVO);
+     guru.trash(network, offering);
+     verify(tungstenFabricUtils, times(1)).sendTungstenCommand(any(DeleteTungstenNetworkPolicyCommand.class), anyLong());
+     verify(tungstenFabricUtils, times(1)).sendTungstenCommand(any(ClearTungstenNetworkGatewayCommand.class), anyLong());
+     verify(tungstenFabricUtils, times(1)).sendTungstenCommand(any(DeleteTungstenNetworkCommand.class), anyLong());
+     verify(tungstenService, times(1)).deallocateDnsIpAddress(any(), any(), anyString());
+     verify(agentMgr, times(1)).easySend(any(), any(SetupTungstenVRouterCommand.class));
+     verify(networkDetailsDao, times(1)).expunge(anyLong());
+ }
+@@
+</div></code></pre>
+<details><summary>Original Test Code (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-meta">@Test</span>
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">SetsParsableContent</span><span class="hljs-params">()</span> </span>{
+
+    <span class="hljs-comment">// Arrange as the request builders would</span>
+
+    <span class="hljs-keyword">final</span> RequestInformation requestInfo = <span class="hljs-keyword">new</span> RequestInformation();
+
+    requestInfo.httpMethod = HttpMethod.POST;
+
+    requestInfo.urlTemplate = <span class="hljs-string">"http://localhost/users"</span>;
+
+    <span class="hljs-keyword">final</span> SerializationWriter writerMock = mock(SerializationWriter<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    <span class="hljs-keyword">final</span> SerializationWriterFactory factoryMock = mock(SerializationWriterFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    when(factoryMock.getSerializationWriter(anyString())).thenReturn(writerMock);
+
+    <span class="hljs-keyword">final</span> RequestAdapter requestAdapterMock = mock(RequestAdapter<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    when(requestAdapterMock.getSerializationWriterFactory()).thenReturn(factoryMock);
+
+    requestInfo.setContentFromParsable(requestAdapterMock, <span class="hljs-string">"application/json"</span>, <span class="hljs-keyword">new</span> TestEntity());
+
+    verify(writerMock, times(<span class="hljs-number">1</span>)).writeObjectValue(any(), any(TestEntity<span class="hljs-class">.<span class="hljs-keyword">class</span>))</span>;
+
+    verify(writerMock, never()).writeCollectionOfObjectValues(anyString(), any(ArrayList<span class="hljs-class">.<span class="hljs-keyword">class</span>))</span>;
+
+}
+</div></code></pre>
+</details>
+<details><summary>Reusable Method for MCI (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> SerializationWriterFactory <span class="hljs-title">createMockSerializationWriterFactory</span><span class="hljs-params">(SerializationWriter writerMock)</span> </span>{
+    SerializationWriterFactory factoryMock = mock(SerializationWriterFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+    when(factoryMock.getSerializationWriter(anyString())).thenReturn(writerMock);
+    <span class="hljs-keyword">return</span> factoryMock;
+}
+</div></code></pre>
+</details>
+<hr>
+<h4 id="test-case-id-kiota-javatest62">Test Case ID #kiota-java_Test_6_2</h4>
+<h4 id="test-case-name-setsparsablecontentcollectionfile-cjavaprojectsmicrosoftkiota-javacomponentsabstractionssrctestjavacommicrosoftkiotarequestinformationtestjava">Test Case Name: <code>SetsParsableContentCollection</code>(File: <code>C:\Java_projects\Microsoft\kiota-java\components\abstractions\src\test\java\com\microsoft\kiota\RequestInformationTest.java</code>)</h4>
+<h4 id="mock-object-variable-name-factorymock">Mock Object Variable Name: <code>factoryMock</code></h4>
+<summary>Suggested Diff</summary>
+<pre class="hljs"><code><div>@@
+ @Test
+ public void testTrashSharedNetwork() {
+<span class="hljs-deletion">-    final Network network = mock(Network.class);</span>
+<span class="hljs-addition">+    final Network network = MockNetwork.createMockNetworkWithGuestType(Network.GuestType.Shared);</span>
+     final NetworkDetailVO networkDetailVO = mock(NetworkDetailVO.class);
+     final TungstenProviderVO tungstenProviderVO = mock(TungstenProviderVO.class);
+     final HostVO hostVO = mock(HostVO.class);
+<span class="hljs-deletion">-    when(network.getGuestType()).thenReturn(Network.GuestType.Shared);</span>
+     when(networkDetailsDao.findDetail(anyLong(), anyString())).thenReturn(networkDetailVO);
+     when(tungstenProviderDao.findByZoneId(anyLong())).thenReturn(tungstenProviderVO);
+     when(hostDao.findByPublicIp(any())).thenReturn(hostVO);
+     guru.trash(network, offering);
+     verify(tungstenFabricUtils, times(1)).sendTungstenCommand(any(DeleteTungstenNetworkPolicyCommand.class), anyLong());
+     verify(tungstenFabricUtils, times(1)).sendTungstenCommand(any(ClearTungstenNetworkGatewayCommand.class), anyLong());
+     verify(tungstenFabricUtils, times(1)).sendTungstenCommand(any(DeleteTungstenNetworkCommand.class), anyLong());
+     verify(tungstenService, times(1)).deallocateDnsIpAddress(any(), any(), anyString());
+     verify(agentMgr, times(1)).easySend(any(), any(SetupTungstenVRouterCommand.class));
+     verify(networkDetailsDao, times(1)).expunge(anyLong());
+ }
+@@
+</div></code></pre>
+<details><summary>Original Test Code (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-meta">@Test</span>
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">SetsParsableContentCollection</span><span class="hljs-params">()</span> </span>{
+
+    <span class="hljs-comment">// Arrange as the request builders would</span>
+
+    <span class="hljs-keyword">final</span> RequestInformation requestInfo = <span class="hljs-keyword">new</span> RequestInformation();
+
+    requestInfo.httpMethod = HttpMethod.POST;
+
+    requestInfo.urlTemplate = <span class="hljs-string">"http://localhost/users"</span>;
+
+    <span class="hljs-keyword">final</span> SerializationWriter writerMock = mock(SerializationWriter<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    <span class="hljs-keyword">final</span> SerializationWriterFactory factoryMock = mock(SerializationWriterFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    when(factoryMock.getSerializationWriter(anyString())).thenReturn(writerMock);
+
+    <span class="hljs-keyword">final</span> RequestAdapter requestAdapterMock = mock(RequestAdapter<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    when(requestAdapterMock.getSerializationWriterFactory()).thenReturn(factoryMock);
+
+    requestInfo.setContentFromParsable(requestAdapterMock, <span class="hljs-string">"application/json"</span>, <span class="hljs-keyword">new</span> TestEntity[] { <span class="hljs-keyword">new</span> TestEntity() });
+
+    verify(writerMock, never()).writeObjectValue(any(), any(TestEntity<span class="hljs-class">.<span class="hljs-keyword">class</span>))</span>;
+
+    verify(writerMock, times(<span class="hljs-number">1</span>)).writeCollectionOfObjectValues(any(), any(Iterable<span class="hljs-class">.<span class="hljs-keyword">class</span>))</span>;
+
+}
+</div></code></pre>
+</details>
+<details><summary>Reusable Method for MCI (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> SerializationWriterFactory <span class="hljs-title">createMockSerializationWriterFactory</span><span class="hljs-params">(SerializationWriter writerMock)</span> </span>{
+    SerializationWriterFactory factoryMock = mock(SerializationWriterFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+    when(factoryMock.getSerializationWriter(anyString())).thenReturn(writerMock);
+    <span class="hljs-keyword">return</span> factoryMock;
+}
+</div></code></pre>
+</details>
+<hr>
+<h4 id="test-case-id-kiota-javatest63">Test Case ID #kiota-java_Test_6_3</h4>
+<h4 id="test-case-name-setsscalarcontentcollectionfile-cjavaprojectsmicrosoftkiota-javacomponentsabstractionssrctestjavacommicrosoftkiotarequestinformationtestjava">Test Case Name: <code>SetsScalarContentCollection</code>(File: <code>C:\Java_projects\Microsoft\kiota-java\components\abstractions\src\test\java\com\microsoft\kiota\RequestInformationTest.java</code>)</h4>
+<h4 id="mock-object-variable-name-factorymock">Mock Object Variable Name: <code>factoryMock</code></h4>
+<summary>Suggested Diff</summary>
+<pre class="hljs"><code><div>@@
+ @Test
+ public void testTrashSharedNetwork() {
+<span class="hljs-deletion">-    final Network network = mock(Network.class);</span>
+<span class="hljs-addition">+    final Network network = MockNetwork.createMockNetworkWithGuestType(Network.GuestType.Shared);</span>
+     final NetworkDetailVO networkDetailVO = mock(NetworkDetailVO.class);
+     final TungstenProviderVO tungstenProviderVO = mock(TungstenProviderVO.class);
+     final HostVO hostVO = mock(HostVO.class);
+<span class="hljs-deletion">-    when(network.getGuestType()).thenReturn(Network.GuestType.Shared);</span>
+     when(networkDetailsDao.findDetail(anyLong(), anyString())).thenReturn(networkDetailVO);
+     when(tungstenProviderDao.findByZoneId(anyLong())).thenReturn(tungstenProviderVO);
+     when(hostDao.findByPublicIp(any())).thenReturn(hostVO);
+     guru.trash(network, offering);
+     verify(tungstenFabricUtils, times(1)).sendTungstenCommand(any(DeleteTungstenNetworkPolicyCommand.class), anyLong());
+     verify(tungstenFabricUtils, times(1)).sendTungstenCommand(any(ClearTungstenNetworkGatewayCommand.class), anyLong());
+     verify(tungstenFabricUtils, times(1)).sendTungstenCommand(any(DeleteTungstenNetworkCommand.class), anyLong());
+     verify(tungstenService, times(1)).deallocateDnsIpAddress(any(), any(), anyString());
+     verify(agentMgr, times(1)).easySend(any(), any(SetupTungstenVRouterCommand.class));
+     verify(networkDetailsDao, times(1)).expunge(anyLong());
+ }
+@@
+</div></code></pre>
+<details><summary>Original Test Code (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-meta">@Test</span>
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">SetsScalarContentCollection</span><span class="hljs-params">()</span> </span>{
+
+    <span class="hljs-comment">// Arrange as the request builders would</span>
+
+    <span class="hljs-keyword">final</span> RequestInformation requestInfo = <span class="hljs-keyword">new</span> RequestInformation();
+
+    requestInfo.httpMethod = HttpMethod.POST;
+
+    requestInfo.urlTemplate = <span class="hljs-string">"http://localhost/users"</span>;
+
+    <span class="hljs-keyword">final</span> SerializationWriter writerMock = mock(SerializationWriter<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    <span class="hljs-keyword">final</span> SerializationWriterFactory factoryMock = mock(SerializationWriterFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    when(factoryMock.getSerializationWriter(anyString())).thenReturn(writerMock);
+
+    <span class="hljs-keyword">final</span> RequestAdapter requestAdapterMock = mock(RequestAdapter<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    when(requestAdapterMock.getSerializationWriterFactory()).thenReturn(factoryMock);
+
+    requestInfo.setContentFromScalarCollection(requestAdapterMock, <span class="hljs-string">"application/json"</span>, <span class="hljs-keyword">new</span> String[] { <span class="hljs-string">"foo"</span> });
+
+    verify(writerMock, never()).writeStringValue(any(), anyString());
+
+    verify(writerMock, times(<span class="hljs-number">1</span>)).writeCollectionOfPrimitiveValues(any(), any(Iterable<span class="hljs-class">.<span class="hljs-keyword">class</span>))</span>;
+
+}
+</div></code></pre>
+</details>
+<details><summary>Reusable Method for MCI (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> SerializationWriterFactory <span class="hljs-title">createMockSerializationWriterFactory</span><span class="hljs-params">(SerializationWriter writerMock)</span> </span>{
+    SerializationWriterFactory factoryMock = mock(SerializationWriterFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+    when(factoryMock.getSerializationWriter(anyString())).thenReturn(writerMock);
+    <span class="hljs-keyword">return</span> factoryMock;
+}
+</div></code></pre>
+</details>
+<hr>
+<h4 id="test-case-id-kiota-javatest64">Test Case ID #kiota-java_Test_6_4</h4>
+<h4 id="test-case-name-setsscalarcontentfile-cjavaprojectsmicrosoftkiota-javacomponentsabstractionssrctestjavacommicrosoftkiotarequestinformationtestjava">Test Case Name: <code>SetsScalarContent</code>(File: <code>C:\Java_projects\Microsoft\kiota-java\components\abstractions\src\test\java\com\microsoft\kiota\RequestInformationTest.java</code>)</h4>
+<h4 id="mock-object-variable-name-factorymock">Mock Object Variable Name: <code>factoryMock</code></h4>
+<summary>Suggested Diff</summary>
+<pre class="hljs"><code><div>@@
+ @Test
+ public void testTrashSharedNetwork() {
+<span class="hljs-deletion">-    final Network network = mock(Network.class);</span>
+<span class="hljs-addition">+    final Network network = MockNetwork.createMockNetworkWithGuestType(Network.GuestType.Shared);</span>
+     final NetworkDetailVO networkDetailVO = mock(NetworkDetailVO.class);
+     final TungstenProviderVO tungstenProviderVO = mock(TungstenProviderVO.class);
+     final HostVO hostVO = mock(HostVO.class);
+<span class="hljs-deletion">-    when(network.getGuestType()).thenReturn(Network.GuestType.Shared);</span>
+     when(networkDetailsDao.findDetail(anyLong(), anyString())).thenReturn(networkDetailVO);
+     when(tungstenProviderDao.findByZoneId(anyLong())).thenReturn(tungstenProviderVO);
+     when(hostDao.findByPublicIp(any())).thenReturn(hostVO);
+     guru.trash(network, offering);
+     verify(tungstenFabricUtils, times(1)).sendTungstenCommand(any(DeleteTungstenNetworkPolicyCommand.class), anyLong());
+     verify(tungstenFabricUtils, times(1)).sendTungstenCommand(any(ClearTungstenNetworkGatewayCommand.class), anyLong());
+     verify(tungstenFabricUtils, times(1)).sendTungstenCommand(any(DeleteTungstenNetworkCommand.class), anyLong());
+     verify(tungstenService, times(1)).deallocateDnsIpAddress(any(), any(), anyString());
+     verify(agentMgr, times(1)).easySend(any(), any(SetupTungstenVRouterCommand.class));
+     verify(networkDetailsDao, times(1)).expunge(anyLong());
+ }
+@@
+</div></code></pre>
+<details><summary>Original Test Code (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-meta">@Test</span>
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">SetsScalarContent</span><span class="hljs-params">()</span> </span>{
+
+    <span class="hljs-comment">// Arrange as the request builders would</span>
+
+    <span class="hljs-keyword">final</span> RequestInformation requestInfo = <span class="hljs-keyword">new</span> RequestInformation();
+
+    requestInfo.httpMethod = HttpMethod.POST;
+
+    requestInfo.urlTemplate = <span class="hljs-string">"http://localhost/users"</span>;
+
+    <span class="hljs-keyword">final</span> SerializationWriter writerMock = mock(SerializationWriter<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    <span class="hljs-keyword">final</span> SerializationWriterFactory factoryMock = mock(SerializationWriterFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    when(factoryMock.getSerializationWriter(anyString())).thenReturn(writerMock);
+
+    <span class="hljs-keyword">final</span> RequestAdapter requestAdapterMock = mock(RequestAdapter<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    when(requestAdapterMock.getSerializationWriterFactory()).thenReturn(factoryMock);
+
+    requestInfo.setContentFromScalar(requestAdapterMock, <span class="hljs-string">"application/json"</span>, <span class="hljs-string">"foo"</span>);
+
+    verify(writerMock, times(<span class="hljs-number">1</span>)).writeStringValue(any(), anyString());
+
+    verify(writerMock, never()).writeCollectionOfPrimitiveValues(any(), any(Iterable<span class="hljs-class">.<span class="hljs-keyword">class</span>))</span>;
+
+}
+</div></code></pre>
+</details>
+<details><summary>Reusable Method for MCI (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> SerializationWriterFactory <span class="hljs-title">createMockSerializationWriterFactory</span><span class="hljs-params">(SerializationWriter writerMock)</span> </span>{
+    SerializationWriterFactory factoryMock = mock(SerializationWriterFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+    when(factoryMock.getSerializationWriter(anyString())).thenReturn(writerMock);
+    <span class="hljs-keyword">return</span> factoryMock;
+}
+</div></code></pre>
+</details>
+<hr>
+<h4 id="test-case-id-kiota-javatest65">Test Case ID #kiota-java_Test_6_5</h4>
+<h4 id="test-case-name-setsboundaryonmultipartbodyfile-cjavaprojectsmicrosoftkiota-javacomponentsabstractionssrctestjavacommicrosoftkiotarequestinformationtestjava">Test Case Name: <code>SetsBoundaryOnMultipartBody</code>(File: <code>C:\Java_projects\Microsoft\kiota-java\components\abstractions\src\test\java\com\microsoft\kiota\RequestInformationTest.java</code>)</h4>
+<h4 id="mock-object-variable-name-factorymock">Mock Object Variable Name: <code>factoryMock</code></h4>
+<summary>Suggested Diff</summary>
+<pre class="hljs"><code><div>@@
+ @Test
+ public void testTrashSharedNetwork() {
+<span class="hljs-deletion">-    final Network network = mock(Network.class);</span>
+<span class="hljs-addition">+    final Network network = MockNetwork.createMockNetworkWithGuestType(Network.GuestType.Shared);</span>
+     final NetworkDetailVO networkDetailVO = mock(NetworkDetailVO.class);
+     final TungstenProviderVO tungstenProviderVO = mock(TungstenProviderVO.class);
+     final HostVO hostVO = mock(HostVO.class);
+<span class="hljs-deletion">-    when(network.getGuestType()).thenReturn(Network.GuestType.Shared);</span>
+     when(networkDetailsDao.findDetail(anyLong(), anyString())).thenReturn(networkDetailVO);
+     when(tungstenProviderDao.findByZoneId(anyLong())).thenReturn(tungstenProviderVO);
+     when(hostDao.findByPublicIp(any())).thenReturn(hostVO);
+     guru.trash(network, offering);
+     verify(tungstenFabricUtils, times(1)).sendTungstenCommand(any(DeleteTungstenNetworkPolicyCommand.class), anyLong());
+     verify(tungstenFabricUtils, times(1)).sendTungstenCommand(any(ClearTungstenNetworkGatewayCommand.class), anyLong());
+     verify(tungstenFabricUtils, times(1)).sendTungstenCommand(any(DeleteTungstenNetworkCommand.class), anyLong());
+     verify(tungstenService, times(1)).deallocateDnsIpAddress(any(), any(), anyString());
+     verify(agentMgr, times(1)).easySend(any(), any(SetupTungstenVRouterCommand.class));
+     verify(networkDetailsDao, times(1)).expunge(anyLong());
+ }
+@@
+</div></code></pre>
+<details><summary>Original Test Code (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-meta">@Test</span>
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">SetsBoundaryOnMultipartBody</span><span class="hljs-params">()</span> </span>{
+
+    <span class="hljs-keyword">final</span> RequestInformation requestInfo = <span class="hljs-keyword">new</span> RequestInformation();
+
+    requestInfo.httpMethod = HttpMethod.POST;
+
+    requestInfo.urlTemplate = <span class="hljs-string">"http://localhost/{URITemplate}/ParameterMapping?IsCaseSensitive={IsCaseSensitive}"</span>;
+
+    <span class="hljs-keyword">final</span> SerializationWriter writerMock = mock(SerializationWriter<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    <span class="hljs-keyword">final</span> SerializationWriterFactory factoryMock = mock(SerializationWriterFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    when(factoryMock.getSerializationWriter(anyString())).thenReturn(writerMock);
+
+    <span class="hljs-keyword">final</span> RequestAdapter requestAdapterMock = mock(RequestAdapter<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    when(requestAdapterMock.getSerializationWriterFactory()).thenReturn(factoryMock);
+
+    <span class="hljs-keyword">final</span> MultipartBody multipartBody = <span class="hljs-keyword">new</span> MultipartBody();
+
+    multipartBody.requestAdapter = requestAdapterMock;
+
+    requestInfo.setContentFromParsable(requestAdapterMock, <span class="hljs-string">"multipart/form-data"</span>, multipartBody);
+
+    assertNotNull(multipartBody.getBoundary());
+
+    assertFalse(multipartBody.getBoundary().isEmpty());
+
+    assertEquals(<span class="hljs-string">"multipart/form-data; boundary="</span> + multipartBody.getBoundary(), requestInfo.headers.get(<span class="hljs-string">"Content-Type"</span>).toArray()[<span class="hljs-number">0</span>]);
+
+}
+</div></code></pre>
+</details>
+<details><summary>Reusable Method for MCI (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> SerializationWriterFactory <span class="hljs-title">createMockSerializationWriterFactory</span><span class="hljs-params">(SerializationWriter writerMock)</span> </span>{
+    SerializationWriterFactory factoryMock = mock(SerializationWriterFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+    when(factoryMock.getSerializationWriter(anyString())).thenReturn(writerMock);
+    <span class="hljs-keyword">return</span> factoryMock;
+}
+</div></code></pre>
+</details>
+<hr>
+<h2 id="mock-clone-instance-kiota-javamci7">Mock Clone Instance #kiota-java_MCI_7</h2>
+<ul>
+<li><strong>Scope</strong>: method level</li>
+<li><strong>Mocked Class</strong>: <code>com.microsoft.kiota.serialization.SerializationWriterFactory</code></li>
+<li><strong>Test Case Count</strong>: 2</li>
+<li><strong>MO Count</strong>: 2</li>
+</ul>
+<h3 id="reusable-method">Reusable Method</h3>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> SerializationWriterFactory <span class="hljs-title">createMockSerializationWriterFactory</span><span class="hljs-params">(String contentType, SerializationWriter mockSerializationWriter)</span> </span>{
+    SerializationWriterFactory mockSerializationWriterFactory = mock(SerializationWriterFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+    when(mockSerializationWriterFactory.getSerializationWriter(contentType)).thenReturn(mockSerializationWriter);
+    <span class="hljs-keyword">return</span> mockSerializationWriterFactory;
+}
+</div></code></pre>
+<h3 id="the-refactoring-details-in-each-test-cases">The refactoring details in each test cases</h3>
+<hr>
+<h4 id="test-case-id-kiota-javatest71">Test Case ID #kiota-java_Test_7_1</h4>
+<h4 id="test-case-name-serializesobjectfile-cjavaprojectsmicrosoftkiota-javacomponentsabstractionssrctestjavacommicrosoftkiotaserializationserializationhelperstestjava">Test Case Name: <code>serializesObject</code>(File: <code>C:\Java_projects\Microsoft\kiota-java\components\abstractions\src\test\java\com\microsoft\kiota\serialization\SerializationHelpersTest.java</code>)</h4>
+<h4 id="mock-object-variable-name-mockserializationwriterfactory">Mock Object Variable Name: <code>mockSerializationWriterFactory</code></h4>
+<summary>Suggested Diff</summary>
+<pre class="hljs"><code><div>@@
+ @Test
+ public void testTrashSharedNetwork() {
+<span class="hljs-deletion">-    final Network network = mock(Network.class);</span>
+<span class="hljs-addition">+    final Network network = MockNetwork.createMockNetworkWithGuestType(Network.GuestType.Shared);</span>
+     final NetworkDetailVO networkDetailVO = mock(NetworkDetailVO.class);
+     final TungstenProviderVO tungstenProviderVO = mock(TungstenProviderVO.class);
+     final HostVO hostVO = mock(HostVO.class);
+<span class="hljs-deletion">-    when(network.getGuestType()).thenReturn(Network.GuestType.Shared);</span>
+     when(networkDetailsDao.findDetail(anyLong(), anyString())).thenReturn(networkDetailVO);
+     when(tungstenProviderDao.findByZoneId(anyLong())).thenReturn(tungstenProviderVO);
+     when(hostDao.findByPublicIp(any())).thenReturn(hostVO);
+     guru.trash(network, offering);
+     verify(tungstenFabricUtils, times(1)).sendTungstenCommand(any(DeleteTungstenNetworkPolicyCommand.class), anyLong());
+     verify(tungstenFabricUtils, times(1)).sendTungstenCommand(any(ClearTungstenNetworkGatewayCommand.class), anyLong());
+     verify(tungstenFabricUtils, times(1)).sendTungstenCommand(any(DeleteTungstenNetworkCommand.class), anyLong());
+     verify(tungstenService, times(1)).deallocateDnsIpAddress(any(), any(), anyString());
+     verify(agentMgr, times(1)).easySend(any(), any(SetupTungstenVRouterCommand.class));
+     verify(networkDetailsDao, times(1)).expunge(anyLong());
+ }
+@@
+</div></code></pre>
+<details><summary>Original Test Code (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-meta">@Test</span>
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">serializesObject</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> IOException </span>{
+
+    <span class="hljs-keyword">final</span> <span class="hljs-keyword">var</span> mockSerializationWriter = mock(SerializationWriter<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    when(mockSerializationWriter.getSerializedContent()).thenReturn(<span class="hljs-keyword">new</span> ByteArrayInputStream(<span class="hljs-string">"{'id':'123'}"</span>.getBytes(_charset)));
+
+    <span class="hljs-keyword">final</span> <span class="hljs-keyword">var</span> mockSerializationWriterFactory = mock(SerializationWriterFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    when(mockSerializationWriterFactory.getSerializationWriter(_jsonContentType)).thenReturn(mockSerializationWriter);
+
+    SerializationWriterFactoryRegistry.defaultInstance.contentTypeAssociatedFactories.put(_jsonContentType, mockSerializationWriterFactory);
+
+    <span class="hljs-keyword">final</span> <span class="hljs-keyword">var</span> result = KiotaSerialization.serializeAsString(_jsonContentType, <span class="hljs-keyword">new</span> TestEntity() {
+
+
+
+        {
+
+            setId(<span class="hljs-string">"123"</span>);
+
+        }
+
+    });
+
+    assertEquals(<span class="hljs-string">"{'id':'123'}"</span>, result);
+
+    verify(mockSerializationWriter, times(<span class="hljs-number">1</span>)).writeObjectValue(eq(<span class="hljs-string">""</span>), any(Parsable<span class="hljs-class">.<span class="hljs-keyword">class</span>))</span>;
+
+}
+</div></code></pre>
+</details>
+<details><summary>Reusable Method for MCI (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> SerializationWriterFactory <span class="hljs-title">createMockSerializationWriterFactory</span><span class="hljs-params">(String contentType, SerializationWriter mockSerializationWriter)</span> </span>{
+    SerializationWriterFactory mockSerializationWriterFactory = mock(SerializationWriterFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+    when(mockSerializationWriterFactory.getSerializationWriter(contentType)).thenReturn(mockSerializationWriter);
+    <span class="hljs-keyword">return</span> mockSerializationWriterFactory;
+}
+</div></code></pre>
+</details>
+<hr>
+<h4 id="test-case-id-kiota-javatest72">Test Case ID #kiota-java_Test_7_2</h4>
+<h4 id="test-case-name-serializesobjectcollectionfile-cjavaprojectsmicrosoftkiota-javacomponentsabstractionssrctestjavacommicrosoftkiotaserializationserializationhelperstestjava">Test Case Name: <code>serializesObjectCollection</code>(File: <code>C:\Java_projects\Microsoft\kiota-java\components\abstractions\src\test\java\com\microsoft\kiota\serialization\SerializationHelpersTest.java</code>)</h4>
+<h4 id="mock-object-variable-name-mockserializationwriterfactory">Mock Object Variable Name: <code>mockSerializationWriterFactory</code></h4>
+<summary>Suggested Diff</summary>
+<pre class="hljs"><code><div>@@
+ @Test
+ public void testTrashSharedNetwork() {
+<span class="hljs-deletion">-    final Network network = mock(Network.class);</span>
+<span class="hljs-addition">+    final Network network = MockNetwork.createMockNetworkWithGuestType(Network.GuestType.Shared);</span>
+     final NetworkDetailVO networkDetailVO = mock(NetworkDetailVO.class);
+     final TungstenProviderVO tungstenProviderVO = mock(TungstenProviderVO.class);
+     final HostVO hostVO = mock(HostVO.class);
+<span class="hljs-deletion">-    when(network.getGuestType()).thenReturn(Network.GuestType.Shared);</span>
+     when(networkDetailsDao.findDetail(anyLong(), anyString())).thenReturn(networkDetailVO);
+     when(tungstenProviderDao.findByZoneId(anyLong())).thenReturn(tungstenProviderVO);
+     when(hostDao.findByPublicIp(any())).thenReturn(hostVO);
+     guru.trash(network, offering);
+     verify(tungstenFabricUtils, times(1)).sendTungstenCommand(any(DeleteTungstenNetworkPolicyCommand.class), anyLong());
+     verify(tungstenFabricUtils, times(1)).sendTungstenCommand(any(ClearTungstenNetworkGatewayCommand.class), anyLong());
+     verify(tungstenFabricUtils, times(1)).sendTungstenCommand(any(DeleteTungstenNetworkCommand.class), anyLong());
+     verify(tungstenService, times(1)).deallocateDnsIpAddress(any(), any(), anyString());
+     verify(agentMgr, times(1)).easySend(any(), any(SetupTungstenVRouterCommand.class));
+     verify(networkDetailsDao, times(1)).expunge(anyLong());
+ }
+@@
+</div></code></pre>
+<details><summary>Original Test Code (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-meta">@Test</span>
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">serializesObjectCollection</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> IOException </span>{
+
+    <span class="hljs-keyword">final</span> <span class="hljs-keyword">var</span> mockSerializationWriter = mock(SerializationWriter<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    when(mockSerializationWriter.getSerializedContent()).thenReturn(<span class="hljs-keyword">new</span> ByteArrayInputStream(<span class="hljs-string">"[{'id':'123'}]"</span>.getBytes(_charset)));
+
+    <span class="hljs-keyword">final</span> <span class="hljs-keyword">var</span> mockSerializationWriterFactory = mock(SerializationWriterFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    when(mockSerializationWriterFactory.getSerializationWriter(_jsonContentType)).thenReturn(mockSerializationWriter);
+
+    SerializationWriterFactoryRegistry.defaultInstance.contentTypeAssociatedFactories.put(_jsonContentType, mockSerializationWriterFactory);
+
+    <span class="hljs-keyword">final</span> <span class="hljs-keyword">var</span> result = KiotaSerialization.serializeAsString(_jsonContentType, <span class="hljs-keyword">new</span> ArrayList&lt;&gt;() {
+
+
+
+        {
+
+            add(<span class="hljs-keyword">new</span> TestEntity() {
+
+
+
+                {
+
+                    setId(<span class="hljs-string">"123"</span>);
+
+                }
+
+            });
+
+        }
+
+    });
+
+    assertEquals(<span class="hljs-string">"[{'id':'123'}]"</span>, result);
+
+    verify(mockSerializationWriter, times(<span class="hljs-number">1</span>)).writeCollectionOfObjectValues(eq(<span class="hljs-string">""</span>), any());
+
+}
+</div></code></pre>
+</details>
+<details><summary>Reusable Method for MCI (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">static</span> SerializationWriterFactory <span class="hljs-title">createMockSerializationWriterFactory</span><span class="hljs-params">(String contentType, SerializationWriter mockSerializationWriter)</span> </span>{
+    SerializationWriterFactory mockSerializationWriterFactory = mock(SerializationWriterFactory<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+    when(mockSerializationWriterFactory.getSerializationWriter(contentType)).thenReturn(mockSerializationWriter);
+    <span class="hljs-keyword">return</span> mockSerializationWriterFactory;
+}
+</div></code></pre>
+</details>
+<hr>
+<h2 id="mock-clone-instance-kiota-javamci8">Mock Clone Instance #kiota-java_MCI_8</h2>
+<ul>
+<li><strong>Scope</strong>: method level</li>
+<li><strong>Mocked Class</strong>: <code>com.azure.core.credential.TokenCredential</code></li>
+<li><strong>Test Case Count</strong>: 4</li>
+<li><strong>MO Count</strong>: 4</li>
+</ul>
+<h3 id="reusable-method">Reusable Method</h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">private</span> TokenCredential tokenCredential;
+
+<span class="hljs-meta">@BeforeEach</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">setUp</span><span class="hljs-params">()</span> </span>{
+    tokenCredential = mock(TokenCredential<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+}
+</div></code></pre>
+<h3 id="the-refactoring-details-in-each-test-cases">The refactoring details in each test cases</h3>
+<hr>
+<h4 id="test-case-id-kiota-javatest81">Test Case ID #kiota-java_Test_8_1</h4>
+<h4 id="test-case-name-testnonlocalhosthttpurlisinvalidfile-cjavaprojectsmicrosoftkiota-javacomponentsauthenticationazuresrctestjavacommicrosoftkiotaauthenticationazureidentityaccesstokenprovidertestjava">Test Case Name: <code>testNonLocalhostHttpUrlIsInvalid</code>(File: <code>C:\Java_projects\Microsoft\kiota-java\components\authentication\azure\src\test\java\com\microsoft\kiota\authentication\AzureIdentityAccessTokenProviderTest.java</code>)</h4>
+<h4 id="mock-object-variable-name-tokencredential">Mock Object Variable Name: <code>tokenCredential</code></h4>
+<summary>Suggested Diff</summary>
+<pre class="hljs"><code><div>@@
+    var tokenCredential = mock(TokenCredential.class);
+<span class="hljs-addition">+    // Cannot refactor mock `tokenCredential`: no global mock field name provided</span>
+</div></code></pre>
+<details><summary>Original Test Code (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-meta">@ParameterizedTest</span>
+
+<span class="hljs-meta">@ValueSource</span>(strings = { <span class="hljs-string">"http://graph.microsoft.com/me"</span> })
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">testNonLocalhostHttpUrlIsInvalid</span><span class="hljs-params">(String urlString)</span> </span>{
+
+    <span class="hljs-keyword">var</span> tokenCredential = mock(TokenCredential<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    <span class="hljs-keyword">var</span> accessTokenProvider = <span class="hljs-keyword">new</span> AzureIdentityAccessTokenProvider(tokenCredential, <span class="hljs-keyword">null</span>, <span class="hljs-string">""</span>);
+
+    assertThrows(IllegalArgumentException<span class="hljs-class">.<span class="hljs-keyword">class</span>, () -&gt; <span class="hljs-title">accessTokenProvider</span>.<span class="hljs-title">getAuthorizationToken</span>(<span class="hljs-title">new</span> <span class="hljs-title">URI</span>(<span class="hljs-title">urlString</span>), <span class="hljs-title">new</span> <span class="hljs-title">HashMap</span>&lt;&gt;()))</span>;
+
+}
+</div></code></pre>
+</details>
+<details><summary>Reusable Method for MCI (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-keyword">private</span> TokenCredential tokenCredential;
+
+<span class="hljs-meta">@BeforeEach</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">setUp</span><span class="hljs-params">()</span> </span>{
+    tokenCredential = mock(TokenCredential<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+}
+</div></code></pre>
+</details>
+<hr>
+<h4 id="test-case-id-kiota-javatest82">Test Case ID #kiota-java_Test_8_2</h4>
+<h4 id="test-case-name-testkeepuserprovidedscopesfile-cjavaprojectsmicrosoftkiota-javacomponentsauthenticationazuresrctestjavacommicrosoftkiotaauthenticationazureidentityaccesstokenprovidertestjava">Test Case Name: <code>testKeepUserProvidedScopes</code>(File: <code>C:\Java_projects\Microsoft\kiota-java\components\authentication\azure\src\test\java\com\microsoft\kiota\authentication\AzureIdentityAccessTokenProviderTest.java</code>)</h4>
+<h4 id="mock-object-variable-name-tokencredential">Mock Object Variable Name: <code>tokenCredential</code></h4>
+<summary>Suggested Diff</summary>
+<pre class="hljs"><code><div>@@
+ @Test
+ void testKeepUserProvidedScopes() throws URISyntaxException {
+<span class="hljs-addition">+    // Cannot refactor mock `tokenCredential`: no global field name provided</span>
+     String[] userProvidedScopes = { "https://graph.microsoft.com/User.Read", "https://graph.microsoft.com/Application.Read" };
+     var accessTokenProvider = new AzureIdentityAccessTokenProvider(tokenCredential, new String[] {}, userProvidedScopes);
+     assertScopes(tokenCredential, accessTokenProvider, userProvidedScopes);
+}
+</div></code></pre>
+<details><summary>Original Test Code (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-meta">@Test</span>
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">testKeepUserProvidedScopes</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> URISyntaxException </span>{
+
+    <span class="hljs-keyword">var</span> tokenCredential = mock(TokenCredential<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    String[] userProvidedScopes = { <span class="hljs-string">"https://graph.microsoft.com/User.Read"</span>, <span class="hljs-string">"https://graph.microsoft.com/Application.Read"</span> };
+
+    <span class="hljs-keyword">var</span> accessTokenProvider = <span class="hljs-keyword">new</span> AzureIdentityAccessTokenProvider(tokenCredential, <span class="hljs-keyword">new</span> String[] {}, userProvidedScopes);
+
+    assertScopes(tokenCredential, accessTokenProvider, userProvidedScopes);
+
+}
+</div></code></pre>
+</details>
+<details><summary>Reusable Method for MCI (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-keyword">private</span> TokenCredential tokenCredential;
+
+<span class="hljs-meta">@BeforeEach</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">setUp</span><span class="hljs-params">()</span> </span>{
+    tokenCredential = mock(TokenCredential<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+}
+</div></code></pre>
+</details>
+<hr>
+<h4 id="test-case-id-kiota-javatest83">Test Case ID #kiota-java_Test_8_3</h4>
+<h4 id="test-case-name-testconfiguredefaultscopewhenscopesnotprovidedfile-cjavaprojectsmicrosoftkiota-javacomponentsauthenticationazuresrctestjavacommicrosoftkiotaauthenticationazureidentityaccesstokenprovidertestjava">Test Case Name: <code>testConfigureDefaultScopeWhenScopesNotProvided</code>(File: <code>C:\Java_projects\Microsoft\kiota-java\components\authentication\azure\src\test\java\com\microsoft\kiota\authentication\AzureIdentityAccessTokenProviderTest.java</code>)</h4>
+<h4 id="mock-object-variable-name-tokencredential">Mock Object Variable Name: <code>tokenCredential</code></h4>
+<summary>Suggested Diff</summary>
+<pre class="hljs"><code><div>@@
+ @Test
+ void testConfigureDefaultScopeWhenScopesNotProvided() throws URISyntaxException {
+<span class="hljs-addition">+    // Cannot refactor mock `tokenCredential`: no global mock field name provided</span>
+     var tokenCredential = mock(TokenCredential.class);
+     var accessTokenProvider = new AzureIdentityAccessTokenProvider(tokenCredential, new String[] {});
+     assertScopes(tokenCredential, accessTokenProvider, new String[] { "https://graph.microsoft.com/.default" });
+}
+</div></code></pre>
+<details><summary>Original Test Code (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-meta">@Test</span>
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">testConfigureDefaultScopeWhenScopesNotProvided</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> URISyntaxException </span>{
+
+    <span class="hljs-keyword">var</span> tokenCredential = mock(TokenCredential<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    <span class="hljs-keyword">var</span> accessTokenProvider = <span class="hljs-keyword">new</span> AzureIdentityAccessTokenProvider(tokenCredential, <span class="hljs-keyword">new</span> String[] {});
+
+    assertScopes(tokenCredential, accessTokenProvider, <span class="hljs-keyword">new</span> String[] { <span class="hljs-string">"https://graph.microsoft.com/.default"</span> });
+
+}
+</div></code></pre>
+</details>
+<details><summary>Reusable Method for MCI (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-keyword">private</span> TokenCredential tokenCredential;
+
+<span class="hljs-meta">@BeforeEach</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">setUp</span><span class="hljs-params">()</span> </span>{
+    tokenCredential = mock(TokenCredential<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+}
+</div></code></pre>
+</details>
+<hr>
+<h4 id="test-case-id-kiota-javatest84">Test Case ID #kiota-java_Test_8_4</h4>
+<h4 id="test-case-name-testconfiguredefaultscopewhenscopesnulloremptyfile-cjavaprojectsmicrosoftkiota-javacomponentsauthenticationazuresrctestjavacommicrosoftkiotaauthenticationazureidentityaccesstokenprovidertestjava">Test Case Name: <code>testConfigureDefaultScopeWhenScopesNullOrEmpty</code>(File: <code>C:\Java_projects\Microsoft\kiota-java\components\authentication\azure\src\test\java\com\microsoft\kiota\authentication\AzureIdentityAccessTokenProviderTest.java</code>)</h4>
+<h4 id="mock-object-variable-name-tokencredential">Mock Object Variable Name: <code>tokenCredential</code></h4>
+<summary>Suggested Diff</summary>
+<pre class="hljs"><code><div>@@
+ @ParameterizedTest
+ @NullAndEmptySource
+ void testConfigureDefaultScopeWhenScopesNullOrEmpty(String[] nullOrEmptyUserProvidedScopes) throws URISyntaxException {
+<span class="hljs-addition">+    // Cannot refactor mock `tokenCredential`: no new global mock field name provided</span>
+     var tokenCredential = mock(TokenCredential.class);
+     var accessTokenProvider = new AzureIdentityAccessTokenProvider(tokenCredential, new String[] {}, nullOrEmptyUserProvidedScopes);
+     assertScopes(tokenCredential, accessTokenProvider, new String[] { "https://graph.microsoft.com/.default" });
+}
+</div></code></pre>
+<details><summary>Original Test Code (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-meta">@ParameterizedTest</span>
+
+<span class="hljs-meta">@NullAndEmptySource</span>
+
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">testConfigureDefaultScopeWhenScopesNullOrEmpty</span><span class="hljs-params">(String[] nullOrEmptyUserProvidedScopes)</span> <span class="hljs-keyword">throws</span> URISyntaxException </span>{
+
+    <span class="hljs-keyword">var</span> tokenCredential = mock(TokenCredential<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+
+    <span class="hljs-keyword">var</span> accessTokenProvider = <span class="hljs-keyword">new</span> AzureIdentityAccessTokenProvider(tokenCredential, <span class="hljs-keyword">new</span> String[] {}, nullOrEmptyUserProvidedScopes);
+
+    assertScopes(tokenCredential, accessTokenProvider, <span class="hljs-keyword">new</span> String[] { <span class="hljs-string">"https://graph.microsoft.com/.default"</span> });
+
+}
+</div></code></pre>
+</details>
+<details><summary>Reusable Method for MCI (click to expand)</summary>
+<pre class="hljs"><code><div><span class="hljs-keyword">private</span> TokenCredential tokenCredential;
+
+<span class="hljs-meta">@BeforeEach</span>
+<span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">setUp</span><span class="hljs-params">()</span> </span>{
+    tokenCredential = mock(TokenCredential<span class="hljs-class">.<span class="hljs-keyword">class</span>)</span>;
+}
+</div></code></pre>
+</details>
+<hr>
+
+</body>
+</html>
